@@ -1,0 +1,66 @@
+@font-face {
+    font-family: 'Digital';
+    src: url('../../assets/fonts/DJB-Get-Digital.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Aviator';
+    src: url('../../assets/fonts/Aviator-SansVintage.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Cavalcade';
+    src: url('../../assets/fonts/Cavalcade-Inline.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'OneNine';
+    src: url('../../assets/fonts/OneNineNineFour-Halftone.ttf') format('truetype');
+}
+
+body {
+    font-size: 10px;
+    color: black;
+    background-color: #6d5a5a;
+}
+
+.hidden {
+    font-size: 0;
+}
+
+.digital {
+    font-family: 'Digital';
+}
+
+.aviator {
+    font-family: 'Aviator';
+}
+
+.cavalcade {
+    font-family: 'Cavalcade';
+}
+
+.onenine {
+    font-family: 'OneNine';
+}
+
+body div.container {
+    text-align: center;
+}
+
+body div.container h1 {
+    font-family: 'Bough';
+    padding: 0;
+    font-size: 50px;
+}
+
+body div.container div#game {
+    display: block;
+    margin-left: auto;
+    margin-right:auto;
+}
+
+
+body div.container div#game canvas {
+    border: 3px solid #CCCCCC;
+}
