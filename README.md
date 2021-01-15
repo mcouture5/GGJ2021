@@ -7,16 +7,16 @@ We are using Typescript with webpack. You must have a server running to view the
 ## 1) Checkout source
 Clone the repo to your machine. `git clone https://github.com/mcouture5/GGJ2021.git`
 
-## 1) Install dependencies
+## 2) Install dependencies
 `npm install` in the main folder.
 
-## 2) Run a python webserver
+## 3) Run a python webserver
 `python -m SimpleHTTPServer` from within the main folder.
 
-## 3) Run dev build
+## 4) Run dev build
 The dev webpack build will auto build whenever changes are made. No need to rebuild and crap.
 
 `npm run dev`
 
-## 4) Profit
+## 5) Profit
 Visit localhost:8000 to see the game
