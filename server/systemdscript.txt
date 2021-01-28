@@ -1,0 +1,13 @@
+[Unit]
+Description=Very useful script
+
+[Service]
+User=ec2-user
+WorkingDirectory=/home/ec2-user/
+VIRTUAL_ENV=/home/ec2-user/my_app
+Environment=PATH=$VIRTUAL_ENV/bin:$PATH
+ExecStart=/home/ec2-user/my_app/env/bin/python /home/ec2-user/GGJ2021/server/guineadigserver.py
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
