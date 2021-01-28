@@ -10,6 +10,7 @@ define("port", default=5000, help="run on the given port", type=int)
 define("debug", default=False, help="run in debug mode")
 
 sio = socketio.AsyncServer(async_mode='tornado', cors_allowed_origins=[])
+_Handler = socketio.get_tornado_handler(sio)
 
 
 async def background_task():
