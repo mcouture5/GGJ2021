@@ -37,12 +37,6 @@ class MainHandler(tornado.web.RequestHandler):
 	def get(self):
 		self.render("app.html")
 
-	def set_default_headers(self):
-		self.set_header("Content-Type", "application/json")
-		self.set_header("Access-Control-Allow-Origin", "*")
-		self.set_header("Access-Control-Allow-Headers", "content-type")
-		self.set_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PATCH, PUT')
-
 
 @sio.event
 async def my_event(sid, message):
