@@ -73,6 +73,15 @@ export class GameScene extends Scene {
         })
         Socket.listen(Socket.MOVE_RESPONSE, (response: Response) => {
             console.log('got move', response);
+            // Move the other player.
+            let players = response.players;
+            // Move me
+            let me = players.filter((player) => player.sid == Socket.getId())[0];
+            this.pig.moveTo(me.x, me.y);
+
+            // Find not me
+            let notMe = players.filter((player) => player.sid !== Socket.getId())[0];
+            this.otherPig.moveTo(notMe.x, notMe.y);
             /*
             let movex = response.new_coords.player1_coord_x;
             let movey = response.new_coords.player1_coord_y;
@@ -143,41 +152,41 @@ export class GameScene extends Scene {
 
     private moveLeft() {
         let rand = ['left', 'right', 'up', 'down'];
-        this.pig.moveLeft();
+        //this.pig.moveLeft();
         console.log('emitting left...');
         Socket.emit('move', {
             player: Socket.getId(),
-            direction: rand[Math.floor(Math.random() * 4)]
+            direction: 'left'
         });
     }
 
     private moveRight() {
         let rand = ['left', 'right', 'up', 'down'];
-        this.pig.moveRight();
+        //this.pig.moveRight();
         console.log('emitting right...');
         Socket.emit('move', {
             player: Socket.getId(),
-            direction: rand[Math.floor(Math.random() * 4)]
+            direction: 'right'
         });
     }
 
     private moveUp() {
         let rand = ['left', 'right', 'up', 'down'];
-        this.pig.moveUp();
+        //this.pig.moveUp();
         console.log('emitting up...');
         Socket.emit('move', {
             player: Socket.getId(),
-            direction: rand[Math.floor(Math.random() * 4)]
+            direction: 'up'
         });
     }
 
     private moveDown() {
         let rand = ['left', 'right', 'up', 'down'];
-        this.pig.moveDown();
+        //this.pig.moveDown();
         console.log('emitting down...');
         Socket.emit('move', {
             player: Socket.getId(),
-            direction: rand[Math.floor(Math.random() * 4)]
+            direction: 'down'
         });
     }
 
@@ -194,7 +203,7 @@ export class GameScene extends Scene {
      */
     private joinRoom(roomId: string) {
         Socket.emit(Socket.JOIN_ROOM, {
-            room: roomId
+            room: roomId.toLowerCase()
         });
     }
 
