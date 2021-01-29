@@ -8,6 +8,7 @@ import random
 
 define("port", default=5000, help="run on the given port", type=int)
 define("debug", default=False, help="run in debug mode")
+define("log_file_prefix", default="/home/ec2-user/logs", help="log file prefix")
 
 sio = socketio.AsyncServer(async_mode='tornado', cors_allowed_origins=[])
 _Handler = socketio.get_tornado_handler(sio)
