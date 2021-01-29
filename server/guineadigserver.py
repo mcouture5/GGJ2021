@@ -81,25 +81,16 @@ async def move(sid, message):
 
 
 @sio.event
-async def join(sid, message):
+async def join_room(sid, message):
+	logger.info(f"Client {sid} is attempting to join room {message['room']}")
 	sio.enter_room(sid, message['room'])
 	room[message['room']]['players'][1]['sid'] = sid
-	await sio.emit('my_response', {'data': 'Entered room: ' + message['room']}, room=sid)
+	sids[sid] = message['room']
+	await sio.emit('join_room_response', rooms[message['room']], room=message['room'])
 
 @sio.event
-async def leave(sid, message):
-	sio.leave_room(sid, message['room'])
-	await sio.emit('my_response', {'data': 'Left room: ' + message['room']}, room=sid)
-
-
-# -----
-# Connect and disconnect events
-@sio.event
-async def disconnect_request(sid):
-	await sio.disconnect(sid)
-
-@sio.event
-async def connect(sid, environ):
+async def create_room(sid, message):
+	logger.info(f"Client {sid} is attempting to create a room")
 	new_room = gen_four_chars()
 	rooms[new_room] = {
 		'room_id': new_room,
@@ -120,8 +111,34 @@ async def connect(sid, environ):
 	}
 	sids[sid] = new_room
 	sio.enter_room(sid, new_room)
-	logger.info(f"New connection from {sid} and placed into room {new_room}")
-	await sio.emit('connect_response', rooms[new_room], room=new_room)
+	logger.info(f"New room {new_room} created for client {sid}")
+	await sio.emit('create_room_response', rooms[new_room], room=new_room)
+
+@sio.event
+async def leave(sid, message):
+	sio.leave_room(sid, message['room'])
+	await sio.emit('my_response', {'data': 'Left room: ' + message['room']}, room=sid)
+
+# -----
+# Admin commands
+@sio.event
+async def get_rooms(sid, message):
+	await sio.emit('my_response', rooms, room=sid)
+
+@sio.event
+async def get_sids(sid, message):
+	await sio.emit('my_response', sids, room=sid)
+
+# -----
+# Connect and disconnect events
+@sio.event
+async def disconnect_request(sid):
+	await sio.disconnect(sid)
+
+@sio.event
+async def connect(sid, environ):
+	logger.info(f"New connection from {sid}")
+	await sio.emit('connect_response', {'sid': sid}, room=sid)
 
 @sio.event
 def disconnect(sid):
