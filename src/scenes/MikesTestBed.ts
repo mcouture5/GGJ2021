@@ -5,6 +5,15 @@ import { io } from 'socket.io-client';
 import { DirtTile } from '../objects/DirtTile'
 import { Pig } from '../objects/Pig'
 
+interface MovementResponse {
+    new_coords: {
+        player1_coord_x: number;
+        player1_coord_y: number;
+        player2_coord_x: number;
+        player2_coord_y: number;
+    }
+}
+
 export class MikesTestBed extends Phaser.Scene {
 
     private readonly socket;
@@ -16,16 +25,16 @@ export class MikesTestBed extends Phaser.Scene {
     private tilemap: Array<number[]> = [];
 
     private pig: Pig;
+    private pig2: Pig;
 
     constructor() {
         super({
             key: 'MikesTestBed'
         });
-        this.socket = io('http://guineadig.parlette.org:5000/socket.io/', {
-            withCredentials: true,
-            timeout: 1000,
+        this.socket = io('http://guineadig.parlette.org:5000', {
+            path: '/socket.io',
             transports: ['websocket']
-          });
+        });
         this.socket.on("connect", () => {
             console.log("connect");
             console.log(this.socket.id);
@@ -53,6 +62,14 @@ export class MikesTestBed extends Phaser.Scene {
         this.down = this.input.keyboard.addKey(
             Phaser.Input.Keyboard.KeyCodes.DOWN
         );
+
+        // Listen for the movement events
+        this.socket.on('move_response', (response: MovementResponse) => {
+            console.log('got move', response);
+            let movex = response.new_coords.player1_coord_x;
+            let movey = response.new_coords.player1_coord_y;
+            this.pig2.moveTo(movex, movey);
+        });
     }
 
     create() {
@@ -88,35 +105,44 @@ export class MikesTestBed extends Phaser.Scene {
         shePig.moveTo(10, 5);
 
         this.pig = hePig;
+        this.pig2 = shePig;
+
+        this.cameras.main.startFollow(this.pig, true, 0.075, 0.075);
     }
 
     update() {
+        let rand = ['left', 'right', 'up', 'down'];
+        
         if (Phaser.Input.Keyboard.JustDown(this.left)) {
             this.pig.moveLeft();
+            console.log('emitting left...');
             this.socket.emit("move", {
                 player: "Wy2J-2z3EnI5-yBwAABP",
-                direction: "left"
+                direction: rand[Math.floor(Math.random() * 4)]
             });
         }
         if (Phaser.Input.Keyboard.JustDown(this.right)) {
             this.pig.moveRight();
+            console.log('emitting right...');
             this.socket.emit("move", {
                 player: "Wy2J-2z3EnI5-yBwAABP",
-                direction: "right"
+                direction: rand[Math.floor(Math.random() * 4)]
             });
         }
         if (Phaser.Input.Keyboard.JustDown(this.up)) {
             this.pig.moveUp();
+            console.log('emitting up...');
             this.socket.emit("move", {
                 player: "Wy2J-2z3EnI5-yBwAABP",
-                direction: "up"
+                direction: rand[Math.floor(Math.random() * 4)]
             });
         }
         if (Phaser.Input.Keyboard.JustDown(this.down)) {
             this.pig.moveDown();
+            console.log('emitting down...');
             this.socket.emit("move", {
                 player: "Wy2J-2z3EnI5-yBwAABP",
-                direction: "down"
+                direction: rand[Math.floor(Math.random() * 4)]
             });
         }
     }
