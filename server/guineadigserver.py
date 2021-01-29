@@ -6,10 +6,11 @@ import socketio
 import string
 import random
 import logging
+from logging.handlers import RotatingFileHandler
 
 
 logger = logging.getLogger(__name__)
-f_handler = logging.RotatingFileHandler('/home/ec2-user/guineadig.log', maxBytes=1048576, backupCount=12)
+f_handler = RotatingFileHandler('/home/ec2-user/guineadig.log', maxBytes=1048576, backupCount=12)
 f_handler.setLevel(logging.INFO)
 f_format = logging.Formatter('%(asctime)s - %(message)s')
 f_handler.setFormatter(f_format)
