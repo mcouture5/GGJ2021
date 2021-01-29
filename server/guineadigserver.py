@@ -5,6 +5,28 @@ import tornado.web
 import socketio
 import string
 import random
+import logging
+
+
+logger = logging.getLogger(__name__)
+f_handler = logging.RotatingFileHandler('/home/ec2-user/guineadig.log', maxBytes=1048576, backupCount=12)
+f_handler.setLevel(logging.INFO)
+f_format = logging.Formatter('%(asctime)s - %(message)s')
+f_handler.setFormatter(f_format)
+logger.addHandler(f_handler)
+logging.getLogger("tornado.access").handlers = []
+logging.getLogger("tornado.application").handlers = []
+logging.getLogger("tornado.general").handlers = []
+
+logging.getLogger("tornado.access").addHandler(f_handler)
+logging.getLogger("tornado.application").addHandler(f_handler)
+logging.getLogger("tornado.general").addHandler(f_handler)
+
+logging.getLogger("tornado.access").propagate = False
+logging.getLogger("tornado.application").propagate = False
+logging.getLogger("tornado.general").propagate = False
+
+#logging.basicConfig(filename='/home/ec2-user/guineadig.log', encoding='utf-8', level=logging.INFO, format='%(asctime)s - %(message)s')
 
 define("port", default=5000, help="run on the given port", type=int)
 define("debug", default=False, help="run in debug mode")
@@ -34,7 +56,7 @@ class MainHandler(tornado.web.RequestHandler):
 
 @sio.event
 async def move(sid, message):
-	print("received move signal")
+	logger.info(f"Received move signal from {sid} to move {message['direction']}")
 	current_room = sids[sid]
 	current_player = 0
 	if rooms[current_room]['players'][1]['sid'] == sid:
@@ -90,13 +112,12 @@ async def connect(sid, environ):
 	}
 	sids[sid] = new_room
 	sio.enter_room(sid, new_room)
-	print("New connect")
-	print(sid, new_room)
+	logger.info(f"New connection from {sid} and placed into room {new_room}")
 	await sio.emit('connect_response', rooms[new_room], room=new_room)
 
 @sio.event
 def disconnect(sid):
-	print('Client disconnected')
+	logger.info('Client disconnected')
 
 # -----
 # Helper functions
@@ -107,6 +128,10 @@ def gen_four_chars():
 # -----
 # Main Tornado web server
 def main():
+	#access_log = logging.getLogger('tornado.access')
+	#access_log.propagate = False
+	#access_log.setLevel(logging.INFO)
+
 	parse_command_line()
 	app = tornado.web.Application(
 		[
