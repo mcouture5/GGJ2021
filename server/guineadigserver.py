@@ -99,13 +99,15 @@ async def create_room(sid, message):
 				'sid': sid,
 				'id': 0,
 				'x': 10,
-				'y': 10
+				'y': 10, 
+				'ready': False
 			},
 			{
 				'sid': None,
 				'id': 1,
 				'x': 80,
-				'y': 80
+				'y': 80,
+				'ready': False
 			}
 		]
 	}
@@ -118,6 +120,21 @@ async def create_room(sid, message):
 async def leave(sid, message):
 	sio.leave_room(sid, message['room'])
 	await sio.emit('my_response', {'data': 'Left room: ' + message['room']}, room=sid)
+
+@sio.event
+async def player_ready(sid, message):
+	room = sids[sid]
+	logger.info(f'Player {sid} in room {room} is ready to start')
+	for player in rooms[room]['players']:
+		if player['sid'] == sid:
+			player['ready'] = True
+	all_ready = True
+	for player in rooms[room]['players']:
+		if player['ready'] == False:
+			all_ready = False
+	if all_ready:
+		logger.info(f'All players in room {room} are ready to start the game!')
+		await sio.emit('game_start', rooms[room], room=room)
 
 # -----
 # Admin commands
@@ -144,7 +161,8 @@ async def connect(sid, environ):
 
 @sio.event
 def disconnect(sid):
-	logger.info('Client disconnected')
+	
+	logger.info(f'Client {sid} disconnected')
 
 
 # -----
