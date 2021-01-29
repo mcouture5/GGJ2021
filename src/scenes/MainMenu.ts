@@ -10,7 +10,6 @@ export class MainMenu extends Phaser.Scene {
     }
 
     init() {
-        
     }
 
     create() {
@@ -18,6 +17,5 @@ export class MainMenu extends Phaser.Scene {
     }
 
     update() {
-        
     }
 }

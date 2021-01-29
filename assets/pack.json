@@ -1,6 +1,26 @@
 {
     "preload": {
         "files": [
+            {
+                "type": "image",
+                "key": "tile-32",
+                "url": "assets/images/tiles/32.png"
+            },
+            {
+                "type": "image",
+                "key": "tile-64",
+                "url": "assets/images/tiles/64.png"
+            },
+            {
+                "type": "image",
+                "key": "he-pig",
+                "url": "assets/images/pigs/he-pig.png"
+            },
+            {
+                "type": "image",
+                "key": "she-pig",
+                "url": "assets/images/pigs/she-pig.png"
+            }
         ]
     }
 }
