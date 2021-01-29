@@ -31,10 +31,9 @@ export class MikesTestBed extends Phaser.Scene {
         super({
             key: 'MikesTestBed'
         });
-        this.socket = io('https://guineadig.parlette.org:5000', {
+        this.socket = io('http://guineadig.parlette.org:5000', {
             path: '/socket.io',
-            transports: ['websocket'],
-            secure: true
+            transports: ['websocket']
         });
         this.socket.on("connect", () => {
             console.log("connect");
