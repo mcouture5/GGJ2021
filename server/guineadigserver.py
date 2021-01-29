@@ -8,7 +8,8 @@ import random
 import logging
 from logging.handlers import RotatingFileHandler
 
-
+# -----
+# Logging setup
 logger = logging.getLogger(__name__)
 f_handler = RotatingFileHandler('/home/ec2-user/guineadig.log', maxBytes=1048576, backupCount=12)
 f_handler.setLevel(logging.INFO)
@@ -27,18 +28,23 @@ logging.getLogger("tornado.access").propagate = False
 logging.getLogger("tornado.application").propagate = False
 logging.getLogger("tornado.general").propagate = False
 
-#logging.basicConfig(filename='/home/ec2-user/guineadig.log', encoding='utf-8', level=logging.INFO, format='%(asctime)s - %(message)s')
 
+# -----
+# Tornado setup
 define("port", default=5000, help="run on the given port", type=int)
 define("debug", default=False, help="run in debug mode")
 
 sio = socketio.AsyncServer(async_mode='tornado', cors_allowed_origins=[])
 _Handler = socketio.get_tornado_handler(sio)
 
+
+# -----
+# Global variables to store rooms and sids
 rooms = {}
 sids = {}
 
 
+# -----
 # Handlers
 class SocketHandler(_Handler):
 	def check_origin(self, origin):
@@ -54,7 +60,8 @@ class MainHandler(tornado.web.RequestHandler):
 	def get(self):
 		self.render("app.html")
 
-
+# -----
+# GuineaDig-specific events
 @sio.event
 async def move(sid, message):
 	logger.info(f"Received move signal from {sid} to move {message['direction']}")
@@ -120,6 +127,7 @@ async def connect(sid, environ):
 def disconnect(sid):
 	logger.info('Client disconnected')
 
+
 # -----
 # Helper functions
 def gen_four_chars():
@@ -145,7 +153,7 @@ def main():
 	)
 	app.listen(options.port)
 	tornado.ioloop.IOLoop.current().start()
-
+	logger.info("===== Starting Tornado Server =====")
 
 if __name__ == "__main__":
 	main()
