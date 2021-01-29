@@ -84,7 +84,7 @@ async def move(sid, message):
 async def join_room(sid, message):
 	logger.info(f"Client {sid} is attempting to join room {message['room']}")
 	sio.enter_room(sid, message['room'])
-	room[message['room']]['players'][1]['sid'] = sid
+	rooms[message['room']]['players'][1]['sid'] = sid
 	sids[sid] = message['room']
 	await sio.emit('join_room_response', rooms[message['room']], room=message['room'])
 
