@@ -13,12 +13,12 @@
             },
             {
                 "type": "image",
-                "key": "he-pig",
+                "key": "pig_0",
                 "url": "assets/images/pigs/he-pig.png"
             },
             {
                 "type": "image",
-                "key": "she-pig",
+                "key": "pig_1",
                 "url": "assets/images/pigs/she-pig.png"
             }
         ]
