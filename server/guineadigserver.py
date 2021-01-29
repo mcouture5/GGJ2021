@@ -123,10 +123,12 @@ async def leave(sid, message):
 # Admin commands
 @sio.event
 async def get_rooms(sid, message):
+	logger.info(f"--ADMIN-- Rooms list requested by {sid}")
 	await sio.emit('my_response', rooms, room=sid)
 
 @sio.event
 async def get_sids(sid, message):
+	logger.info(f"--ADMIN-- Sids list requested by {sid}")
 	await sio.emit('my_response', sids, room=sid)
 
 # -----
