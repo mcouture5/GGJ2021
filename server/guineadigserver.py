@@ -8,7 +8,7 @@ import random
 
 define("port", default=5000, help="run on the given port", type=int)
 define("debug", default=False, help="run in debug mode")
-define("log_file_prefix", default="/home/ec2-user/logs", help="log file prefix")
+#define("log_file_prefix", default="/home/ec2-user/logs", help="log file prefix")
 
 sio = socketio.AsyncServer(async_mode='tornado', cors_allowed_origins=[])
 _Handler = socketio.get_tornado_handler(sio)
@@ -43,16 +43,17 @@ class MainHandler(tornado.web.RequestHandler):
 
 @sio.event
 async def move(sid, message):
+	print("received move signal")
 	current_room = sids[sid]
 	if message['direction'] == 'left':
-		room[current_room]['player_coords']['player1_coord_x'] -= 1
+		rooms[current_room]['player_coords']['player1_coord_x'] -= 1
 	elif message['direction'] == 'right':
-		room[current_room]['player_coords']['player1_coord_x'] += 1
+		rooms[current_room]['player_coords']['player1_coord_x'] += 1
 	elif message['direction'] == 'up':
-		room[current_room]['player_coords']['player1_coord_y'] -= 1
+		rooms[current_room]['player_coords']['player1_coord_y'] -= 1
 	elif message['direction'] == 'down':
-		room[current_room]['player_coords']['player1_coord_y'] += 1
-	await sio.emit('move_response', {'new_coords': room[current_room]['player_coords']}, room=current_room)
+		rooms[current_room]['player_coords']['player1_coord_y'] += 1
+	await sio.emit('move_response', {'new_coords': rooms[current_room]['player_coords']}, room=current_room)
 
 
 @sio.event
@@ -96,7 +97,7 @@ async def disconnect_request(sid):
 @sio.event
 async def connect(sid, environ):
 	new_room = gen_four_chars()
-	room[new_room] = {
+	rooms[new_room] = {
 		'player1_sid': sid, 
 		'player2_sid': None, 
 		'player_coords': {
@@ -108,6 +109,8 @@ async def connect(sid, environ):
 	}
 	sids[sid] = new_room
 	sio.enter_room(sid, new_room)
+	print("New connect")
+	print(sid, new_room)
 	await sio.emit('connect_response', {'room_id': new_room}, room=new_room)
 
 @sio.event
