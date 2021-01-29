@@ -127,6 +127,7 @@ def gen_four_chars():
 # Main Tornado web server
 def main():
 	parse_command_line()
+	options.log_file_prefix = "/home/ec2-user/tornado.log"
 	app = tornado.web.Application(
 		[
 			(r"/", MainHandler),
