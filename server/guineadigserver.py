@@ -8,21 +8,12 @@ import random
 
 define("port", default=5000, help="run on the given port", type=int)
 define("debug", default=False, help="run in debug mode")
-#define("log_file_prefix", default="/home/ec2-user/logs", help="log file prefix")
 
 sio = socketio.AsyncServer(async_mode='tornado', cors_allowed_origins=[])
 _Handler = socketio.get_tornado_handler(sio)
 
 rooms = {}
 sids = {}
-
-async def background_task():
-	"""Example of how to send server generated events to clients."""
-	count = 0
-	while True:
-		await sio.sleep(10)
-		count += 1
-		await sio.emit('my_response', {'data': 'Server generated event'})
 
 
 # Handlers
@@ -60,16 +51,6 @@ async def move(sid, message):
 
 
 @sio.event
-async def my_event(sid, message):
-	await sio.emit('my_response', {'data': message['data']}, room=sid)
-
-
-@sio.event
-async def my_broadcast_event(sid, message):
-	await sio.emit('my_response', {'data': message['data']})
-
-
-@sio.event
 async def join(sid, message):
 	sio.enter_room(sid, message['room'])
 	room[message['room']]['players'][1]['sid'] = sid
@@ -80,16 +61,6 @@ async def leave(sid, message):
 	sio.leave_room(sid, message['room'])
 	await sio.emit('my_response', {'data': 'Left room: ' + message['room']}, room=sid)
 
-
-@sio.event
-async def close_room(sid, message):
-	await sio.emit('my_response', {'data': 'Room ' + message['room'] + ' is closing.'}, room=message['room'])
-	await sio.close_room(message['room'])
-
-
-@sio.event
-async def my_room_event(sid, message):
-	await sio.emit('my_response', {'data': message['data']}, room=message['room'])
 
 # -----
 # Connect and disconnect events
@@ -137,7 +108,6 @@ def gen_four_chars():
 # Main Tornado web server
 def main():
 	parse_command_line()
-	options.log_file_prefix = "/home/ec2-user/tornado.log"
 	app = tornado.web.Application(
 		[
 			(r"/", MainHandler),
