@@ -10,13 +10,10 @@ Clone the repo to your machine. `git clone https://github.com/mcouture5/GGJ2021.
 ## 2) Install dependencies
 `npm install` in the main folder.
 
-## 3) Run a python webserver
-`python -m SimpleHTTPServer` from within the main folder.
-
-## 4) Run dev build
+## 3) Run dev build
 The dev webpack build will auto build whenever changes are made. No need to rebuild and crap.
 
 `npm run dev`
 
-## 5) Profit
-Visit localhost:8000 to see the game
+## 4) Profit
+Visit http://127.0.0.1:8080/ to see the game
