@@ -45,15 +45,18 @@ class MainHandler(tornado.web.RequestHandler):
 async def move(sid, message):
 	print("received move signal")
 	current_room = sids[sid]
+	current_player = 0
+	if rooms[current_room]['players'][1]['sid'] == sid:
+		current_player = 1
 	if message['direction'] == 'left':
-		rooms[current_room]['player_coords']['player1_coord_x'] -= 1
+		rooms[current_room]['players'][current_player]['x'] -= 1
 	elif message['direction'] == 'right':
-		rooms[current_room]['player_coords']['player1_coord_x'] += 1
+		rooms[current_room]['players'][current_player]['x'] += 1
 	elif message['direction'] == 'up':
-		rooms[current_room]['player_coords']['player1_coord_y'] -= 1
+		rooms[current_room]['players'][current_player]['y'] -= 1
 	elif message['direction'] == 'down':
-		rooms[current_room]['player_coords']['player1_coord_y'] += 1
-	await sio.emit('move_response', {'new_coords': rooms[current_room]['player_coords']}, room=current_room)
+		rooms[current_room]['players'][current_player]['y'] += 1
+	await sio.emit('move_response', {'new_coords': rooms[current_room]}, room=current_room)
 
 
 @sio.event
@@ -69,7 +72,7 @@ async def my_broadcast_event(sid, message):
 @sio.event
 async def join(sid, message):
 	sio.enter_room(sid, message['room'])
-	room[message['room']]['player2_sid'] = sid
+	room[message['room']]['players'][1]['sid'] = sid
 	await sio.emit('my_response', {'data': 'Entered room: ' + message['room']}, room=sid)
 
 @sio.event
@@ -98,20 +101,27 @@ async def disconnect_request(sid):
 async def connect(sid, environ):
 	new_room = gen_four_chars()
 	rooms[new_room] = {
-		'player1_sid': sid, 
-		'player2_sid': None, 
-		'player_coords': {
-			'player1_coord_x': 10,
-			'player1_coord_y': 10, 
-			'player2_coord_x': 80,
-			'player2_coord_y': 80
-		}
+		'room_id': new_room,
+		'players': [
+			{
+				'sid': sid,
+				'id': 0,
+				'x': 10,
+				'y': 10
+			},
+			{
+				'sid': None,
+				'id': 1,
+				'x': 80,
+				'y': 80
+			}
+		]
 	}
 	sids[sid] = new_room
 	sio.enter_room(sid, new_room)
 	print("New connect")
 	print(sid, new_room)
-	await sio.emit('connect_response', {'room_id': new_room}, room=new_room)
+	await sio.emit('connect_response', rooms[new_room], room=new_room)
 
 @sio.event
 def disconnect(sid):
