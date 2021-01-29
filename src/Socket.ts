@@ -6,27 +6,36 @@ export interface PigContext {
     position: { x: number, y: number };
 }
 
-// Expected response interfaces
-export interface MovementResponse {
-    new_coords: {
-        player1_coord_x: number;
-        player1_coord_y: number;
-        player2_coord_x: number;
-        player2_coord_y: number;
-    }
+export interface Response extends Room {}
+
+export interface Room {
+    room_id: string;
+    players: Player[];
+}
+
+export interface Player {
+    id: number;
+    sid: string;
+    x: number;
+    y: number;
 }
 
 export class Socket {
+
+    // Event keys
+    public static MOVE = 'move';
+    public static CREATE_ROOM = 'create_room';
+    public static JOIN_ROOM = 'join_room';
+
+    // Response keys
+    public static MOVE_RESPONSE = 'move_response';
+    public static CREATE_ROOM_RESPONSE = 'create_room_response';
+    public static JOIN_ROOM_RESPONSE = 'join_room_response';
 
     /**
      * Connected socket instance
      */
     private static socket;
-
-    /**
-     * Unique ID given from the server upon connection.
-     */
-    private static id: string;
 
     /**
      * URL of the websocket instance. This comes from config.
@@ -60,14 +69,14 @@ export class Socket {
     /**
      * Listen for an event from the server.
      */
-    public static listen(event: string, callback: (args) => void) {
+    public static listen(event: string, callback: (args: Response) => void) {
         Socket.socket.on(event, callback);
     }
 
     /**
      * Listen for an event from the server.
      */
-    public static emit(event: string, payload: any) {
+    public static emit(event: string, payload?: any) {
         Socket.socket.emit(event, payload);
     }
 }

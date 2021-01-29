@@ -20,6 +20,11 @@
                 "type": "image",
                 "key": "pig_1",
                 "url": "assets/images/pigs/she-pig.png"
+            },
+            {
+                "type": "html",
+                "key": "input",
+                "url": "assets/html/input.html"
             }
         ]
     }

@@ -2,13 +2,16 @@
 import { Scene, Game, GameObjects } from 'phaser';
 
 // Socket
-import { Socket, MovementResponse, PigContext } from '../Socket';
+import { Socket, Response, PigContext, Room } from '../Socket';
 
 // Objects
 import { DirtTile } from '../objects/DirtTile'
 import { Pig } from '../objects/Pig'
 
 export class GameScene extends Scene {
+    // Room
+    private room: Room;
+
     // Input keys
     private left: Phaser.Input.Keyboard.Key;
     private right: Phaser.Input.Keyboard.Key;
@@ -31,6 +34,8 @@ export class GameScene extends Scene {
     private pig: Pig;
     private otherPig: Pig;
 
+    private roomInput: string = '';
+
     constructor() {
         super({
             key: 'GameScene'
@@ -41,11 +46,22 @@ export class GameScene extends Scene {
         // Connect to websocket
         Socket.connect();
 
-        // Listen for initialization events
+        // Listen for socket events
+        Socket.listen(Socket.CREATE_ROOM_RESPONSE, (response: Response) => {
+            this.room = response;
+            console.log(this.room);
+        });
+        Socket.listen(Socket.JOIN_ROOM_RESPONSE, (response: Response) => {
+            this.room = response;
+            console.log(this.room);
+        });
+
+
+        /*
         Socket.listen('create_pig', (context: PigContext) => {
             this.createPig(context)
         });
-
+*/
         // Debugging
         Socket.listen('connect', () => {
             console.log("connect");
@@ -55,11 +71,12 @@ export class GameScene extends Scene {
             console.log("disconnect");
             console.log(Socket.getId()); // undefined
         })
-        Socket.listen('move_response', (response: MovementResponse) => {
+        Socket.listen(Socket.MOVE_RESPONSE, (response: Response) => {
             console.log('got move', response);
+            /*
             let movex = response.new_coords.player1_coord_x;
             let movey = response.new_coords.player1_coord_y;
-            this.otherPig.moveTo(movex, movey);
+            this.otherPig.moveTo(movex, movey);*/
         });
         // End debugging
     }
@@ -94,7 +111,12 @@ export class GameScene extends Scene {
         }
 
         // Debugging
-        console.log(this.dirt.length);
+        document.getElementById('createRoom').addEventListener('click', () => {
+            this.createRoom();
+        });
+        document.getElementById('joinRoom').addEventListener('click', () => {
+            this.joinRoom((document.getElementById('joinRoomInput') as any).value);
+        });
         this.createPig({
             id: 0,
             position: {
@@ -160,6 +182,23 @@ export class GameScene extends Scene {
     }
 
     /**
+     * Sends a request to create a new room.
+     */
+    private createRoom() {
+        Socket.emit(Socket.CREATE_ROOM);
+    }
+
+    /**
+     * Sends a request to join an existing room.
+     * @param roomId
+     */
+    private joinRoom(roomId: string) {
+        Socket.emit(Socket.JOIN_ROOM, {
+            room: roomId
+        });
+    }
+
+    /**
      * Creates a new pig. The context determines which pig to create and where to put it, etc.
      * 
      * The context is providied by the server.
@@ -169,6 +208,7 @@ export class GameScene extends Scene {
         this.playerLayer.add(this.pig);
 
         // Follow me!
+        // this.cameras.main.zoom = 2;
         this.cameras.main.startFollow(this.pig, true, 0.075, 0.075);
 
         // Create the other pig too.
