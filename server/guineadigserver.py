@@ -77,7 +77,7 @@ async def move(sid, message):
 		rooms[current_room]['players'][current_player]['y'] -= 1
 	elif message['direction'] == 'down':
 		rooms[current_room]['players'][current_player]['y'] += 1
-	await sio.emit('move_response', {'new_coords': rooms[current_room]}, room=current_room)
+	await sio.emit('move_response', rooms[current_room], room=current_room)
 
 
 @sio.event
