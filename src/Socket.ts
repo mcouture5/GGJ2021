@@ -37,9 +37,6 @@ export class Socket {
      */
     private static socket;
 
-    /**
-     * URL of the websocket instance. This comes from config.
-     */
     private static url: string = 'https://guineadig.parlette.org';
 
     /**
