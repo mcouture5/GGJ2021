@@ -3,13 +3,14 @@ import { DirtTile } from "../objects/DirtTile";
 import { Player, Room, Socket } from "../Socket";
 
 export class DirtLayer extends Phaser.GameObjects.Container {
-    private dirt: Phaser.GameObjects.Sprite[] = [];
+    private dirt: Array<DirtTile[]>;
     private dugTiles: Array<string[]>;
 
     private digSounds: Phaser.Sound.BaseSound[];
 
     constructor(scene: Phaser.Scene) {
         super(scene, 0, 0);
+        this.dirt = [];
         this.dugTiles = [];
     }
 
@@ -64,12 +65,14 @@ export class DirtLayer extends Phaser.GameObjects.Container {
         let x = 0, y = 0;
         for (let i = 0; i < GameManager.WORLD_SIZE; i++) {
             x = 0;
+            let row = [];
             for (let j = 0; j < GameManager.WORLD_SIZE; j++) {
-                let dirt = new DirtTile({ scene: this.scene, x: x, y: y, key: 'tile-64' });
+                let dirt = new DirtTile({ scene: this.scene, x: x, y: y, key: 'tile-64' }, j, i);
                 this.add(dirt);
-                this.dirt.push(dirt);
+                row.push(dirt);
                 x+= GameManager.TILE_SIZE;
             }
+            this.dirt.push(row);
             y+= GameManager.TILE_SIZE;
         }
 
@@ -87,29 +90,29 @@ export class DirtLayer extends Phaser.GameObjects.Container {
     }
 
     isTileClearedAt(player: Player) {
-        let tile = this.dirt.find((dirt) => {
-            return dirt.x === GameManager.TILE_SIZE * player.x && dirt.y === GameManager.TILE_SIZE * player.y;
-        });
-        return !tile;
+        return !this.dirt[player.y][player.x];
     }
 
     onMove(room: Room) {
         room.players.forEach((playerCoord) => {
-            let tile = this.dirt.find((dirt) => {
-                return dirt.x === GameManager.TILE_SIZE * playerCoord.x && dirt.y === GameManager.TILE_SIZE * playerCoord.y;
-            });
-
+            let tile = this.dirt[playerCoord.y][playerCoord.x];
             if (tile) {
                 // Grab the coords before killing it
                 let tileX = tile.x;
                 let tileY = tile.y;
-    
-                this.remove(tile);
-                this.dirt.splice(this.dirt.indexOf(tile), 1);
+                let tileXCoord = tile.xCoord;
+                let tileYCoord = tile.yCoord;
+
+                // Modify the surrounding tiles before removing
+                tile.checkSurroundingTiles(this.dirt);
+
+                // Remove the tile and its reference in the matric
+                this.dirt[tileYCoord][tileXCoord] = null;
+                this.remove(tile, true);
 
                 // Add the dug background tile.
                 let dugKey = this.dugTiles[playerCoord.y][playerCoord.x];
-                let bgTile = new DirtTile({ scene: this.scene, x: tileX, y: tileY, key: dugKey });
+                let bgTile = new DirtTile({ scene: this.scene, x: tileX, y: tileY, key: dugKey }, tileXCoord, tileYCoord);
                 this.add(bgTile);
 
                 // play dig sound if this is the local player's pig

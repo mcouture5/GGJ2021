@@ -34,26 +34,32 @@ export class MainMenu extends Phaser.Scene {
         // don't pause sound effects and music on blur.
         this.sound.pauseOnBlur = false;
 
-        // start playing music if not already playing
-        if (!this.music) {
-            this.music = this.sound.add('shanty-instrumental', {loop: true, volume: 1});
+        // start playing music if not already playing. fade it in.
+        if (!this.music || !this.music.isPlaying) {
+            this.music = this.sound.add('shanty-instrumental', {loop: true, volume: 0.1});
             this.music.play();
+            this.add.tween({
+                targets: this.music,
+                volume: 0.75,
+                ease: 'Linear',
+                duration: 1300
+            });
         }
 
-        let whitePig= this.add.sprite(300,  100, 'white-pig', 2);
-        let orangePig = this.add.sprite(724,  100, 'orange-pig', 2);
+        let whitePig= this.add.sprite(300,  100, 'white_idle', 2);
+        let orangePig = this.add.sprite(724,  100, 'orange_idle', 2);
         orangePig.scaleX*=-1;
 
         this.anims.create({
             key: 'orange-idle',
-            frames: this.anims.generateFrameNumbers('orange-pig', { frames: [ 0, 1, 2 ]}),
+            frames: this.anims.generateFrameNumbers('orange_idle', { frames: [ 0, 1, 2 ]}),
             frameRate: 3,
             repeat: -1
         });
 
         this.anims.create({
             key: 'white-idle',
-            frames: this.anims.generateFrameNumbers('white-pig', { frames: [ 0, 1, 2 ]}),
+            frames: this.anims.generateFrameNumbers('white_idle', { frames: [ 0, 1, 2 ]}),
             frameRate: 3,
             repeat: -1
         });

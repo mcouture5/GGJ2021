@@ -31,26 +31,51 @@ export class GameScene extends Phaser.Scene {
         });
 
         Socket.listen(Socket.GAME_END, (r: any) => {
-            this.scene.start('GameEnd', {elapsed_time: r.elapsed_time});
+            this.scene.start('GameEnd', {elapsed_time: r.elapsed_time, gameSceneMusic: this.music});
         });
 
         document.getElementById('chat-send').addEventListener('click', () => {
             this.sendChat();
         });
 
+        // Animations
+        this.anims.create({
+            key: 'orange_idle',
+            frames: this.anims.generateFrameNumbers('orange_idle', { frames: [ 0, 1, 2 ] }),
+            frameRate: 6,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'white_idle',
+            frames: this.anims.generateFrameNumbers('white_idle', { frames: [ 0, 1, 2 ] }),
+            frameRate: 6,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'orange_dig',
+            frames: this.anims.generateFrameNumbers('orange_idle', { frames: [ 0, 1, 2 ] }),
+            frameRate: 24,
+            repeat: 1
+        });
+        this.anims.create({
+            key: 'white_dig',
+            frames: this.anims.generateFrameNumbers('white_idle', { frames: [ 0, 1, 2 ] }),
+            frameRate: 24,
+            repeat: 1
+        });
+
     }
 
     create() {
         // start playing music if not already playing. fade it in.
-        if (!this.music) {
-            let fadeInDuration = 1300;
+        if (!this.music || !this.music.isPlaying) {
             this.music = this.sound.add('shanty-lyrical', {loop: true, volume: 0.1});
             this.music.play();
             this.add.tween({
                 targets: this.music,
-                volume: 0.5,
+                volume: 0.2,
                 ease: 'Linear',
-                duration: fadeInDuration
+                duration: 1300
             });
         }
         

@@ -1,6 +1,6 @@
 import { GameManager } from '../GameManager';
 import { Pig } from '../objects/Pig';
-import { Socket, PigContext, Room } from '../Socket';
+import { Socket, Room } from '../Socket';
 
 export class PigLayer extends Phaser.GameObjects.Container {
     // Input keys
@@ -68,7 +68,8 @@ export class PigLayer extends Phaser.GameObjects.Container {
     private createPigs(room: Room) {
         // Create the pigs, find mine, and tell the camera to follow it.
         room.players.forEach((player) => {
-            let pig = new Pig({ scene: this.scene, x: 0, y: 0, key: 'pig_' + player.id });
+            let pig = new Pig({ scene: this.scene, x: 0, y: 0, id: player.id });
+            // let pig = new Pig({ scene: this.scene, x: 0, y: 0, key: 'hero' });
             pig.sid = player.sid;
             this.add(pig);
             this.pigs[player.sid] = pig;

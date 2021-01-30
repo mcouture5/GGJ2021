@@ -13,7 +13,7 @@
             },
             {
                 "type": "spritesheet",
-                "key": "orange-pig",
+                "key": "orange_idle",
                 "url": "assets/images/pigs/sprites_idle_orange.png",
                 "frameConfig": {
                     "frameWidth": 128,
@@ -22,7 +22,7 @@
             },
             {
                 "type": "spritesheet",
-                "key": "white-pig",
+                "key": "white_idle",
                 "url": "assets/images/pigs/sprites_idle_white.png",
                 "frameConfig": {
                     "frameWidth": 128,
@@ -31,8 +31,8 @@
             },
             {
                 "type": "spritesheet",
-                "key": "hero",
-                "url": "assets/images/pigs/pigs.png",
+                "key": "dirt",
+                "url": "assets/images/tiles/dirt_tile.png",
                 "frameConfig": {
                     "frameWidth": 64,
                     "frameHeight": 64
@@ -433,6 +433,11 @@
                 "type": "audio",
                 "key": "dig-4",
                 "url": "assets/sounds/dig-4.mp3"
+            },
+            {
+                "type": "audio",
+                "key": "reunion",
+                "url": "assets/sounds/reunion.mp3"
             }
         ]
     }

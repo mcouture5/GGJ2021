@@ -1,14 +1,20 @@
 import { GameManager } from "../GameManager";
 
+interface PigContext {
+    idle: string;
+    dig: string;
+}
+
 export interface IPig {
     scene: Phaser.Scene;
-    x: number,
+    x: number;
     y: number;
-    key?: string;
-    frame?: number;
+    id: number;
 }
 
 export class Pig extends Phaser.GameObjects.Sprite  {
+
+    private readonly 
 
     private size: number = GameManager.TILE_SIZE;
 
@@ -19,20 +25,29 @@ export class Pig extends Phaser.GameObjects.Sprite  {
      * Player SID
      */
     public sid: string;
+    private pigId: number;
 
     // A move request has been sent, and we are waiting for the animation to finish. Test for truthiness of this.
     private waitingToMove: {x: number, y: number };
     private awaitingMoveCallback;
 
+    // Pig info
+    public static PIG_CONTEXT: { [key: number ]: PigContext} = {
+        0: {
+            idle: 'orange_idle',
+            dig: 'orange_dig'
+        },
+        1: {
+            idle: 'white_idle',
+            dig: 'white_dig'
+        },
+    };
+    
     constructor(params: IPig) {
-        super(params.scene, params.x, params.y, params.key, params.frame);
+        super(params.scene, params.x, params.y, Pig.PIG_CONTEXT[params.id].idle);
+        this.pigId = params.id;
         this.setOrigin(0, 0);
-        this.scene.anims.create({
-            key: 'dig',
-            frames: this.scene.anims.generateFrameNumbers('hero', { frames: [ 0, 1, 2, 3 ] }),
-            frameRate: 32,
-            repeat: 0
-        });
+        this.setScale(0.5, 0.5);
         this.on(Phaser.Animations.Events.ANIMATION_COMPLETE, () => {
             // Because there may be more than one animation on the pig, and this event gets fired after any animation is
             // done playing, we need to determine the next action based on the current state of the pig.
@@ -66,7 +81,7 @@ export class Pig extends Phaser.GameObjects.Sprite  {
             this.doMove();
         } else {
             this.awaitingMoveCallback = callback;
-            this.play('dig');
+            this.play(Pig.PIG_CONTEXT[this.pigId].dig);
         }
     }
 
@@ -78,5 +93,8 @@ export class Pig extends Phaser.GameObjects.Sprite  {
 
         // Done moving
         this.waitingToMove = null;
+
+        // Start idling
+        this.play(Pig.PIG_CONTEXT[this.pigId].idle);
     }
 }
