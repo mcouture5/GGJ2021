@@ -15,10 +15,6 @@ export class GameScene extends Phaser.Scene {
     private treasurelayer: Phaser.GameObjects.Container;
     private pigLayer: PigLayer;
 
-    // Players
-    private pig: Pig;
-    private otherPig: Pig;
-
     constructor() {
         super({
             key: 'GameScene'
@@ -48,9 +44,9 @@ export class GameScene extends Phaser.Scene {
     }
 
     onMove(room: Room) {
-        console.log('got move', room);
         // Tell the layers about this move
         this.dirtLayer.onMove(room);
         this.pigLayer.onMove(room);
+        this.dirtLayer.onMove(room);
     }
 }

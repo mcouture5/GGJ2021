@@ -34,6 +34,9 @@ export class Lobby extends Phaser.Scene {
         Socket.listen(Socket.CREATE_ROOM_RESPONSE, (response: Response) => {
             console.log('create: ', response);
             GameManager.getInstance().setRoom(response);
+
+            // TODO NOT THIS THIS IS FOR TESTING
+            // this.scene.start('GameScene');
         });
         Socket.listen(Socket.JOIN_ROOM_RESPONSE, (response: Response) => {
             console.log('join: ', response);
