@@ -4,18 +4,17 @@ import { Player, Room, Socket } from "../Socket";
 
 export class DirtLayer extends Phaser.GameObjects.Container {
     private dirt: Array<DirtTile[]>;
-    private dugTiles: Array<string[]>;
 
     private digSounds: Phaser.Sound.BaseSound[];
 
     constructor(scene: Phaser.Scene) {
         super(scene, 0, 0);
         this.dirt = [];
-        this.dugTiles = [];
     }
 
     create() {
-        // Generate the keys for the dug tile layer.
+        // Create the tilemap
+        let x = 0, y = 0;
         let yellowRows = 18;
         let yellowOrangeRows = 22;
         let orangeRows = 58;
@@ -24,27 +23,32 @@ export class DirtLayer extends Phaser.GameObjects.Container {
         let brownDarkRows = 92;
         let darkRows = 8;
         let isTransition = false;
-        for (let ii = 0; ii < 100; ii++) {
-            let arr = [];
+        for (let i = 0; i < GameManager.WORLD_SIZE; i++) {
+            x = 0;
+            let row = [];
             let color = 'dark';
             isTransition = false;
-            if (ii < yellowRows) {
+            if (i < yellowRows) {
                 color = 'yellow';
-            } else if (ii < yellowOrangeRows) {
+            } else if (i < yellowOrangeRows) {
                 color = 'yellow_orange';
                 isTransition = true;
-            } else if (ii < orangeRows) {
+            } else if (i < orangeRows) {
                 color = 'orange';
-            } else if (ii < orangeBrownRows) {
+            } else if (i < orangeBrownRows) {
                 color = 'orange_brown';
                 isTransition = true;
-            } else if (ii < brownsRows) {
+            } else if (i < brownsRows) {
                 color = 'brown';
-            } else if (ii < brownDarkRows) {
+            } else if (i < brownDarkRows) {
                 color = 'brown_dark';
                 isTransition = true;
             }
-            for (let jj = 0; jj < 100; jj++) {
+            for (let j = 0; j < GameManager.WORLD_SIZE; j++) {
+                let dirt = new DirtTile({ scene: this.scene, x: x, y: y }, j, i);
+                this.add(dirt);
+                row.push(dirt);
+
                 let randType = ['pebbles', 'roots', 'solid'][Math.floor(Math.random() * 3)];
                 let randNum = Math.ceil(Math.random() * 8);
 
@@ -56,20 +60,8 @@ export class DirtLayer extends Phaser.GameObjects.Container {
                 if (randType == 'pebbles' || randType == 'roots') {
                     randTile += '_' + randNum;
                 }
-                arr.push(randTile);
-            }
-            this.dugTiles.push(arr);
-        }
+                dirt.dugTile = randTile;
 
-        // Create the tilemap
-        let x = 0, y = 0;
-        for (let i = 0; i < GameManager.WORLD_SIZE; i++) {
-            x = 0;
-            let row = [];
-            for (let j = 0; j < GameManager.WORLD_SIZE; j++) {
-                let dirt = new DirtTile({ scene: this.scene, x: x, y: y, key: 'tile-64' }, j, i);
-                this.add(dirt);
-                row.push(dirt);
                 x+= GameManager.TILE_SIZE;
             }
             this.dirt.push(row);
@@ -98,22 +90,18 @@ export class DirtLayer extends Phaser.GameObjects.Container {
             let tile = this.dirt[playerCoord.y][playerCoord.x];
             if (tile) {
                 // Grab the coords before killing it
-                let tileX = tile.x;
-                let tileY = tile.y;
                 let tileXCoord = tile.xCoord;
                 let tileYCoord = tile.yCoord;
 
                 // Modify the surrounding tiles before removing
-                tile.checkSurroundingTiles(this.dirt);
+                tile.informSurroundingTiles(this.dirt);
 
-                // Remove the tile and its reference in the matric
+                // Draw the dug tile
+                tile.drawDugTile();
+
+                // Remove the tile and its reference in the matrix
                 this.dirt[tileYCoord][tileXCoord] = null;
                 this.remove(tile, true);
-
-                // Add the dug background tile.
-                let dugKey = this.dugTiles[playerCoord.y][playerCoord.x];
-                let bgTile = new DirtTile({ scene: this.scene, x: tileX, y: tileY, key: dugKey }, tileXCoord, tileYCoord);
-                this.add(bgTile);
 
                 // play dig sound if this is the local player's pig
                 if (playerCoord.sid === Socket.getId()) {

@@ -40,6 +40,12 @@ export class GameScene extends Phaser.Scene {
 
         // Animations
         this.anims.create({
+            key: 'dirt',
+            frames: this.anims.generateFrameNumbers('dirt', { frames: [ 0, 1, 2, 3, 4, 5 ] }),
+            frameRate: 0,
+            repeat: 0
+        });
+        this.anims.create({
             key: 'orange_idle',
             frames: this.anims.generateFrameNumbers('orange_idle', { frames: [ 0, 1, 2 ] }),
             frameRate: 6,

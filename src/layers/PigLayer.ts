@@ -81,6 +81,8 @@ export class PigLayer extends Phaser.GameObjects.Container {
             pig.moveTo(player.x, player.y, false);
         });
 
+        // Tell the dirt layer the pigs have moved
+        GameManager.getInstance().getDirtLayer().onMove(room);
 
         // Set up movement after we know we have a pig to move
         this.left = this.scene.input.keyboard.addKey(
