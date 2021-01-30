@@ -3,16 +3,6 @@
         "files": [
             {
                 "type": "image",
-                "key": "tile-32",
-                "url": "assets/images/tiles/32.png"
-            },
-            {
-                "type": "image",
-                "key": "tile-64",
-                "url": "assets/images/tiles/64.png"
-            },
-            {
-                "type": "image",
                 "key": "pig_0",
                 "url": "assets/images/pigs/he-pig.png"
             },
@@ -23,6 +13,24 @@
             },
             {
                 "type": "spritesheet",
+                "key": "orange-pig",
+                "url": "assets/images/pigs/sprites_idle_orange.png",
+                "frameConfig": {
+                    "frameWidth": 128,
+                    "frameHeight": 128
+                }
+            },
+            {
+                "type": "spritesheet",
+                "key": "white-pig",
+                "url": "assets/images/pigs/sprites_idle_white.png",
+                "frameConfig": {
+                    "frameWidth": 128,
+                    "frameHeight": 128
+                }
+            },
+            {
+                "type": "spritesheet",
                 "key": "hero",
                 "url": "assets/images/pigs/pigs.png",
                 "frameConfig": {
@@ -30,6 +38,17 @@
                     "frameHeight": 64
                 }
             },
+            {
+                "type": "image",
+                "key": "tile-32",
+                "url": "assets/images/tiles/32.png"
+            },
+            {
+                "type": "image",
+                "key": "tile-64",
+                "url": "assets/images/tiles/64.png"
+            },
+            
             {
                 "type": "image",
                 "key": "dug_brown_dark_transition",

@@ -26,11 +26,12 @@ export class GameEnd extends Phaser.Scene {
     }
 
     create() {
-        this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/2.25, 
-            `Congratulations! You finished in ${this.timeElapsed} seconds.`);
+        let time = new String(this.timeElapsed).slice(0,5);
+        this.add.text(GameManager.WINDOW_WIDTH/2 - 220, 200, 
+            `Congratulations! You finished in ${time} seconds.`);
 
-        this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/2, 
-            'Press enter to play again.');
+        this.add.text(GameManager.WINDOW_WIDTH/2 - 150, 600, 
+            'Press [ENTER] to play again.');
     }
 
     update() {

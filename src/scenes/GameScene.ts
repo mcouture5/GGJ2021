@@ -66,7 +66,7 @@ export class GameScene extends Phaser.Scene {
         GameManager.getInstance().setPigLayer(this.pigLayer); 
 
         let chatElement = document.getElementById('chat');
-        chatElement.style.display = "true";
+        chatElement.style.display = "block";
     }
 
     update() {

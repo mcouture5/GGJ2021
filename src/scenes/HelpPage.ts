@@ -21,9 +21,9 @@ export class HelpPage extends Phaser.Scene {
     }
 
     create() {
-        this.add.text(GameManager.WINDOW_WIDTH/3, GameManager.WINDOW_HEIGHT/2.25, 
-            'Use the arrow keys to navigate through to soil to find your mate in the fastest time.');
-        this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/2, 'Press enter to return to the main menu');
+        this.add.text(140, 200, 
+            'Use the arrow keys to dig through the soil to find your mate in the fastest time.');
+        this.add.text(GameManager.WINDOW_WIDTH/2 - 200, 600, 'Press [ENTER] to return to the main menu');
     }
 
     update() {
