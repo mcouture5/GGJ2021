@@ -44,8 +44,8 @@ export class GameScene extends Phaser.Scene {
     }
 
     onMove(room: Room) {
-        console.log('got move', room);
         // Tell the layers about this move
         this.pigLayer.onMove(room);
+        this.dirtLayer.onMove(room);
     }
 }

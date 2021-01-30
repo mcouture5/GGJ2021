@@ -1,5 +1,6 @@
 import { GameManager } from "../GameManager";
 import { DirtTile } from "../objects/DirtTile";
+import { Room } from "../Socket";
 
 export class DirtLayer extends Phaser.GameObjects.Container {
     private dirt: Phaser.GameObjects.Sprite[] = [];
@@ -24,6 +25,10 @@ export class DirtLayer extends Phaser.GameObjects.Container {
     }
 
     update() {
+    }
+
+    onMove(room: Room) {
+        
     }
 
 }

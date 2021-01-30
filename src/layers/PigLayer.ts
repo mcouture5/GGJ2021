@@ -36,9 +36,8 @@ export class PigLayer extends Phaser.GameObjects.Container {
     }
 
     public onMove(room: Room) {
-        room.players.forEach((player) => {
-            this.pigs[player.sid].moveTo(player.x, player.y);
-        });
+        this.movePigs(room);
+        this.checkDistance(room);
     }
 
     /**
@@ -56,6 +55,7 @@ export class PigLayer extends Phaser.GameObjects.Container {
             // Follow me
             if (player.sid == Socket.getId()) {
                 this.scene.cameras.main.startFollow(pig, true, 0.075, 0.075);
+                this.scene.cameras.main.zoomTo(0.5);
             }
             pig.moveTo(player.x, player.y);
         });
@@ -102,5 +102,23 @@ export class PigLayer extends Phaser.GameObjects.Container {
             player: Socket.getId(),
             direction: 'down'
         });
+    }
+
+    private movePigs(room: Room) {
+        room.players.forEach((player) => {
+            this.pigs[player.sid].moveTo(player.x, player.y);
+        });
+    }
+
+    private checkDistance(room: Room) {
+        let pig1 = room.players[0];
+        let pig2 = room.players[1];
+        
+        let a = pig1.x - pig2.x;
+        let b = pig1.y - pig2.y;
+        let c = Math.sqrt( a*a + b*b );
+
+        let zoomVal = Math.min(1.5, Math.max(0.5, (100 / c) / 10));
+        this.scene.cameras.main.zoomTo(zoomVal, 700, 'Linear', true);
     }
 }

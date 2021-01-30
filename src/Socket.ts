@@ -50,13 +50,6 @@ export class Socket {
     }
 
     /**
-     * Returns the socket instance. May not need this...
-     */
-    public static getInstance() {
-        return Socket.socket;
-    }
-
-    /**
      * Returns the current socket ID. This changes on every connect.
      */
     public static getId() {
