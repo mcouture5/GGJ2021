@@ -31,9 +31,12 @@ export class MainMenu extends Phaser.Scene {
     }
 
     create() {
-        
+
         this.music = this.sound.add('shanty-lyrical', {loop: true, volume: 1});
         this.music.play();
+
+        this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/4, 'Guinea Dig: Lost in Ground');
+        this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/3.6, 'A tale of love lost and found', {fontSize: '12px'});
 
         this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/2.25, 'Select an option to begin:');
         this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/2, 'Create Game (n) or Join Game (j)');
