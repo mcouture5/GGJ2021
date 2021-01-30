@@ -1,6 +1,6 @@
 import { GameManager } from "../GameManager";
 import { DirtTile } from "../objects/DirtTile";
-import { Player, Room } from "../Socket";
+import { Player, Room, Socket } from "../Socket";
 
 export class DirtLayer extends Phaser.GameObjects.Container {
     private dirt: Phaser.GameObjects.Sprite[] = [];
@@ -112,8 +112,10 @@ export class DirtLayer extends Phaser.GameObjects.Container {
                 let bgTile = new DirtTile({ scene: this.scene, x: tileX, y: tileY, key: dugKey });
                 this.add(bgTile);
 
-                // play dig sound
-                this.playDigSound();
+                // play dig sound if this is the local player's pig
+                if (playerCoord.sid === Socket.getId()) {
+                    this.playDigSound();
+                }
             }
         });
     }
