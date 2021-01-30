@@ -14,7 +14,10 @@
             socket.on('disconnect', function() {
                 $('#log').append('<br>Disconnected');
             });
-            socket.on('my_response', function(msg) {
+            socket.on('admin_rooms_response', function(msg) {
+                $('#log').append('<br>Received: ' + msg.data);
+            });
+            socket.on('admin_sids_response', function(msg) {
                 $('#log').append('<br>Received: ' + msg.data);
             });
 

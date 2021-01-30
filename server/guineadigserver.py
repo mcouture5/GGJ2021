@@ -167,12 +167,12 @@ async def chat(sid, message):
 @sio.event
 async def get_rooms(sid):
 	logger.info(f"--ADMIN-- Rooms list requested by {sid}")
-	await sio.emit('my_response', rooms, room=sid)
+	await sio.emit('admin_rooms_response', rooms, room=sid)
 
 @sio.event
 async def get_sids(sid):
 	logger.info(f"--ADMIN-- Sids list requested by {sid}")
-	await sio.emit('my_response', sids, room=sid)
+	await sio.emit('admin_sids_response', sids, room=sid)
 
 # -----
 # Connect and disconnect events
