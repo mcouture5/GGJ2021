@@ -102,11 +102,14 @@ async def join_room(sid, message):
 	logger.info(f"Client {sid} is attempting to join room {message['room']}")
 	sio.enter_room(sid, message['room'])
 	#rooms[message['room']]['players'][1]['sid'] = sid
+	room_id = message['room']
+	seed = rooms[room_id]['random_seed']
+	starter_coords = random_starters[seed]
 	new_player = {
 		'sid': sid,
 		'id': 1,
-		'x': random.randint(random_starters[rooms[message['room']]['random_seed']]['x1min'],random_starters[rooms[message['room']]]['random_seed']['x1max']),
-		'y': random.randint(random_starters[rooms[message['room']]['random_seed']]['y1min'],random_starters[rooms[message['room']]]['random_seed']['y1max']),
+		'x': random.randint(starter_coords['x1min'],starter_coords['x1max']),
+		'y': random.randint(starter_coords['y1min'],starter_coords['y1max']),
 		'ready': False
 	}
 	rooms[message['room']]['players'].append(new_player)
@@ -118,14 +121,15 @@ async def create_room(sid, message):
 	logger.info(f"Client {sid} is attempting to create a room")
 	new_room = gen_four_chars()
 	random_seed = random.randint(0,3)
+	starter_coords = random_starters[random_seed]
 	rooms[new_room] = {
 		'room_id': new_room,
 		'players': [
 			{
 				'sid': sid,
 				'id': 0,
-				'x': random.randint(random_starters[random_seed]['x0min'],random_starters[random_seed]['x0max']),
-				'y': random.randint(random_starters[random_seed]['y0min'],random_starters[random_seed]['y0max']), 
+				'x': random.randint(starter_coords['x0min'],starter_coords['x0max']),
+				'y': random.randint(starter_coords['y0min'],starter_coords['y0max']), 
 				'ready': False
 			}
 		],
