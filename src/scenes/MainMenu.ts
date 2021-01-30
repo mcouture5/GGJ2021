@@ -40,7 +40,7 @@ export class MainMenu extends Phaser.Scene {
             this.music.play();
             this.add.tween({
                 targets: this.music,
-                volume: 1,
+                volume: 0.75,
                 ease: 'Linear',
                 duration: 1300
             });

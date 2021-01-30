@@ -10,6 +10,8 @@ export class GameEnd extends Phaser.Scene {
 
     private timeElapsed: number;
 
+    private fading: boolean;
+
     private gameSceneMusic: Phaser.Sound.BaseSound;
     private reunionSound: Phaser.Sound.BaseSound;
 
@@ -41,13 +43,31 @@ export class GameEnd extends Phaser.Scene {
             this.reunionSound = this.sound.add('reunion', {volume: 1});
             this.reunionSound.play();
         }
+
+        // after scene fade out, transition to MainMenu
+        this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+            this.gameSceneMusic.stop(); // make double-triple sure music doesn't bleed into the next scene
+            this.scene.start('MainMenu');
+        });
     }
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(this.enter)) {
-            // stop GameScene music and transition to MainMenu scene
-            this.gameSceneMusic.stop();
-            this.scene.start('MainMenu');
+            // fade out scene and music, ultimately transitioning to MainMenu. see "camerafadeoutcomplete"
+            // listener in create().
+            let fadeOutDuration = 1300;
+            this.cameras.main.fadeOut(fadeOutDuration, 130, 130, 130);
+            this.fading = true;
+            // fade out music
+            this.add.tween({
+                targets: this.gameSceneMusic,
+                volume: 0,
+                ease: 'Linear',
+                duration: fadeOutDuration,
+                onComplete: () => {
+                    this.gameSceneMusic.stop();
+                }
+            });
         }
     }
 }
