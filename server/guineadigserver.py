@@ -92,8 +92,8 @@ async def join_room(sid, message):
 	new_player = {
 		'sid': sid,
 		'id': 1,
-		'x': 80,
-		'y': 80,
+		'x': random.randint(75,90),
+		'y': random.randint(10,89),
 		'ready': False
 	}
 	rooms[message['room']]['players'].append(new_player)
@@ -110,8 +110,8 @@ async def create_room(sid, message):
 			{
 				'sid': sid,
 				'id': 0,
-				'x': 10,
-				'y': 10, 
+				'x': random.randint(10,25),
+				'y': random.randint(10,89), 
 				'ready': False
 			}
 		]
