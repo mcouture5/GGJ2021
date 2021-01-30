@@ -105,8 +105,8 @@ async def join_room(sid, message):
 	new_player = {
 		'sid': sid,
 		'id': 1,
-		'x': random.randint(random_starters[rooms[message['room']]['random_seed']['x1min'],random_starters[rooms[message['room']]['random_seed']['x1max']),
-		'y': random.randint(random_starters[rooms[message['room']]['random_seed']['y1min'],random_starters[rooms[message['room']]['random_seed']['y1max']),
+		'x': random.randint(random_starters[rooms[message['room']]['random_seed']]['x1min'],random_starters[rooms[message['room']]]['random_seed']['x1max']),
+		'y': random.randint(random_starters[rooms[message['room']]['random_seed']]['y1min'],random_starters[rooms[message['room']]]['random_seed']['y1max']),
 		'ready': False
 	}
 	rooms[message['room']]['players'].append(new_player)
