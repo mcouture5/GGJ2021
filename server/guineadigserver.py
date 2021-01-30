@@ -70,13 +70,17 @@ async def move(sid, message):
 	if rooms[current_room]['players'][1]['sid'] == sid:
 		current_player = 1
 	if message['direction'] == 'left':
-		rooms[current_room]['players'][current_player]['x'] -= 1
+		if rooms[current_room]['players'][current_player]['x'] > 0:
+			rooms[current_room]['players'][current_player]['x'] -= 1
 	elif message['direction'] == 'right':
-		rooms[current_room]['players'][current_player]['x'] += 1
+		if rooms[current_room]['players'][current_player]['x'] < 99
+			rooms[current_room]['players'][current_player]['x'] += 1
 	elif message['direction'] == 'up':
-		rooms[current_room]['players'][current_player]['y'] -= 1
+		if rooms[current_room]['players'][current_player]['y'] > 0:
+			rooms[current_room]['players'][current_player]['y'] -= 1
 	elif message['direction'] == 'down':
-		rooms[current_room]['players'][current_player]['y'] += 1
+		if rooms[current_room]['players'][current_player]['y'] < 99:
+			rooms[current_room]['players'][current_player]['y'] += 1
 	await sio.emit('move_response', rooms[current_room], room=current_room)
 
 
