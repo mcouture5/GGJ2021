@@ -21,14 +21,7 @@ const config: GameConfig = {
     touch: false,
     gamepad: false
   },
-  physics: {
-    default: 'arcade',
-    arcade: {
-      gravity: { y: 300 },
-      debug: false
-    }
-  },
-  backgroundColor: '#a8a8a8',
+  backgroundColor: '#a05e08',
   render: { pixelArt: false, antialias: true, autoResize: false }
 };
 

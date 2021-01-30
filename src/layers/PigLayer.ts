@@ -77,7 +77,7 @@ export class PigLayer extends Phaser.GameObjects.Container {
                 this.scene.cameras.main.startFollow(pig, true, 0.075, 0.075);
                 this.scene.cameras.main.zoomTo(0.5);
             }
-            pig.moveTo(player.x, player.y);
+            pig.moveTo(player.x, player.y, false);
         });
 
 
@@ -125,8 +125,18 @@ export class PigLayer extends Phaser.GameObjects.Container {
     }
 
     private movePigs(room: Room) {
+        let dirtLayer = GameManager.getInstance().getDirtLayer();
         room.players.forEach((player) => {
-            this.pigs[player.sid].moveTo(player.x, player.y);
+            // Ask the dirt layer what tile we will be moving into. Things will happen depending on the answer.
+            if (dirtLayer.isTileClearedAt(player)) {
+                // If no tile, go forth with the move as scheduled
+                this.pigs[player.sid].moveTo(player.x, player.y, false);
+            } else {
+                // Start the animation. When that is finished, the tile can be removed.
+                this.pigs[player.sid].moveTo(player.x, player.y, true, () => {
+                    dirtLayer.onMove(room);
+                });
+            }
         });
     }
 

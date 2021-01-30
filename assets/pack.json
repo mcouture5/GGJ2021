@@ -29,6 +29,361 @@
                     "frameWidth": 64,
                     "frameHeight": 64
                 }
+            },
+            {
+                "type": "image",
+                "key": "dug_brown_dark_transition",
+                "url": "assets/images/tiles/dug_brown_dark_transition.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_brown_pebbles_1",
+                "url": "assets/images/tiles/dug_brown_pebbles_1.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_brown_pebbles_2",
+                "url": "assets/images/tiles/dug_brown_pebbles_2.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_brown_pebbles_3",
+                "url": "assets/images/tiles/dug_brown_pebbles_3.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_brown_pebbles_4",
+                "url": "assets/images/tiles/dug_brown_pebbles_4.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_brown_pebbles_5",
+                "url": "assets/images/tiles/dug_brown_pebbles_5.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_brown_pebbles_6",
+                "url": "assets/images/tiles/dug_brown_pebbles_6.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_brown_pebbles_7",
+                "url": "assets/images/tiles/dug_brown_pebbles_7.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_brown_pebbles_8",
+                "url": "assets/images/tiles/dug_brown_pebbles_8.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_brown_roots_1",
+                "url": "assets/images/tiles/dug_brown_roots_1.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_brown_roots_2",
+                "url": "assets/images/tiles/dug_brown_roots_2.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_brown_roots_3",
+                "url": "assets/images/tiles/dug_brown_roots_3.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_brown_roots_4",
+                "url": "assets/images/tiles/dug_brown_roots_4.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_brown_roots_5",
+                "url": "assets/images/tiles/dug_brown_roots_5.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_brown_roots_6",
+                "url": "assets/images/tiles/dug_brown_roots_6.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_brown_roots_7",
+                "url": "assets/images/tiles/dug_brown_roots_7.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_brown_roots_8",
+                "url": "assets/images/tiles/dug_brown_roots_8.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_brown_solid",
+                "url": "assets/images/tiles/dug_brown_solid.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_dark_pebbles_1",
+                "url": "assets/images/tiles/dug_dark_pebbles_1.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_dark_pebbles_2",
+                "url": "assets/images/tiles/dug_dark_pebbles_2.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_dark_pebbles_3",
+                "url": "assets/images/tiles/dug_dark_pebbles_3.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_dark_pebbles_4",
+                "url": "assets/images/tiles/dug_dark_pebbles_4.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_dark_pebbles_5",
+                "url": "assets/images/tiles/dug_dark_pebbles_5.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_dark_pebbles_6",
+                "url": "assets/images/tiles/dug_dark_pebbles_6.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_dark_pebbles_7",
+                "url": "assets/images/tiles/dug_dark_pebbles_7.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_dark_pebbles_8",
+                "url": "assets/images/tiles/dug_dark_pebbles_8.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_dark_roots_1",
+                "url": "assets/images/tiles/dug_dark_roots_1.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_dark_roots_2",
+                "url": "assets/images/tiles/dug_dark_roots_2.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_dark_roots_3",
+                "url": "assets/images/tiles/dug_dark_roots_3.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_dark_roots_4",
+                "url": "assets/images/tiles/dug_dark_roots_4.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_dark_roots_5",
+                "url": "assets/images/tiles/dug_dark_roots_5.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_dark_roots_6",
+                "url": "assets/images/tiles/dug_dark_roots_6.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_dark_roots_7",
+                "url": "assets/images/tiles/dug_dark_roots_7.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_dark_roots_8",
+                "url": "assets/images/tiles/dug_dark_roots_8.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_dark_solid",
+                "url": "assets/images/tiles/dug_dark_solid.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_orange_brown_transition",
+                "url": "assets/images/tiles/dug_orange_brown_transition.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_orange_pebbles_1",
+                "url": "assets/images/tiles/dug_orange_pebbles_1.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_orange_pebbles_2",
+                "url": "assets/images/tiles/dug_orange_pebbles_2.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_orange_pebbles_3",
+                "url": "assets/images/tiles/dug_orange_pebbles_3.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_orange_pebbles_4",
+                "url": "assets/images/tiles/dug_orange_pebbles_4.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_orange_pebbles_5",
+                "url": "assets/images/tiles/dug_orange_pebbles_5.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_orange_pebbles_6",
+                "url": "assets/images/tiles/dug_orange_pebbles_6.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_orange_pebbles_7",
+                "url": "assets/images/tiles/dug_orange_pebbles_7.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_orange_pebbles_8",
+                "url": "assets/images/tiles/dug_orange_pebbles_8.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_orange_roots_1",
+                "url": "assets/images/tiles/dug_orange_roots_1.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_orange_roots_2",
+                "url": "assets/images/tiles/dug_orange_roots_2.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_orange_roots_3",
+                "url": "assets/images/tiles/dug_orange_roots_3.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_orange_roots_4",
+                "url": "assets/images/tiles/dug_orange_roots_4.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_orange_roots_5",
+                "url": "assets/images/tiles/dug_orange_roots_5.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_orange_roots_6",
+                "url": "assets/images/tiles/dug_orange_roots_6.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_orange_roots_7",
+                "url": "assets/images/tiles/dug_orange_roots_7.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_orange_roots_8",
+                "url": "assets/images/tiles/dug_orange_roots_8.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_orange_solid",
+                "url": "assets/images/tiles/dug_orange_solid.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_yellow_orange_transition",
+                "url": "assets/images/tiles/dug_yellow_orange_transition.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_yellow_pebbles_1",
+                "url": "assets/images/tiles/dug_yellow_pebbles_1.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_yellow_pebbles_2",
+                "url": "assets/images/tiles/dug_yellow_pebbles_2.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_yellow_pebbles_3",
+                "url": "assets/images/tiles/dug_yellow_pebbles_3.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_yellow_pebbles_4",
+                "url": "assets/images/tiles/dug_yellow_pebbles_4.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_yellow_pebbles_5",
+                "url": "assets/images/tiles/dug_yellow_pebbles_5.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_yellow_pebbles_6",
+                "url": "assets/images/tiles/dug_yellow_pebbles_6.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_yellow_pebbles_7",
+                "url": "assets/images/tiles/dug_yellow_pebbles_7.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_yellow_pebbles_8",
+                "url": "assets/images/tiles/dug_yellow_pebbles_8.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_yellow_roots_1",
+                "url": "assets/images/tiles/dug_yellow_roots_1.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_yellow_roots_2",
+                "url": "assets/images/tiles/dug_yellow_roots_2.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_yellow_roots_3",
+                "url": "assets/images/tiles/dug_yellow_roots_3.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_yellow_roots_4",
+                "url": "assets/images/tiles/dug_yellow_roots_4.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_yellow_roots_5",
+                "url": "assets/images/tiles/dug_yellow_roots_5.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_yellow_roots_6",
+                "url": "assets/images/tiles/dug_yellow_roots_6.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_yellow_roots_7",
+                "url": "assets/images/tiles/dug_yellow_roots_7.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_yellow_roots_8",
+                "url": "assets/images/tiles/dug_yellow_roots_8.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_yellow_solid",
+                "url": "assets/images/tiles/dug_yellow_solid.png"
             }
         ]
     }

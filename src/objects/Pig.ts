@@ -22,6 +22,7 @@ export class Pig extends Phaser.GameObjects.Sprite  {
 
     // A move request has been sent, and we are waiting for the animation to finish. Test for truthiness of this.
     private waitingToMove: {x: number, y: number };
+    private awaitingMoveCallback;
 
     constructor(params: IPig) {
         super(params.scene, params.x, params.y, params.key, params.frame);
@@ -36,6 +37,10 @@ export class Pig extends Phaser.GameObjects.Sprite  {
             // Because there may be more than one animation on the pig, and this event gets fired after any animation is
             // done playing, we need to determine the next action based on the current state of the pig.
             if (this.waitingToMove) {
+                if (this.awaitingMoveCallback) {
+                    this.awaitingMoveCallback();
+                    this.awaitingMoveCallback = null;
+                }
                 this.doMove();
             }
         });
@@ -52,10 +57,17 @@ export class Pig extends Phaser.GameObjects.Sprite  {
      * Moves to the tile based x-y coordinates. Ex: passing in 1,1 will move to screen location 32,32 (or whatever tile size is set).
      * 
      * The movement occurs after the animation has finished playing. During that time, input will be blocked.
+     * 
+     * @param callback invoked after the dig animation is complete.
      */
-    public moveTo(x: number, y: number) {
-        this.play('dig');
+    public moveTo(x: number, y: number, playAnimation: boolean, callback?: () => void) {
         this.waitingToMove = { x: x, y: y };
+        if (!playAnimation) {
+            this.doMove();
+        } else {
+            this.awaitingMoveCallback = callback;
+            this.play('dig');
+        }
     }
 
     private doMove() {

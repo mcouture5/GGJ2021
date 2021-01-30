@@ -1,8 +1,14 @@
+import { DirtLayer } from './layers/DirtLayer';
+import { PigLayer } from './layers/PigLayer';
 import { Room } from './Socket';
 
+/**
+ * MrWizard...
+ */
 export class GameManager {
     private static instance: GameManager;
     private room: Room;
+    private layers: { [key: string]: Phaser.GameObjects.Container };
     
     // World Size
     public static WORLD_SIZE: number = 100;
@@ -20,6 +26,21 @@ export class GameManager {
     }
 
     constructor() {
+        this.layers = {};
+    }
+
+    public setDirtLayer(layer: DirtLayer) {
+        this.layers['dirt'] = layer;
+    }
+    public setPigLayer(layer: PigLayer) {
+        this.layers['pig'] = layer;
+    }
+
+    public getDirtLayer(): DirtLayer {
+        return this.layers['dirt'] as DirtLayer;
+    }
+    public getPigLayer(): PigLayer {
+        return this.layers['pig'] as PigLayer;
     }
 
     public setRoom(room: Room) {
