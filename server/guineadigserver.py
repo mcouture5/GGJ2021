@@ -7,6 +7,7 @@ import string
 import random
 import logging
 from logging.handlers import RotatingFileHandler
+import time
 
 # -----
 # Logging setup
@@ -64,7 +65,7 @@ class MainHandler(tornado.web.RequestHandler):
 # GuineaDig-specific events
 @sio.event
 async def move(sid, message):
-	logger.info(f"Received move signal from {sid} to move {message['direction']}")
+	logger.info(f"Received move signal from {sid} to move {message['direction']} from a starting point of ({rooms[current_room]['players'][current_player]['x']}, {rooms[current_room]['players'][current_player]['y']})")
 	current_room = sids[sid]
 	current_player = 0
 	if rooms[current_room]['players'][1]['sid'] == sid:
@@ -82,6 +83,7 @@ async def move(sid, message):
 		if rooms[current_room]['players'][current_player]['y'] < 99:
 			rooms[current_room]['players'][current_player]['y'] += 1
 	await sio.emit('move_response', rooms[current_room], room=current_room)
+	check_for_game_over(current_room)
 
 
 @sio.event
@@ -114,7 +116,9 @@ async def create_room(sid, message):
 				'y': random.randint(10,89), 
 				'ready': False
 			}
-		]
+		],
+		'start_time': None,
+		'end_time': None
 	}
 	sids[sid] = new_room
 	sio.enter_room(sid, new_room)
@@ -139,6 +143,7 @@ async def player_ready(sid, message):
 			all_ready = False
 	if all_ready:
 		logger.info(f'All players in room {room} are ready to start the game!')
+		rooms[room]['start_time'] = time.time()
 		await sio.emit('game_start', rooms[room], room=room)
 
 # -----
@@ -178,6 +183,25 @@ def disconnect(sid):
 # Helper functions
 def gen_four_chars():
 	return ''.join(random.choices(string.ascii_lowercase, k=4))
+
+def check_for_game_over(room_id):
+	player1x = rooms[room_id]['players'][0]['x']
+	player1y = rooms[room_id]['players'][0]['y']
+	player2x = rooms[room_id]['players'][1]['x']
+	player2y = rooms[room_id]['players'][1]['y']
+	game_over = False
+	# I'm sure there's a better way to do this, but ah well
+	if player1x == player2x:
+		if abs(player1y - player2y) == 1:
+			game_over = True
+	elif player1y == player2y:
+		if abs(player1x - player2x) == 1:
+			game_over = True
+	if game_over:
+		rooms[room_id]['end_time'] = time.time()
+		elapsed_time = rooms[room_id]['end_time'] - rooms[room_id]['start_time']
+		logger.info(f'Room {room_id} is finished!  Total time was {elapsed_time}')
+		await sio.emit('game_end', {'elapsed_time': elapsed_time}, room=room_id)
 
 
 # -----
