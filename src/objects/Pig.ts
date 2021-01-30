@@ -67,8 +67,4 @@ export class Pig extends Phaser.GameObjects.Sprite  {
         // Done moving
         this.waitingToMove = null;
     }
-
-    currentPosition() {
-        return {x: this.tileX, y: this.tileY};
-    }
 }

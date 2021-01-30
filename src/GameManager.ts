@@ -3,7 +3,6 @@ import { Room } from './Socket';
 export class GameManager {
     private static instance: GameManager;
     private room: Room;
-    private scene: Phaser.Scene;
     
     // World Size
     public static WORLD_SIZE: number = 100;
