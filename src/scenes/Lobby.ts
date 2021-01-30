@@ -83,6 +83,7 @@ export class Lobby extends Phaser.Scene {
 
         // after scene fade out, transition to GameScene
         this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+            this.data.mainMenuMusic.stop(); // make double-triple sure music doesn't bleed into the next scene
             this.scene.start('GameScene');
         });
     }
