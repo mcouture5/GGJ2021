@@ -50,7 +50,7 @@ export class Lobby extends Phaser.Scene {
             if (response.players.length == 2) {
                 // fade out scene and music, ultimately transitioning to GameScene. see "camerafadeoutcomplete"
                 // listener in create().
-                let fadeOutDuration = 1300 ;
+                let fadeOutDuration = 1300;
                 this.cameras.main.fadeOut(fadeOutDuration, 130, 130, 130);
                 this.fading = true;
                 // fade out music

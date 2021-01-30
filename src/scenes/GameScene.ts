@@ -32,10 +32,17 @@ export class GameScene extends Phaser.Scene {
     }
 
     create() {
-        // start playing music if not already playing
+        // start playing music if not already playing. fade it in.
         if (!this.music) {
-            this.music = this.sound.add('shanty-lyrical', {loop: true, volume: 1});
+            let fadeInDuration = 1300;
+            this.music = this.sound.add('shanty-lyrical', {loop: true, volume: 0.1});
             this.music.play();
+            this.add.tween({
+                targets: this.music,
+                volume: 0.5,
+                ease: 'Linear',
+                duration: fadeInDuration
+            });
         }
 
         // Create and add the layers
