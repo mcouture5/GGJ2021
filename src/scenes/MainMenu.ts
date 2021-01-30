@@ -34,10 +34,16 @@ export class MainMenu extends Phaser.Scene {
         // don't pause sound effects and music on blur.
         this.sound.pauseOnBlur = false;
 
-        // start playing music if not already playing
-        if (!this.music) {
-            this.music = this.sound.add('shanty-instrumental', {loop: true, volume: 1});
+        // start playing music if not already playing. fade it in.
+        if (!this.music || !this.music.isPlaying) {
+            this.music = this.sound.add('shanty-instrumental', {loop: true, volume: 0.1});
             this.music.play();
+            this.add.tween({
+                targets: this.music,
+                volume: 1,
+                ease: 'Linear',
+                duration: 1300
+            });
         }
 
         this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/4, 'Guinea Dig: Lost in Ground');

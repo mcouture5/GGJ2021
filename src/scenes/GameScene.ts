@@ -31,7 +31,7 @@ export class GameScene extends Phaser.Scene {
         });
 
         Socket.listen(Socket.GAME_END, (r: any) => {
-            this.scene.start('GameEnd', {elapsed_time: r.elapsed_time});
+            this.scene.start('GameEnd', {elapsed_time: r.elapsed_time, gameSceneMusic: this.music});
         });
 
         document.getElementById('chat-send').addEventListener('click', () => {
@@ -68,15 +68,14 @@ export class GameScene extends Phaser.Scene {
 
     create() {
         // start playing music if not already playing. fade it in.
-        if (!this.music) {
-            let fadeInDuration = 1300;
+        if (!this.music || !this.music.isPlaying) {
             this.music = this.sound.add('shanty-lyrical', {loop: true, volume: 0.1});
             this.music.play();
             this.add.tween({
                 targets: this.music,
-                volume: 0.5,
+                volume: 0.2,
                 ease: 'Linear',
-                duration: fadeInDuration
+                duration: 1300
             });
         }
         
