@@ -22,9 +22,13 @@
                 "url": "assets/images/pigs/she-pig.png"
             },
             {
-                "type": "html",
-                "key": "input",
-                "url": "assets/html/input.html"
+                "type": "spritesheet",
+                "key": "hero",
+                "url": "assets/images/pigs/pigs.png",
+                "frameConfig": {
+                    "frameWidth": 64,
+                    "frameHeight": 64
+                }
             }
         ]
     }

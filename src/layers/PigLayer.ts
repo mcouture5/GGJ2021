@@ -22,17 +22,37 @@ export class PigLayer extends Phaser.GameObjects.Container {
 
     update() {
         if (this.left && Phaser.Input.Keyboard.JustDown(this.left)) {
+            if (!this.canMove()) {
+                return;
+            }
             this.movePigLeft();
         }
         if (this.right && Phaser.Input.Keyboard.JustDown(this.right)) {
+            if (!this.canMove()) {
+                return;
+            }
             this.movePigRight();
         }
         if (this.up && Phaser.Input.Keyboard.JustDown(this.up)) {
+            if (!this.canMove()) {
+                return;
+            }
             this.movePigUp();
         }
         if (this.down && Phaser.Input.Keyboard.JustDown(this.down)) {
+            if (!this.canMove()) {
+                return;
+            }
             this.movePigDown();
         }
+    }
+
+    /**
+     * The player can move only if their pig is not currently moving.
+     */
+    private canMove() {
+        let myPig = this.pigs[Socket.getId()];
+        return myPig.canMove();
     }
 
     public onMove(room: Room) {
