@@ -25,7 +25,7 @@ export class Pig extends Phaser.GameObjects.Sprite  {
     private awaitingMoveCallback;
 
     constructor(params: IPig) {
-        super(params.scene, params.x, params.y, params.key, params.frame);
+        super(params.scene, params.x, params.y, params.key);
         this.setOrigin(0, 0);
         this.scene.anims.create({
             key: 'dig',

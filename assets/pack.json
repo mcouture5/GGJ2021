@@ -31,6 +31,15 @@
                 }
             },
             {
+                "type": "spritesheet",
+                "key": "dirt",
+                "url": "assets/images/tiles/dirt_tile.png",
+                "frameConfig": {
+                    "frameWidth": 64,
+                    "frameHeight": 64
+                }
+            },
+            {
                 "type": "image",
                 "key": "dug_brown_dark_transition",
                 "url": "assets/images/tiles/dug_brown_dark_transition.png"
