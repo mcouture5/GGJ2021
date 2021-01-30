@@ -43,7 +43,12 @@ _Handler = socketio.get_tornado_handler(sio)
 # Global variables to store rooms and sids
 rooms = {}
 sids = {}
-
+random_starters = {
+	0: {'x0min':10, 'x0max':25, 'y0min':10, 'y0max':89, 'x1min':75, 'x1max':90, 'y1min':10, 'y1max':89},
+	1: {'x0min':75, 'x0max':90, 'y0min':10, 'y0max':89, 'x1min':10, 'x1max':25, 'y1min':10, 'y1max':89},
+	2: {'x0min':10, 'x0max':89, 'y0min':10, 'y0max':25, 'x1min':10, 'x1max':89, 'y1min':75, 'y1max':90},
+	3: {'x0min':10, 'x0max':89, 'y0min':75, 'y0max':90, 'x1min':10, 'x1max':89, 'y1min':10, 'y1max':25}
+}
 
 # -----
 # Handlers
@@ -100,8 +105,8 @@ async def join_room(sid, message):
 	new_player = {
 		'sid': sid,
 		'id': 1,
-		'x': random.randint(75,90),
-		'y': random.randint(10,89),
+		'x': random.randint(random_starters[rooms[message['room']]['random_seed']['x1min'],random_starters[rooms[message['room']]['random_seed']['x1max']),
+		'y': random.randint(random_starters[rooms[message['room']]['random_seed']['y1min'],random_starters[rooms[message['room']]['random_seed']['y1max']),
 		'ready': False
 	}
 	rooms[message['room']]['players'].append(new_player)
@@ -112,20 +117,22 @@ async def join_room(sid, message):
 async def create_room(sid, message):
 	logger.info(f"Client {sid} is attempting to create a room")
 	new_room = gen_four_chars()
+	random_seed = random.randint(0,3)
 	rooms[new_room] = {
 		'room_id': new_room,
 		'players': [
 			{
 				'sid': sid,
 				'id': 0,
-				'x': random.randint(10,25),
-				'y': random.randint(10,89), 
+				'x': random.randint(random_starters[random_seed]['x0min'],random_starters[random_seed]['x0max']),
+				'y': random.randint(random_starters[random_seed]['y0min'],random_starters[random_seed]['y0max']), 
 				'ready': False
 			}
 		],
 		'start_time': None,
 		'end_time': None,
-		'chat_history': []
+		'chat_history': [],
+		'random_seed': random_seed
 	}
 	sids[sid] = new_room
 	sio.enter_room(sid, new_room)
