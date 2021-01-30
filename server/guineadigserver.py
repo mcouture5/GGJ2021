@@ -201,7 +201,7 @@ def check_for_game_over(room_id):
 		rooms[room_id]['end_time'] = time.time()
 		elapsed_time = rooms[room_id]['end_time'] - rooms[room_id]['start_time']
 		logger.info(f'Room {room_id} is finished!  Total time was {elapsed_time}')
-		await sio.emit('game_end', {'elapsed_time': elapsed_time}, room=room_id)
+		sio.emit('game_end', {'elapsed_time': elapsed_time}, room=room_id)
 
 
 # -----
