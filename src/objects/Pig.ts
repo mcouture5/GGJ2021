@@ -79,6 +79,7 @@ export class Pig extends Phaser.GameObjects.Sprite  {
         this.waitingToMove = { x: x, y: y };
         if (!playAnimation) {
             this.doMove();
+            callback && callback();
         } else {
             this.awaitingMoveCallback = callback;
             this.play(Pig.PIG_CONTEXT[this.pigId].dig);

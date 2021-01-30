@@ -135,8 +135,9 @@ export class PigLayer extends Phaser.GameObjects.Container {
                 // If no tile, go forth with the move as scheduled
                 this.pigs[player.sid].moveTo(player.x, player.y, false);
             } else {
-                // Start the animation. When that is finished, the tile can be removed.
-                this.pigs[player.sid].moveTo(player.x, player.y, true, () => {
+                // Start the animation. When that is finished, the tile can be removed. Only animate if current players pig.
+                let playAnimation = player.sid === Socket.getId();
+                this.pigs[player.sid].moveTo(player.x, player.y, playAnimation, () => {
                     dirtLayer.onMove(room);
                 });
             }
