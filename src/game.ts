@@ -2,18 +2,19 @@
 
 import 'phaser';
 import { Boot } from './scenes/Boot';
-import { MainMenu } from './scenes/MainMenu';
 import { Lobby } from './scenes/Lobby';
 import { GameScene } from './scenes/GameScene';
+import { GameManager } from './GameManager';
+import { MainMenu } from './scenes/MainMenu';
 
 // main game configuration
 const config: GameConfig = {
-  title: 'GGJ2021',
-  width: 1024,
-  height: 768,
+  title: 'Guinea Dig: Lost in Ground - GGJ2021',
+  width: GameManager.WINDOW_WIDTH,
+  height: GameManager.WINDOW_HEIGHT,
   type: Phaser.WEBGL,
   parent: 'game',
-  scene: [Boot, Lobby, GameScene],
+  scene: [Boot, MainMenu, Lobby, GameScene],
   input: {
     keyboard: true,
     mouse: false,

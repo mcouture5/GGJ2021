@@ -1,5 +1,6 @@
 import { GameManager } from "../GameManager";
 import { DirtTile } from "../objects/DirtTile";
+import { Room } from "../Socket";
 
 export class DirtLayer extends Phaser.GameObjects.Container {
     private dirt: Phaser.GameObjects.Sprite[] = [];
@@ -14,7 +15,7 @@ export class DirtLayer extends Phaser.GameObjects.Container {
         for (let i = 0; i < GameManager.WORLD_SIZE; i++) {
             x = 0;
             for (let j = 0; j < GameManager.WORLD_SIZE; j++) {
-                let dirt = new DirtTile({ scene: this.scene, x: x, y: y, key: 'tile-32' });
+                let dirt = new DirtTile({ scene: this.scene, x: x, y: y, key: 'tile-64' });
                 this.add(dirt);
                 this.dirt.push(dirt);
                 x+= GameManager.TILE_SIZE;
@@ -24,6 +25,16 @@ export class DirtLayer extends Phaser.GameObjects.Container {
     }
 
     update() {
+    }
+
+    onMove(room: Room) {
+        room.players.forEach((playerCoord) => {
+            let tile = this.dirt.find((dirt) => {
+                return dirt.x === GameManager.TILE_SIZE * playerCoord.x && dirt.y === GameManager.TILE_SIZE * playerCoord.y;
+            });
+
+            this.remove(tile);
+        });
     }
 
 }

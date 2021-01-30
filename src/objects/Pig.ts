@@ -1,3 +1,5 @@
+import { GameManager } from "../GameManager";
+
 export interface IPig {
     scene: Phaser.Scene;
     x: number,
@@ -9,7 +11,7 @@ export interface IPig {
 
 export class Pig extends Phaser.GameObjects.Sprite  {
 
-    private size: number = 32;
+    private size: number = GameManager.TILE_SIZE;
 
     private tileX: number = 0;
     private tileY: number = 0;
@@ -48,5 +50,9 @@ export class Pig extends Phaser.GameObjects.Sprite  {
         this.setY(y * this.size);
         this.tileX = x;
         this.tileY = y;
+    }
+
+    currentPosition() {
+        return {x: this.tileX, y: this.tileY};
     }
 }

@@ -1,4 +1,4 @@
-import { Response, Room, Socket } from './Socket';
+import { Room } from './Socket';
 
 export class GameManager {
     private static instance: GameManager;
@@ -7,7 +7,10 @@ export class GameManager {
     
     // World Size
     public static WORLD_SIZE: number = 100;
-    public static TILE_SIZE: number = 32;
+    public static TILE_SIZE: number = 64;
+
+    public static WINDOW_WIDTH: number = 1024;
+    public static WINDOW_HEIGHT: number = 768;
 
     // Singleton baby
     public static getInstance() {
