@@ -31,9 +31,14 @@ export class MainMenu extends Phaser.Scene {
     }
 
     create() {
+        // don't pause sound effects and music on blur.
+        this.sound.pauseOnBlur = false;
 
-        this.music = this.sound.add('shanty-lyrical', {loop: true, volume: 1});
-        this.music.play();
+        // start playing music if not already playing
+        if (!this.music) {
+            this.music = this.sound.add('shanty-instrumental', {loop: true, volume: 1});
+            this.music.play();
+        }
 
         this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/4, 'Guinea Dig: Lost in Ground');
         this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/3.6, 'A tale of love lost and found', {fontSize: '12px'});
@@ -45,17 +50,14 @@ export class MainMenu extends Phaser.Scene {
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(this.n)) {
-            this.scene.start('Lobby');
-            this.music.stop();
+            this.scene.start('Lobby', {mainMenuMusic: this.music});
         }
         if (Phaser.Input.Keyboard.JustDown(this.j)) {
             let roomId = prompt("Enter the room id of the game you want to join");
-            this.scene.start('Lobby', {room: roomId});
-            this.music.stop();
+            this.scene.start('Lobby', {room: roomId, mainMenuMusic: this.music});
         }
         if (Phaser.Input.Keyboard.JustDown(this.h)) {
             this.scene.start('HelpPage');
-            this.music.stop();
         }
     }
 }

@@ -21,10 +21,7 @@ export class GameScene extends Phaser.Scene {
         });
     }
 
-    init(data: {music: Phaser.Sound.BaseSound}) {
-
-        this.music = data.music;
-        
+    init() {
         Socket.listen(Socket.MOVE_RESPONSE, (response: Response) => {
             this.onMove(response);
         });
@@ -35,6 +32,12 @@ export class GameScene extends Phaser.Scene {
     }
 
     create() {
+        // start playing music if not already playing
+        if (!this.music) {
+            this.music = this.sound.add('shanty-lyrical', {loop: true, volume: 1});
+            this.music.play();
+        }
+
         // Create and add the layers
         this.dirtLayer = new DirtLayer(this);
         this.add.existing(this.dirtLayer);
