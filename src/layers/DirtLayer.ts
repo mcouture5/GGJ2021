@@ -6,6 +6,8 @@ export class DirtLayer extends Phaser.GameObjects.Container {
     private dirt: Phaser.GameObjects.Sprite[] = [];
     private dugTiles: Array<string[]>;
 
+    private digSounds: Phaser.Sound.BaseSound[];
+
     constructor(scene: Phaser.Scene) {
         super(scene, 0, 0);
         this.dugTiles = [];
@@ -73,6 +75,12 @@ export class DirtLayer extends Phaser.GameObjects.Container {
 
         // Set the bounds of the camera so it does not show the outside of the map
         this.scene.cameras.main.setBounds(0, 0, GameManager.WORLD_SIZE * GameManager.TILE_SIZE, GameManager.WORLD_SIZE * GameManager.TILE_SIZE);
+
+        // create dig sounds
+        this.digSounds = [];
+        for (let i = 1; i <= 4; i++) {
+            this.digSounds.push(this.scene.sound.add(`dig-${i}`, {volume: 1}));
+        }
     }
 
     update() {
@@ -103,8 +111,17 @@ export class DirtLayer extends Phaser.GameObjects.Container {
                 let dugKey = this.dugTiles[playerCoord.y][playerCoord.x];
                 let bgTile = new DirtTile({ scene: this.scene, x: tileX, y: tileY, key: dugKey });
                 this.add(bgTile);
+
+                // play dig sound
+                this.playDigSound();
             }
         });
     }
 
+    /**
+     * Randomly selects a dig sound to play.
+     */
+    private playDigSound() {
+        this.digSounds[Phaser.Math.Between(0, 3)].play();
+    }
 }
