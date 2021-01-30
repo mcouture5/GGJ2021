@@ -13,13 +13,18 @@ export class GameScene extends Phaser.Scene {
     private treasurelayer: Phaser.GameObjects.Container;
     private pigLayer: PigLayer;
 
+    private music: Phaser.Sound.BaseSound;
+
     constructor() {
         super({
             key: 'GameScene'
         });
     }
 
-    init() {
+    init(data: {music: Phaser.Sound.BaseSound}) {
+
+        this.music = data.music;
+        
         Socket.listen(Socket.MOVE_RESPONSE, (response: Response) => {
             this.onMove(response);
         });

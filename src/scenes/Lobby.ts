@@ -8,6 +8,9 @@ export class Lobby extends Phaser.Scene {
 
     public data;
 
+
+    private music: Phaser.Sound.BaseSound;
+
     constructor() {
         super({
             key: 'Lobby'
@@ -45,12 +48,15 @@ export class Lobby extends Phaser.Scene {
             console.log('join: ', response);
             GameManager.getInstance().setRoom(response);
             if (response.players.length == 2) {
-                this.scene.start('GameScene');
+                this.scene.start('GameScene', {music: this.music});
             }
         });
     }
 
     async create() {
+        this.music = this.sound.add('shanty-instrumental', {loop: true, volume: 1});
+        this.music.play();
+
         if (this.data.room) {
             this.joinRoom(this.data.room);
         } else {
