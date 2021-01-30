@@ -384,6 +384,16 @@
                 "type": "image",
                 "key": "dug_yellow_solid",
                 "url": "assets/images/tiles/dug_yellow_solid.png"
+            },
+            {
+                "type": "audio",
+                "key": "shanty-lyrical",
+                "url": "assets/sounds/guineadig-shanty.mp3"
+            },
+            {
+                "type": "audio",
+                "key": "shanty-instrumental",
+                "url": "assets/sounds/guineadig-instrumental.mp3"
             }
         ]
     }
