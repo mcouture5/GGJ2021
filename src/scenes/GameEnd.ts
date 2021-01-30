@@ -39,10 +39,28 @@ export class GameEnd extends Phaser.Scene {
         this.add.text(GameManager.WINDOW_WIDTH/2 - 145, 600, 
             'Press [ENTER] to play again.');
 
-        // play reunion sound if not already played
+        // play reunion sound if not already played. fade distracting background music while sound effect is playing.
         if (!this.reunionSound || !this.reunionSound.isPlaying) {
-            this.reunionSound = this.sound.add('reunion', {volume: 1});
-            this.reunionSound.play();
+            this.add.tween({
+                targets: this.gameSceneMusic,
+                volume: 0,
+                ease: 'Linear',
+                duration: 250,
+                onComplete: () => {
+                    this.reunionSound = this.sound.add('reunion', {volume: 1});
+                    this.reunionSound.play();
+                    this.reunionSound.on('complete', () => {
+                        this.gameSceneMusic.resume();
+                        this.add.tween({
+                            targets: this.gameSceneMusic,
+                            volume: 0.2,
+                            ease: 'Linear',
+                            duration: 250
+                        });
+                    });
+                }
+            });
+
         }
 
         // after scene fade out, transition to MainMenu
