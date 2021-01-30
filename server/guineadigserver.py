@@ -132,6 +132,7 @@ async def create_room(sid, message):
 	logger.info(f"New room {new_room} created for client {sid}")
 	await sio.emit('create_room_response', rooms[new_room], room=new_room)
 
+# not sure leave is used, can probably remove but waiting to confirm
 @sio.event
 async def leave(sid, message):
 	sio.leave_room(sid, message['room'])
@@ -157,6 +158,7 @@ async def player_ready(sid, message):
 async def chat(sid, message):
 	current_room = sids[sid]
 	rooms[current_room]['chat_history'].append(message['text'])
+	logger.info(f"Chat message - room {current_room} - sid {sid} - {message['text']}")
 	await sio.emit('new_chat_message', {'chat_sender': sid, 'chat_message': message['text']}, room=current_room)
 
 
@@ -220,14 +222,9 @@ def check_for_game_over(room_id):
 		return None
 		
 
-
 # -----
 # Main Tornado web server
 def main():
-	#access_log = logging.getLogger('tornado.access')
-	#access_log.propagate = False
-	#access_log.setLevel(logging.INFO)
-
 	parse_command_line()
 	app = tornado.web.Application(
 		[
@@ -239,8 +236,8 @@ def main():
 		debug=options.debug,
 	)
 	app.listen(options.port)
-	tornado.ioloop.IOLoop.current().start()
 	logger.info("===== Starting Tornado Server =====")
+	tornado.ioloop.IOLoop.current().start()
 
 if __name__ == "__main__":
 	main()
