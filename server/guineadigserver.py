@@ -84,7 +84,15 @@ async def move(sid, message):
 async def join_room(sid, message):
 	logger.info(f"Client {sid} is attempting to join room {message['room']}")
 	sio.enter_room(sid, message['room'])
-	rooms[message['room']]['players'][1]['sid'] = sid
+	#rooms[message['room']]['players'][1]['sid'] = sid
+	new_player = {
+		'sid': sid,
+		'id': 1,
+		'x': 80,
+		'y': 80,
+		'ready': False
+	}
+	rooms[message['room']]['players'].append(new_player)
 	sids[sid] = message['room']
 	await sio.emit('join_room_response', rooms[message['room']], room=message['room'])
 
@@ -100,13 +108,6 @@ async def create_room(sid, message):
 				'id': 0,
 				'x': 10,
 				'y': 10, 
-				'ready': False
-			},
-			{
-				'sid': None,
-				'id': 1,
-				'x': 80,
-				'y': 80,
 				'ready': False
 			}
 		]
@@ -161,7 +162,11 @@ async def connect(sid, environ):
 
 @sio.event
 def disconnect(sid):
-	
+	current_room = sids[sid]
+	for player in rooms[current_room]['players']:
+		if player['sid'] == sid:
+			rooms[current_room]['players'].remove(player)
+	del sids[sid]
 	logger.info(f'Client {sid} disconnected')
 
 
