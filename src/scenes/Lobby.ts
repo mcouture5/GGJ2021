@@ -18,6 +18,9 @@ export class Lobby extends Phaser.Scene {
 
         this.data = data;
 
+        // Reset the room if playing again.
+        GameManager.getInstance().setRoom(null);
+
         // Connect to websocket
         Socket.connect();
 
@@ -48,15 +51,6 @@ export class Lobby extends Phaser.Scene {
     }
 
     async create() {
-        /*
-        document.getElementById('createRoom').addEventListener('click', () => {
-            this.createRoom();
-        });
-        document.getElementById('joinRoom').addEventListener('click', () => {
-            this.joinRoom((document.getElementById('joinRoomInput') as any).value);
-        });
-        */
-
         if (this.data.room) {
             this.joinRoom(this.data.room);
         } else {
