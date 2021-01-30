@@ -1,11 +1,11 @@
 // Socket
-import { GameManager } from '../managers/GameManager';
+import { GameManager } from '../GameManager';
 import { Response, Socket } from '../Socket';
 
 /**
  * Lobby containing the Create or Join room interface.
  */
-export class Boot extends Phaser.Scene {
+export class Lobby extends Phaser.Scene {
     constructor() {
         super({
             key: 'Lobby'
@@ -16,12 +16,26 @@ export class Boot extends Phaser.Scene {
         // Connect to websocket
         Socket.connect();
 
+        Socket.listen('connect', () => {
+            console.log("connect");
+            console.log(Socket.getId());
+        })
+        Socket.listen('disconnect', () => {
+            console.log("disconnect");
+            console.log(Socket.getId()); // undefined
+        })
+
         // Listen for room response events
         Socket.listen(Socket.CREATE_ROOM_RESPONSE, (response: Response) => {
+            console.log('create: ', response);
             GameManager.getInstance().setRoom(response);
         });
         Socket.listen(Socket.JOIN_ROOM_RESPONSE, (response: Response) => {
+            console.log('join: ', response);
             GameManager.getInstance().setRoom(response);
+            if (response.players.length == 2) {
+                this.scene.start('GameScene');
+            }
         });
     }
 
@@ -35,8 +49,6 @@ export class Boot extends Phaser.Scene {
     }
 
     update() {
-        // Immediately start the main menu
-        // this.scene.start('GameScene');
     }
     
     /**
