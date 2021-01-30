@@ -67,9 +67,9 @@ class MainHandler(tornado.web.RequestHandler):
 async def move(sid, message):
 	current_room = sids[sid]
 	current_player = 0
-	logger.info(f"Received move signal from {sid} to move {message['direction']} from a starting point of ({rooms[current_room]['players'][current_player]['x']}, {rooms[current_room]['players'][current_player]['y']})")
 	if rooms[current_room]['players'][1]['sid'] == sid:
 		current_player = 1
+	logger.info(f"Received move signal from {sid} to move {message['direction']} from a starting point of ({rooms[current_room]['players'][current_player]['x']}, {rooms[current_room]['players'][current_player]['y']})")
 	if message['direction'] == 'left':
 		if rooms[current_room]['players'][current_player]['x'] > 0:
 			rooms[current_room]['players'][current_player]['x'] -= 1
