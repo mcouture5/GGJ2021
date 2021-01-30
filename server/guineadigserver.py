@@ -124,7 +124,8 @@ async def create_room(sid, message):
 			}
 		],
 		'start_time': None,
-		'end_time': None
+		'end_time': None,
+		'chat_history': []
 	}
 	sids[sid] = new_room
 	sio.enter_room(sid, new_room)
@@ -151,6 +152,13 @@ async def player_ready(sid, message):
 		logger.info(f'All players in room {room} are ready to start the game!')
 		rooms[room]['start_time'] = time.time()
 		await sio.emit('game_start', rooms[room], room=room)
+
+@sio.event
+async def chat(sid, message):
+	current_room = sids[sid]
+	rooms[current_room]['chat_history'].append(message['text'])
+	await sio.emit('new_chat_message', {'chat_sender': sid, 'chat_message': message['text']}, room=current_room)
+
 
 # -----
 # Admin commands
