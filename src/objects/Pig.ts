@@ -9,6 +9,9 @@ export interface IPig {
 }
 
 export class Pig extends Phaser.GameObjects.Sprite  {
+
+    private size: number = GameManager.TILE_SIZE;
+
     private tileX: number = 0;
     private tileY: number = 0;
 
@@ -63,5 +66,9 @@ export class Pig extends Phaser.GameObjects.Sprite  {
 
         // Done moving
         this.waitingToMove = null;
+    }
+
+    currentPosition() {
+        return {x: this.tileX, y: this.tileY};
     }
 }

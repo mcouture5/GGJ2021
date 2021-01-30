@@ -28,7 +28,13 @@ export class DirtLayer extends Phaser.GameObjects.Container {
     }
 
     onMove(room: Room) {
-        
+        room.players.forEach((playerCoord) => {
+            let tile = this.dirt.find((dirt) => {
+                return dirt.x === GameManager.TILE_SIZE * playerCoord.x && dirt.y === GameManager.TILE_SIZE * playerCoord.y;
+            });
+
+            this.remove(tile);
+        });
     }
 
 }

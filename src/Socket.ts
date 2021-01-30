@@ -1,4 +1,5 @@
 // Socket
+// @ts-ignore
 import { io } from 'socket.io-client';
 
 export interface PigContext {
@@ -26,11 +27,13 @@ export class Socket {
     public static MOVE = 'move';
     public static CREATE_ROOM = 'create_room';
     public static JOIN_ROOM = 'join_room';
+    public static PLAYER_READY = 'player_ready';
 
     // Response keys
     public static MOVE_RESPONSE = 'move_response';
     public static CREATE_ROOM_RESPONSE = 'create_room_response';
     public static JOIN_ROOM_RESPONSE = 'join_room_response';
+    public static GAME_START = 'game_start';
 
     /**
      * Connected socket instance

@@ -1,5 +1,5 @@
 // Socket
-import { Socket, Response, PigContext, Room } from '../Socket';
+import { Socket, Response, Room } from '../Socket';
 
 // Objects
 import { Pig } from '../objects/Pig'
@@ -45,6 +45,7 @@ export class GameScene extends Phaser.Scene {
 
     onMove(room: Room) {
         // Tell the layers about this move
+        this.dirtLayer.onMove(room);
         this.pigLayer.onMove(room);
         this.dirtLayer.onMove(room);
     }

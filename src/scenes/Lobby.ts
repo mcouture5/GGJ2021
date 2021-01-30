@@ -1,4 +1,3 @@
-// Socket
 import { GameManager } from '../GameManager';
 import { Response, Socket } from '../Socket';
 
@@ -6,13 +5,19 @@ import { Response, Socket } from '../Socket';
  * Lobby containing the Create or Join room interface.
  */
 export class Lobby extends Phaser.Scene {
+
+    public data;
+
     constructor() {
         super({
             key: 'Lobby'
         });
     }
 
-    init() {
+    init(data: {room: string}) {
+
+        this.data = data;
+
         // Connect to websocket
         Socket.connect();
 
@@ -42,13 +47,26 @@ export class Lobby extends Phaser.Scene {
         });
     }
 
-    create() {
+    async create() {
+        /*
         document.getElementById('createRoom').addEventListener('click', () => {
             this.createRoom();
         });
         document.getElementById('joinRoom').addEventListener('click', () => {
             this.joinRoom((document.getElementById('joinRoomInput') as any).value);
         });
+        */
+
+        if (this.data.room) {
+            this.joinRoom(this.data.room);
+        } else {
+            this.createRoom();
+            while(!GameManager.getInstance().getRoom()) {
+                await new Promise(resolve => setTimeout(resolve, 2000));
+            }
+            this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/2.25, 'Waiting for another player...');
+            this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/2, 'Room Code: ' + GameManager.getInstance().getRoom());
+        }
     }
 
     update() {
