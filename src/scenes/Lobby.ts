@@ -18,6 +18,9 @@ export class Lobby extends Phaser.Scene {
 
         this.data = data;
 
+        // Reset the room if playing again.
+        GameManager.getInstance().setRoom(null);
+
         // Connect to websocket
         Socket.connect();
 
@@ -48,22 +51,15 @@ export class Lobby extends Phaser.Scene {
     }
 
     async create() {
-        /*
-        document.getElementById('createRoom').addEventListener('click', () => {
-            this.createRoom();
-        });
-        document.getElementById('joinRoom').addEventListener('click', () => {
-            this.joinRoom((document.getElementById('joinRoomInput') as any).value);
-        });
-        */
-
         if (this.data.room) {
             this.joinRoom(this.data.room);
         } else {
+            let creating = this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/2.25, 'Creating a lobby...');
             this.createRoom();
             while(!GameManager.getInstance().getRoom()) {
                 await new Promise(resolve => setTimeout(resolve, 2000));
             }
+            creating.destroy();
             this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/2.25, 'Waiting for another player...');
             this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/2, 'Room Code: ' + GameManager.getInstance().getRoom().room_id);
         }
