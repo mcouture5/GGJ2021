@@ -14,7 +14,7 @@ export class DirtLayer extends Phaser.GameObjects.Container {
         for (let i = 0; i < GameManager.WORLD_SIZE; i++) {
             x = 0;
             for (let j = 0; j < GameManager.WORLD_SIZE; j++) {
-                let dirt = new DirtTile({ scene: this.scene, x: x, y: y, key: 'tile-32' });
+                let dirt = new DirtTile({ scene: this.scene, x: x, y: y, key: 'tile-64' });
                 this.add(dirt);
                 this.dirt.push(dirt);
                 x+= GameManager.TILE_SIZE;

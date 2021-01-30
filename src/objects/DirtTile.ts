@@ -13,7 +13,6 @@ export class DirtTile extends Phaser.GameObjects.Sprite  {
         super(params.scene, params.x, params.y, params.key, params.frame);
         // image
         this.setOrigin(0, 0);
-        //this.setScale(0.3, 0.3);
     }
 
     update(): void {

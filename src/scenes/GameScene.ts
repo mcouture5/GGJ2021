@@ -15,10 +15,6 @@ export class GameScene extends Phaser.Scene {
     private treasurelayer: Phaser.GameObjects.Container;
     private pigLayer: PigLayer;
 
-    // Players
-    private pig: Pig;
-    private otherPig: Pig;
-
     constructor() {
         super({
             key: 'GameScene'

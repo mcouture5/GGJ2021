@@ -7,7 +7,7 @@ export class GameManager {
     
     // World Size
     public static WORLD_SIZE: number = 100;
-    public static TILE_SIZE: number = 32;
+    public static TILE_SIZE: number = 64;
 
     // Singleton baby
     public static getInstance() {
