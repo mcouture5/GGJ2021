@@ -34,18 +34,45 @@ export class MainMenu extends Phaser.Scene {
         // don't pause sound effects and music on blur.
         this.sound.pauseOnBlur = false;
 
-        // start playing music if not already playing
-        if (!this.music) {
-            this.music = this.sound.add('shanty-instrumental', {loop: true, volume: 1});
+        // start playing music if not already playing. fade it in.
+        if (!this.music || !this.music.isPlaying) {
+            this.music = this.sound.add('shanty-instrumental', {loop: true, volume: 0.1});
             this.music.play();
+            this.add.tween({
+                targets: this.music,
+                volume: 0.75,
+                ease: 'Linear',
+                duration: 1300
+            });
         }
 
-        this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/4, 'Guinea Dig: Lost in Ground');
-        this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/3.6, 'A tale of love lost and found', {fontSize: '12px'});
+        let whitePig= this.add.sprite(300,  100, 'white_idle', 2);
+        let orangePig = this.add.sprite(724,  100, 'orange_idle', 2);
+        orangePig.scaleX*=-1;
 
-        this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/2.25, 'Select an option to begin:');
-        this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/2, 'Create Game (n) or Join Game (j)');
-        this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/1.5, 'Learn how to play (h)');
+        this.anims.create({
+            key: 'orange-idle',
+            frames: this.anims.generateFrameNumbers('orange_idle', { frames: [ 0, 1, 2 ]}),
+            frameRate: 3,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'white-idle',
+            frames: this.anims.generateFrameNumbers('white_idle', { frames: [ 0, 1, 2 ]}),
+            frameRate: 3,
+            repeat: -1
+        });
+ 
+        whitePig.play('white-idle', true);
+        orangePig.play('orange-idle', true);
+
+        this.add.text(390, 100, 'Guinea Dig: Lost in Ground');
+        this.add.text(410, 125, 'A tale of love lost and found', {fontSize: '12px'});
+
+        this.add.text(GameManager.WINDOW_WIDTH/2 - 120, 600, 'Select an option to begin:');
+        this.add.text(GameManager.WINDOW_WIDTH/2 - 140, 650, 'Create Game (n)    Join Game (j)');
+        this.add.text(GameManager.WINDOW_WIDTH/2 - 65, 675, 'How to Play (h)');
     }
 
     update() {

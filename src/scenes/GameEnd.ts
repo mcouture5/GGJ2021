@@ -10,32 +10,65 @@ export class GameEnd extends Phaser.Scene {
 
     private timeElapsed: number;
 
+    private fading: boolean;
+
+    private gameSceneMusic: Phaser.Sound.BaseSound;
+    private reunionSound: Phaser.Sound.BaseSound;
+
     constructor() {
         super({
             key: 'GameEnd'
         });
     }
 
-    init(data: {elapsed_time: number}) {
+    init(data: {elapsed_time: number, gameSceneMusic: Phaser.Sound.BaseSound}) {
 
         this.timeElapsed = data.elapsed_time;
+        this.gameSceneMusic = data.gameSceneMusic;
 
         this.enter = this.input.keyboard.addKey(
             Phaser.Input.Keyboard.KeyCodes.ENTER
-        );   
+        );
     }
 
     create() {
-        this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/2.25, 
-            `Congratulations! You finished in ${this.timeElapsed} seconds.`);
+        let time = new String(this.timeElapsed).slice(0,5);
+        this.add.text(GameManager.WINDOW_WIDTH/2 - 220, 200, 
+            `Congratulations! You finished in ${time} seconds.`);
 
-        this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/2, 
-            'Press enter to play again.');
+        this.add.text(GameManager.WINDOW_WIDTH/2 - 145, 600, 
+            'Press [ENTER] to play again.');
+
+        // play reunion sound if not already played
+        if (!this.reunionSound || !this.reunionSound.isPlaying) {
+            this.reunionSound = this.sound.add('reunion', {volume: 1});
+            this.reunionSound.play();
+        }
+
+        // after scene fade out, transition to MainMenu
+        this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+            this.gameSceneMusic.stop(); // make double-triple sure music doesn't bleed into the next scene
+            this.scene.start('MainMenu');
+        });
     }
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(this.enter)) {
-            this.scene.start('MainMenu');
+            // fade out scene and music, ultimately transitioning to MainMenu. see "camerafadeoutcomplete"
+            // listener in create().
+            let fadeOutDuration = 1300;
+            this.cameras.main.fadeOut(fadeOutDuration, 130, 130, 130);
+            this.fading = true;
+            // fade out music
+            this.add.tween({
+                targets: this.gameSceneMusic,
+                volume: 0,
+                ease: 'Linear',
+                duration: fadeOutDuration,
+                onComplete: () => {
+                    this.gameSceneMusic.stop();
+                }
+            });
         }
     }
 }

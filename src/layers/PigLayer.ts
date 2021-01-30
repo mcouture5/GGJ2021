@@ -1,6 +1,6 @@
 import { GameManager } from '../GameManager';
 import { Pig } from '../objects/Pig';
-import { Socket, PigContext, Room } from '../Socket';
+import { Socket, Room } from '../Socket';
 
 export class PigLayer extends Phaser.GameObjects.Container {
     // Input keys
