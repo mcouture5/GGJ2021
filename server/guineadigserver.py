@@ -70,6 +70,9 @@ async def move(sid, message):
 	if rooms[current_room]['players'][1]['sid'] == sid:
 		current_player = 1
 	logger.info(f"Received move signal from {sid} to move {message['direction']} from a starting point of ({rooms[current_room]['players'][current_player]['x']}, {rooms[current_room]['players'][current_player]['y']})")
+	# If the start_time on the room hasn't been set, do it now
+	if rooms[current_room]['start_time'] == None:
+		rooms[current_room]['start_time'] = time.time()
 	if message['direction'] == 'left':
 		if rooms[current_room]['players'][current_player]['x'] > 0:
 			rooms[current_room]['players'][current_player]['x'] -= 1
@@ -85,7 +88,8 @@ async def move(sid, message):
 	await sio.emit('move_response', rooms[current_room], room=current_room)
 	elapsed_time = check_for_game_over(current_room)
 	if elapsed_time:
-		await sio.emit('game_end', {'elapsed_time': elapsed_time}, room=room_id)
+		logger.info(f"Game should be over, elapsed_time in move function is {elapsed_time}")
+		await sio.emit('game_end', {'elapsed_time': elapsed_time}, room=current_room)
 
 
 @sio.event
