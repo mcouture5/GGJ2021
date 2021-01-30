@@ -7,6 +7,7 @@ import { Response, Socket } from '../Socket';
 export class Lobby extends Phaser.Scene {
 
     public data;
+    private fading: boolean;
 
     constructor() {
         super({
@@ -17,6 +18,8 @@ export class Lobby extends Phaser.Scene {
     init(data: {room: string, mainMenuMusic: Phaser.Sound.BaseSound}) {
 
         this.data = data;
+
+        this.fading = false;
 
         // Reset the room if playing again.
         GameManager.getInstance().setRoom(null);
@@ -45,8 +48,21 @@ export class Lobby extends Phaser.Scene {
             console.log('join: ', response);
             GameManager.getInstance().setRoom(response);
             if (response.players.length == 2) {
-                this.data.mainMenuMusic.stop();
-                this.scene.start('GameScene');
+                // fade out scene and music, ultimately transitioning to GameScene. see "camerafadeoutcomplete"
+                // listener in create().
+                let fadeOutDuration = 1300 ;
+                this.cameras.main.fadeOut(fadeOutDuration, 130, 130, 130);
+                this.fading = true;
+                // fade out music
+                this.add.tween({
+                    targets: this.data.mainMenuMusic,
+                    volume: 0,
+                    ease: 'Linear',
+                    duration: fadeOutDuration,
+                    onComplete: () => {
+                        this.data.mainMenuMusic.stop();
+                    }
+                });
             }
         });
     }
@@ -64,6 +80,11 @@ export class Lobby extends Phaser.Scene {
             this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/2.25, 'Waiting for another player...');
             this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/2, 'Room Code: ' + GameManager.getInstance().getRoom().room_id);
         }
+
+        // after scene fade out, transition to GameScene
+        this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+            this.scene.start('GameScene');
+        });
     }
 
     update() {
