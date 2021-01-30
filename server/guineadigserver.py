@@ -65,9 +65,9 @@ class MainHandler(tornado.web.RequestHandler):
 # GuineaDig-specific events
 @sio.event
 async def move(sid, message):
-	logger.info(f"Received move signal from {sid} to move {message['direction']} from a starting point of ({rooms[current_room]['players'][current_player]['x']}, {rooms[current_room]['players'][current_player]['y']})")
 	current_room = sids[sid]
 	current_player = 0
+	logger.info(f"Received move signal from {sid} to move {message['direction']} from a starting point of ({rooms[current_room]['players'][current_player]['x']}, {rooms[current_room]['players'][current_player]['y']})")
 	if rooms[current_room]['players'][1]['sid'] == sid:
 		current_player = 1
 	if message['direction'] == 'left':
