@@ -88,7 +88,7 @@ async def move(sid, message):
 	await sio.emit('move_response', rooms[current_room], room=current_room)
 	elapsed_time = check_for_game_over(current_room)
 	if elapsed_time:
-		await sio.emit('game_end', {'elapsed_time': elapsed_time}, room=room_id)
+		await sio.emit('game_end', {'elapsed_time': elapsed_time}, room=current_room)
 
 
 @sio.event
