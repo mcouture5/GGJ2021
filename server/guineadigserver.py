@@ -73,7 +73,7 @@ async def move(sid, message):
 		if rooms[current_room]['players'][current_player]['x'] > 0:
 			rooms[current_room]['players'][current_player]['x'] -= 1
 	elif message['direction'] == 'right':
-		if rooms[current_room]['players'][current_player]['x'] < 99
+		if rooms[current_room]['players'][current_player]['x'] < 99:
 			rooms[current_room]['players'][current_player]['x'] += 1
 	elif message['direction'] == 'up':
 		if rooms[current_room]['players'][current_player]['y'] > 0:
