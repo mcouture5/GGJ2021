@@ -68,7 +68,7 @@ export class PigLayer extends Phaser.GameObjects.Container {
     private createPigs(room: Room) {
         // Create the pigs, find mine, and tell the camera to follow it.
         room.players.forEach((player) => {
-            let pig = new Pig({ scene: this.scene, x: 0, y: 0, key: 'pig_' + player.id });
+            let pig = new Pig({ scene: this.scene, x: 0, y: 0, id: player.id });
             // let pig = new Pig({ scene: this.scene, x: 0, y: 0, key: 'hero' });
             pig.sid = player.sid;
             this.add(pig);
@@ -150,6 +150,6 @@ export class PigLayer extends Phaser.GameObjects.Container {
         let c = Math.sqrt( a*a + b*b );
 
         let zoomVal = Math.min(1.5, Math.max(0.5, (100 / c) / 10));
-        // this.scene.cameras.main.zoomTo(zoomVal, 700, 'Linear', true);
+        this.scene.cameras.main.zoomTo(zoomVal, 700, 'Linear', true);
     }
 }

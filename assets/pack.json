@@ -23,11 +23,20 @@
             },
             {
                 "type": "spritesheet",
-                "key": "hero",
-                "url": "assets/images/pigs/pigs.png",
+                "key": "orange_idle",
+                "url": "assets/images/pigs/sprites_idle_orange.png",
                 "frameConfig": {
-                    "frameWidth": 64,
-                    "frameHeight": 64
+                    "frameWidth": 128,
+                    "frameHeight": 128
+                }
+            },
+            {
+                "type": "spritesheet",
+                "key": "white_idle",
+                "url": "assets/images/pigs/sprites_idle_white.png",
+                "frameConfig": {
+                    "frameWidth": 128,
+                    "frameHeight": 128
                 }
             },
             {

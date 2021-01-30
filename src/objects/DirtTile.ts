@@ -37,7 +37,7 @@ export class DirtTile extends Phaser.GameObjects.Sprite  {
             sw: this.getNeighbor(tiles, this.xCoord - 1, this.yCoord + 1),
             w: this.getNeighbor(tiles, this.xCoord - 1, this.yCoord)
         };
-        console.log(neighbors);
+        // console.log(neighbors);
     }
 
     private getNeighbor(tiles: Array<DirtTile[]>, column: number, row: number): DirtTile {

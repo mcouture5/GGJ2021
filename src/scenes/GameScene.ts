@@ -38,6 +38,32 @@ export class GameScene extends Phaser.Scene {
             this.sendChat();
         });
 
+        // Animations
+        this.anims.create({
+            key: 'orange_idle',
+            frames: this.anims.generateFrameNumbers('orange_idle', { frames: [ 0, 1, 2 ] }),
+            frameRate: 6,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'white_idle',
+            frames: this.anims.generateFrameNumbers('white_idle', { frames: [ 0, 1, 2 ] }),
+            frameRate: 6,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'orange_dig',
+            frames: this.anims.generateFrameNumbers('orange_idle', { frames: [ 0, 1, 2 ] }),
+            frameRate: 24,
+            repeat: 1
+        });
+        this.anims.create({
+            key: 'white_dig',
+            frames: this.anims.generateFrameNumbers('white_idle', { frames: [ 0, 1, 2 ] }),
+            frameRate: 24,
+            repeat: 1
+        });
+
     }
 
     create() {
