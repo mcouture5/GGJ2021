@@ -28,6 +28,7 @@ export class Socket {
     public static CREATE_ROOM = 'create_room';
     public static JOIN_ROOM = 'join_room';
     public static PLAYER_READY = 'player_ready';
+    public static SEND_CHAT = 'send_chat';
 
     // Response keys
     public static MOVE_RESPONSE = 'move_response';
@@ -35,6 +36,7 @@ export class Socket {
     public static JOIN_ROOM_RESPONSE = 'join_room_response';
     public static GAME_START = 'game_start';
     public static GAME_END = 'game_end';
+    public static RECEIVE_CHAT = 'recieve_chat';
 
     /**
      * Connected socket instance
@@ -63,7 +65,7 @@ export class Socket {
     /**
      * Listen for an event from the server.
      */
-    public static listen(event: string, callback: (args: Response) => void) {
+    public static listen(event: string, callback: (args: Response|any) => void) {
         Socket.socket.on(event, callback);
     }
 

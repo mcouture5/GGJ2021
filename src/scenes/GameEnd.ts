@@ -8,13 +8,18 @@ export class GameEnd extends Phaser.Scene {
     // Input keys
     private enter: Phaser.Input.Keyboard.Key;
 
+    private timeElapsed: number;
+
     constructor() {
         super({
             key: 'GameEnd'
         });
     }
 
-    init() {
+    init(data: {elapsed_time: number}) {
+
+        this.timeElapsed = data.elapsed_time;
+
         this.enter = this.input.keyboard.addKey(
             Phaser.Input.Keyboard.KeyCodes.ENTER
         );   
@@ -22,7 +27,10 @@ export class GameEnd extends Phaser.Scene {
 
     create() {
         this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/2.25, 
-            'Congratulations! Press enter to play again.');
+            `Congratulations! You finished in ${this.timeElapsed} seconds.`);
+
+        this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/2, 
+            'Press enter to play again.');
     }
 
     update() {

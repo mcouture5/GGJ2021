@@ -21,14 +21,23 @@ export class GameScene extends Phaser.Scene {
         });
     }
 
-    init() {
+    init() {        
         Socket.listen(Socket.MOVE_RESPONSE, (response: Response) => {
             this.onMove(response);
         });
 
-        Socket.listen(Socket.GAME_END, () => {
-            this.scene.start('GameEnd');
+        Socket.listen(Socket.RECEIVE_CHAT, (response: Response) => {
+            this.displayChatMessage("", false);
         });
+
+        Socket.listen(Socket.GAME_END, (r: any) => {
+            this.scene.start('GameEnd', {elapsed_time: r.elapsed_time});
+        });
+
+        document.getElementById('chat-send').addEventListener('click', () => {
+            this.sendChat();
+        });
+
     }
 
     create() {
@@ -44,7 +53,7 @@ export class GameScene extends Phaser.Scene {
                 duration: fadeInDuration
             });
         }
-
+        
         // Create and add the layers
         this.dirtLayer = new DirtLayer(this);
         this.add.existing(this.dirtLayer);
@@ -54,7 +63,10 @@ export class GameScene extends Phaser.Scene {
         this.pigLayer = new PigLayer(this);
         this.add.existing(this.pigLayer);
         this.pigLayer.create();
-        GameManager.getInstance().setPigLayer(this.pigLayer);
+        GameManager.getInstance().setPigLayer(this.pigLayer); 
+
+        let chatElement = document.getElementById('chat');
+        chatElement.style.display = "true";
     }
 
     update() {
@@ -65,5 +77,34 @@ export class GameScene extends Phaser.Scene {
     onMove(room: Room) {
         // Tell only the pig layer about this move. It is responsible for communicating with the dirt layer.
         this.pigLayer.onMove(room);
+    }
+
+
+    sendChat() {
+        let inputField = document.getElementById('chat-input');
+        
+        let message = inputField.innerText;
+
+        if (message) {
+            Socket.emit(Socket.SEND_CHAT, {
+                player: Socket.getId(),
+                message: message
+            });
+
+            this.displayChatMessage(message, true);
+        }
+    }
+
+    displayChatMessage(message: string, myMessage: boolean) {
+        let history: HTMLElement = document.getElementById('chat-history');
+
+        let messageEl = document.createElement('span');
+        if (myMessage) {
+            messageEl.appendChild(document.createTextNode('Me: ' + message));
+        } else {
+            messageEl.appendChild(document.createTextNode('Them: ' + message));
+        }
+        
+        history.appendChild(messageEl);
     }
 }
