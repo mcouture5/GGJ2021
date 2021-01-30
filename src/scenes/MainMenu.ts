@@ -31,10 +31,10 @@ export class MainMenu extends Phaser.Scene {
     }
 
     update() {
-        if (Phaser.Input.Keyboard.JustDown(this.n)) {
+        if (this.n && Phaser.Input.Keyboard.JustDown(this.n)) {
             this.scene.start('Lobby');
         }
-        if (Phaser.Input.Keyboard.JustDown(this.j)) {
+        if (this.j && Phaser.Input.Keyboard.JustDown(this.j)) {
             let roomId = prompt("Enter the room id of the game you want to join");
             this.scene.start('Lobby', {room: roomId});
         }

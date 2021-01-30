@@ -6,7 +6,6 @@ import { Lobby } from './scenes/Lobby';
 import { GameScene } from './scenes/GameScene';
 import { GameManager } from './GameManager';
 import { MainMenu } from './scenes/MainMenu';
-import { GameEnd } from './scenes/GameEnd';
 
 // main game configuration
 const config: GameConfig = {
@@ -15,7 +14,7 @@ const config: GameConfig = {
   height: GameManager.WINDOW_HEIGHT,
   type: Phaser.WEBGL,
   parent: 'game',
-  scene: [Boot, MainMenu, Lobby, GameScene, GameEnd],
+  scene: [Boot, MainMenu, Lobby, GameScene],
   input: {
     keyboard: true,
     mouse: false,

@@ -1,6 +1,9 @@
 // Socket
 import { Socket, Response, Room } from '../Socket';
 
+// Objects
+import { Pig } from '../objects/Pig'
+
 // Layers
 import { PigLayer } from '../layers/PigLayer';
 import { DirtLayer } from '../layers/DirtLayer';
@@ -21,10 +24,6 @@ export class GameScene extends Phaser.Scene {
     init() {
         Socket.listen(Socket.MOVE_RESPONSE, (response: Response) => {
             this.onMove(response);
-        });
-
-        Socket.listen(Socket.GAME_END, () => {
-            this.scene.start('GameEnd');
         });
     }
 

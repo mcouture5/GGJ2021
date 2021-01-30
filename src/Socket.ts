@@ -34,7 +34,6 @@ export class Socket {
     public static CREATE_ROOM_RESPONSE = 'create_room_response';
     public static JOIN_ROOM_RESPONSE = 'join_room_response';
     public static GAME_START = 'game_start';
-    public static GAME_END = 'game_end';
 
     /**
      * Connected socket instance
