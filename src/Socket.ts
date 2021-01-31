@@ -46,6 +46,7 @@ export class Socket {
     public static GAME_START = 'game_start';
     public static GAME_END = 'game_end';
     public static RECEIVE_CHAT = 'recieve_chat';
+    public static PLAYER_LEFT_ROOM = 'player_left_room';
 
     /**
      * Connected socket instance

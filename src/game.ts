@@ -9,6 +9,7 @@ import { MainMenu } from './scenes/MainMenu';
 import { GameEnd } from './scenes/GameEnd';
 import { HelpPage } from './scenes/HelpPage';
 import { Leaderboard } from './scenes/Leaderboard';
+import { Disconnect } from './scenes/Disconnect';
 
 // main game configuration
 const config: GameConfig = {
@@ -17,7 +18,7 @@ const config: GameConfig = {
   height: GameManager.WINDOW_HEIGHT,
   type: Phaser.WEBGL,
   parent: 'game',
-  scene: [Boot, MainMenu, HelpPage, Lobby, GameScene, GameEnd, Leaderboard],
+  scene: [Boot, MainMenu, HelpPage, Lobby, GameScene, GameEnd, Leaderboard, Disconnect],
   input: {
     keyboard: true,
     mouse: true,
