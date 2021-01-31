@@ -8,6 +8,8 @@ import random
 import logging
 from logging.handlers import RotatingFileHandler
 import time
+import json
+import datetime
 
 # -----
 # Logging setup
@@ -66,6 +68,18 @@ class MainHandler(tornado.web.RequestHandler):
 	def get(self):
 		self.render("app.html")
 
+class LeaderboardHandler(tornado.web.RequestHandler):
+	def get(self):
+		#scores = {}
+		with open('filename', 'r') as f:
+			scores = [json.loads(line) for line in f]
+		sorted_scores = sorted(scores, key=lambda item: item['time'])
+		rank = 1
+		for score in sorted_scores:
+			score['rank'] = rank
+			rank += 1
+		self.render("leaderboard.html", scores=sorted_scores)
+
 # -----
 # GuineaDig-specific events
 @sio.event
@@ -94,6 +108,7 @@ async def move(sid, message):
 	elapsed_time = check_for_game_over(current_room)
 	if elapsed_time:
 		logger.info(f"Game should be over, elapsed_time in move function is {elapsed_time}")
+		save_to_leaderboard_file(current_room)
 		await sio.emit('game_end', {'elapsed_time': elapsed_time}, room=current_room)
 
 
@@ -231,6 +246,17 @@ def check_for_game_over(room_id):
 		return elapsed_time
 	else:
 		return None
+
+def save_to_leaderboard_file(room_id):
+	new_entry = {
+		'time': rooms[room_id]['end_time'] - rooms[room_id]['start_time'],
+		'player0name': rooms[room_id]['players'][0]['name'],
+		'player1name': rooms[room_id]['players'][1]['name'],
+		'room_id': room_id,
+		'date': datetime.datetime.now().strftime("%Y-%m-%d")
+	}
+	with open('/home/ec2-user/leaderboard.json','a') as file:
+		file.write(json.dumps(new_entry))
 		
 
 # -----
@@ -241,6 +267,7 @@ def main():
 		[
 			(r"/", MainHandler),
 			(r"/socket.io/", SocketHandler),
+			(r"/leaderboard/", LeaderboardHandler),
 		],
 		template_path=os.path.join(os.path.dirname(__file__), "templates"),
 		static_path=os.path.join(os.path.dirname(__file__), "static"),
