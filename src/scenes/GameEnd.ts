@@ -1,4 +1,5 @@
 import { GameManager } from "../GameManager";
+import { LeaderboardLayer } from "../layers/LeaderboardLayer";
 
 /**
  * Leaderboard/credits
@@ -14,6 +15,8 @@ export class GameEnd extends Phaser.Scene {
 
     private gameSceneMusic: Phaser.Sound.BaseSound;
     private reunionSound: Phaser.Sound.BaseSound;
+
+    private leaderboardLayer: LeaderboardLayer   
 
     constructor() {
         super({
@@ -32,17 +35,26 @@ export class GameEnd extends Phaser.Scene {
     }
 
     create() {
+
+        let fontStyle = {
+            fontFamily: 'InkFree',
+            fontSize: '22px',
+            color: '#f2dd6e'
+        };
+
         // Todo: change this artwork once the leaderboard is added
-        let bg = this.add.sprite(0, 0, 'bg').setOrigin(0, 0);
+        let bg = this.add.sprite(0, 0, 'leaderboard_end_screen').setOrigin(0, 0);
         bg.displayWidth = GameManager.WINDOW_WIDTH;
         bg.displayHeight = GameManager.WINDOW_HEIGHT;
 
-        let time = new String(this.timeElapsed).slice(0,5);
-        this.add.text(GameManager.WINDOW_WIDTH/2 - 220, 200, 
-            `Congratulations! You finished in ${time} seconds.`);
 
-        this.add.text(GameManager.WINDOW_WIDTH/2 - 145, 500, 
-            'Press [ENTER] to play again.');
+        this.leaderboardLayer = new LeaderboardLayer(this);
+        this.add.existing(this.leaderboardLayer);
+
+        let time = new String(this.timeElapsed).slice(0,5);
+        this.add.text(GameManager.WINDOW_WIDTH/2 - 220, 490, 
+            `Congratulations! You finished in ${time} seconds.`, fontStyle);
+        this.add.text(GameManager.WINDOW_WIDTH/2 - 145, 500, 'Press [ENTER] to play again.', fontStyle);
 
         // play reunion sound if not already played. fade distracting background music while sound effect is playing.
         if (!this.reunionSound || !this.reunionSound.isPlaying) {
