@@ -3,6 +3,9 @@ import { Pig } from '../objects/Pig';
 import { Socket, Room } from '../Socket';
 
 export class PigLayer extends Phaser.GameObjects.Container {
+
+    private static readonly MIN_ZOOM_LEVEL = 0.75;
+
     // Input keys
     private left: Phaser.Input.Keyboard.Key;
     private right: Phaser.Input.Keyboard.Key;
@@ -80,7 +83,7 @@ export class PigLayer extends Phaser.GameObjects.Container {
             // Follow me
             if (player.sid == Socket.getId()) {
                 this.scene.cameras.main.startFollow(pig, true, 0.075, 0.075);
-                this.scene.cameras.main.zoomTo(0.5);
+                this.scene.cameras.main.zoomTo(PigLayer.MIN_ZOOM_LEVEL);
             }
             pig.moveTo(player.x, player.y, false);
         });
@@ -161,7 +164,7 @@ export class PigLayer extends Phaser.GameObjects.Container {
         let b = pig1.y - pig2.y;
         let c = Math.sqrt( a*a + b*b );
 
-        let zoomVal = Math.min(1.5, Math.max(0.5, (100 / c) / 10));
+        let zoomVal = Math.min(1.5, Math.max(PigLayer.MIN_ZOOM_LEVEL, (100 / c) / 10));
         this.scene.cameras.main.zoomTo(zoomVal, 700, 'Linear', true);
     }
 }
