@@ -417,6 +417,11 @@
                 "type": "audio",
                 "key": "dinosaur",
                 "url": "assets/sounds/dinosaur.mp3"
+            },
+            {
+                "type": "audio",
+                "key": "treasure",
+                "url": "assets/sounds/treasure.mp3"
             }
         ]
     }
