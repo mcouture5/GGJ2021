@@ -13,6 +13,7 @@ export class GameEnd extends Phaser.Scene {
     private fading: boolean;
 
     private gameSceneMusic: Phaser.Sound.BaseSound;
+    private endMusic: Phaser.Sound.BaseSound;
     private reunionSound: Phaser.Sound.BaseSound;
 
     constructor() {
@@ -45,6 +46,7 @@ export class GameEnd extends Phaser.Scene {
             'Press [ENTER] to play again.');
 
         // play reunion sound if not already played. fade distracting background music while sound effect is playing.
+        // after that, play the end song.
         if (!this.reunionSound || !this.reunionSound.isPlaying) {
             this.add.tween({
                 targets: this.gameSceneMusic,
@@ -52,16 +54,20 @@ export class GameEnd extends Phaser.Scene {
                 ease: 'Linear',
                 duration: 250,
                 onComplete: () => {
+                    this.gameSceneMusic.stop();
                     this.reunionSound = this.sound.add('reunion', {volume: 1});
                     this.reunionSound.play();
                     this.reunionSound.on('complete', () => {
-                        this.gameSceneMusic.resume();
+                        this.endMusic = this.sound.add('end-song', {loop: true, volume: 0.5});
+                        this.endMusic.play()
+                        /*
                         this.add.tween({
-                            targets: this.gameSceneMusic,
-                            volume: 0.2,
+                            targets: this.endMusic,
+                            volume: 0.5,
                             ease: 'Linear',
-                            duration: 250
+                            duration: 1300
                         });
+                        */
                     });
                 }
             });
@@ -71,6 +77,7 @@ export class GameEnd extends Phaser.Scene {
         // after scene fade out, transition to MainMenu
         this.cameras.main.once('camerafadeoutcomplete', (camera) => {
             this.gameSceneMusic.stop(); // make double-triple sure music doesn't bleed into the next scene
+            this.endMusic.stop(); // make double-triple sure music doesn't bleed into the next scene
             this.scene.start('MainMenu');
         });
     }
@@ -82,7 +89,7 @@ export class GameEnd extends Phaser.Scene {
             let fadeOutDuration = 1300;
             this.cameras.main.fadeOut(fadeOutDuration, 130, 130, 130);
             this.fading = true;
-            // fade out music
+            // fade out music regardless of which music is currently playing
             this.add.tween({
                 targets: this.gameSceneMusic,
                 volume: 0,
@@ -90,6 +97,15 @@ export class GameEnd extends Phaser.Scene {
                 duration: fadeOutDuration,
                 onComplete: () => {
                     this.gameSceneMusic.stop();
+                }
+            });
+            this.add.tween({
+                targets: this.endMusic,
+                volume: 0,
+                ease: 'Linear',
+                duration: fadeOutDuration,
+                onComplete: () => {
+                    this.endMusic.stop();
                 }
             });
         }
