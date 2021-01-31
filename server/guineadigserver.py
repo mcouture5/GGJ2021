@@ -252,7 +252,7 @@ def disconnect(sid):
 		if player['sid'] == sid:
 			rooms[current_room]['players'].remove(player)
 	del sids[sid]
-	logger.info(f'Client {sid} disconnected')
+	logger.info(f'Client {sid} disconnected and left room {current_room}')
 	sio.emit('player_left_room', room=current_room)
 
 
