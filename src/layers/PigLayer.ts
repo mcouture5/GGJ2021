@@ -11,9 +11,13 @@ export class PigLayer extends Phaser.GameObjects.Container {
 
     private pigs: { [sid:string]: Pig };
 
+    // whether a "move" socket event is currently pending, prevents duplicate events from being issued
+    private movePending: boolean;
+
     constructor(scene: Phaser.Scene) {
         super(scene, 0, 0);
         this.pigs = {};
+        this.movePending = false;
     }
 
     create() {
@@ -52,7 +56,7 @@ export class PigLayer extends Phaser.GameObjects.Container {
      */
     private canMove() {
         let myPig = this.pigs[Socket.getId()];
-        return myPig.canMove();
+        return myPig.canMove() && !this.movePending;
     }
 
     public onMove(room: Room) {
@@ -104,6 +108,7 @@ export class PigLayer extends Phaser.GameObjects.Container {
             player: Socket.getId(),
             direction: 'left'
         });
+        this.movePending = true;
     }
 
     private movePigRight() {
@@ -111,6 +116,7 @@ export class PigLayer extends Phaser.GameObjects.Container {
             player: Socket.getId(),
             direction: 'right'
         });
+        this.movePending = true;
     }
 
     private movePigUp() {
@@ -118,6 +124,7 @@ export class PigLayer extends Phaser.GameObjects.Container {
             player: Socket.getId(),
             direction: 'up'
         });
+        this.movePending = true;
     }
 
     private movePigDown() {
@@ -125,9 +132,11 @@ export class PigLayer extends Phaser.GameObjects.Container {
             player: Socket.getId(),
             direction: 'down'
         });
+        this.movePending = true;
     }
 
     private movePigs(room: Room) {
+        this.movePending = false;
         let dirtLayer = GameManager.getInstance().getDirtLayer();
         room.players.forEach((player) => {
             // Ask the dirt layer what tile we will be moving into. Things will happen depending on the answer.
