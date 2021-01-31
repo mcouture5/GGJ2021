@@ -35,6 +35,8 @@ export class MainMenu extends Phaser.Scene {
         bg.displayWidth = GameManager.WINDOW_WIDTH;
         bg.displayHeight = GameManager.WINDOW_HEIGHT;
 
+        this.showNameInput();
+
         // don't pause sound effects and music on blur.
         this.sound.pauseOnBlur = false;
 
@@ -74,7 +76,8 @@ export class MainMenu extends Phaser.Scene {
         let createGameBtn = this.add.rectangle(373, 317, 207, 105, 0xffffff, 0);
         createGameBtn.setInteractive({useHandCursor: true});
         createGameBtn.on('pointerup', () => {
-            this.scene.start('Lobby', {mainMenuMusic: this.music});
+            this.hideNameInput();
+            this.scene.start('Lobby', {mainMenuMusic: this.music, playerName: (document.getElementById('name-input') as any).value});
         });
 
         let joinGameBtn = this.add.rectangle(640, 317, 220, 105, 0xffffff, 0);
@@ -82,35 +85,49 @@ export class MainMenu extends Phaser.Scene {
         joinGameBtn.on('pointerup', () => {
             let roomId = prompt("Enter the room id of the game you want to join");
             if (roomId) {
-                this.scene.start('Lobby', {room: roomId, mainMenuMusic: this.music});
+                this.hideNameInput();
+                this.scene.start('Lobby', {room: roomId, mainMenuMusic: this.music, playerName: (document.getElementById('name-input') as any).value});
             }
         });
 
         let howToPlayBtn = this.add.rectangle(509, 432, 490, 100, 0xffffff, 0);
         howToPlayBtn.setInteractive({useHandCursor: true});
         howToPlayBtn.on('pointerup', () => {
+            this.hideNameInput();
             this.scene.start('HelpPage');
         });
 
         let leaderboardBtn = this.add.rectangle(509, 549, 490, 87, 0xffffff, 0);
         leaderboardBtn.setInteractive({useHandCursor: true});
         leaderboardBtn.on('pointerup', () => {
+            this.hideNameInput();
             this.scene.start('Leaderboard');
         });
     }
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(this.n)) {
-            this.scene.start('Lobby', {mainMenuMusic: this.music});
+            this.hideNameInput();
+            this.scene.start('Lobby', {mainMenuMusic: this.music, playerName: (document.getElementById('name-input') as any).value});
         }
         if (Phaser.Input.Keyboard.JustDown(this.j)) {
             let roomId = prompt("Enter the room id of the game you want to join");
             if (roomId) {
-                this.scene.start('Lobby', {room: roomId, mainMenuMusic: this.music});
+                this.hideNameInput();
+                this.scene.start('Lobby', {room: roomId, mainMenuMusic: this.music, playerName: (document.getElementById('name-input') as any).value});
             }
         }
         if (Phaser.Input.Keyboard.JustDown(this.h)) {
+            this.hideNameInput();
             this.scene.start('HelpPage');
         }
+    }
+
+    private showNameInput() {
+        document.getElementById('name-input-prompt').style.display = "block";
+    }
+    
+    private hideNameInput() {
+        document.getElementById('name-input-prompt').style.display = "none";
     }
 }

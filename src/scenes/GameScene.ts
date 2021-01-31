@@ -48,6 +48,7 @@ export class GameScene extends Phaser.Scene {
         });
 
         Socket.listen(Socket.PLAYER_LEFT_ROOM, () => {
+            this.music.stop(); // make sure music doesn't bleed into the next scene
             this.scene.start('Disconnect');
         });
 
