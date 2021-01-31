@@ -125,7 +125,8 @@ async def join_room(sid, message):
 		'id': 1,
 		'x': random.randint(starter_coords['x1min'],starter_coords['x1max']),
 		'y': random.randint(starter_coords['y1min'],starter_coords['y1max']),
-		'ready': False
+		'ready': False,
+		'name': sid
 	}
 	rooms[message['room']]['players'].append(new_player)
 	sids[sid] = message['room']
@@ -145,7 +146,8 @@ async def create_room(sid, message):
 				'id': 0,
 				'x': random.randint(starter_coords['x0min'],starter_coords['x0max']),
 				'y': random.randint(starter_coords['y0min'],starter_coords['y0max']), 
-				'ready': False
+				'ready': False,
+				'name': sid
 			}
 		],
 		'start_time': None,
