@@ -5,7 +5,10 @@ import { Player, Room, Socket } from "../Socket";
 export class DirtLayer extends Phaser.GameObjects.Container {
     private dirt: Array<DirtTile[]>;
 
-    private digSounds: Phaser.Sound.BaseSound[];
+    private digSound: Phaser.Sound.BaseSound;
+    private pickaxe1Sound: Phaser.Sound.BaseSound;
+    private pickaxe2Sound: Phaser.Sound.BaseSound;
+    private lastDigSoundWasPickaxe: boolean;
 
     constructor(scene: Phaser.Scene) {
         super(scene, 0, 0);
@@ -71,11 +74,11 @@ export class DirtLayer extends Phaser.GameObjects.Container {
         // Set the bounds of the camera so it does not show the outside of the map
         this.scene.cameras.main.setBounds(0, 0, GameManager.WORLD_SIZE * GameManager.TILE_SIZE, GameManager.WORLD_SIZE * GameManager.TILE_SIZE);
 
-        // create dig sounds
-        this.digSounds = [];
-        for (let i = 1; i <= 4; i++) {
-            this.digSounds.push(this.scene.sound.add(`dig-${i}`, {volume: 1}));
-        }
+        // create dig/pickaxe sounds
+        this.digSound = this.scene.sound.add('dig', {volume: 1});
+        this.pickaxe1Sound = this.scene.sound.add('pickaxe-1', {volume: 1});
+        this.pickaxe2Sound = this.scene.sound.add('pickaxe-2', {volume: 0.5});
+        this.lastDigSoundWasPickaxe = false;
     }
 
     update() {
@@ -115,6 +118,21 @@ export class DirtLayer extends Phaser.GameObjects.Container {
      * Randomly selects a dig sound to play.
      */
     private playDigSound() {
-        this.digSounds[Phaser.Math.Between(0, 3)].play();
+        // roll a D8
+        let roll = Phaser.Math.Between(1, 8);
+        // 25% chance of fun pickaxe sound unless last sound was pickaxe
+        if (roll >= 1 && roll <= 2 && !this.lastDigSoundWasPickaxe) {
+            if (roll === 1) {
+                this.pickaxe1Sound.play();
+            } else {
+                this.pickaxe2Sound.play();
+            }
+            this.lastDigSoundWasPickaxe = true;
+        }
+        // 75% chance of boring dig sound
+        else {
+            this.digSound.play();
+            this.lastDigSoundWasPickaxe = false;
+        }
     }
 }
