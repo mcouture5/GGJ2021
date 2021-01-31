@@ -139,7 +139,7 @@ async def join_room(sid, message):
 	seed = rooms[room_id]['random_seed']
 	starter_coords = random_starters[seed]
 	player_name = "Player1"
-	if message.has_key('name'):
+	if message['name']:
 		player_name = message['name']
 	new_player = {
 		'sid': sid,
