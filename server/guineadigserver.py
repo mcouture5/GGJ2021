@@ -138,13 +138,16 @@ async def join_room(sid, message):
 	room_id = message['room']
 	seed = rooms[room_id]['random_seed']
 	starter_coords = random_starters[seed]
+	player_name = "Player1"
+	if message.has_key('name'):
+		player_name = message['name']
 	new_player = {
 		'sid': sid,
 		'id': 1,
 		'x': random.randint(starter_coords['x1min'],starter_coords['x1max']),
 		'y': random.randint(starter_coords['y1min'],starter_coords['y1max']),
 		'ready': False,
-		'name': sid
+		'name': player_name
 	}
 	rooms[message['room']]['players'].append(new_player)
 	sids[sid] = message['room']
@@ -157,6 +160,9 @@ async def create_room(sid, message):
 	random_seed = random.randint(0,3)
 	starter_coords = random_starters[random_seed]
 	gem_dino_random_list = random.sample(range(0, 9), 2)
+	player_name = "Player0"
+	if message.has_key('name'):
+		player_name = message['name']
 	rooms[new_room] = {
 		'room_id': new_room,
 		'players': [
@@ -166,7 +172,7 @@ async def create_room(sid, message):
 				'x': random.randint(starter_coords['x0min'],starter_coords['x0max']),
 				'y': random.randint(starter_coords['y0min'],starter_coords['y0max']), 
 				'ready': False,
-				'name': sid
+				'name': player_name
 			}
 		],
 		'start_time': None,
