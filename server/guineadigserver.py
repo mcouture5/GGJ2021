@@ -51,6 +51,18 @@ random_starters = {
 	2: {'x0min':10, 'x0max':89, 'y0min':10, 'y0max':25, 'x1min':10, 'x1max':89, 'y1min':75, 'y1max':90},
 	3: {'x0min':10, 'x0max':89, 'y0min':75, 'y0max':90, 'x1min':10, 'x1max':89, 'y1min':10, 'y1max':25}
 }
+gem_dino_room_layouts = [
+	{'x':15, 'w':10, 'y':20, 'h':10},
+	{'x':10, 'w':12, 'y':60, 'h':10},
+	{'x':30, 'w':5, 'y':10, 'h':13},
+	{'x':50, 'w':7, 'y':90, 'h':15},
+	{'x':60, 'w':11, 'y':5, 'h':5},
+	{'x':90, 'w':4, 'y':20, 'h':8},
+	{'x':70, 'w':14, 'y':30, 'h':9},
+	{'x':60, 'w':10, 'y':12, 'h':10},
+	{'x':10, 'w'8, 'y':80, 'h':11},
+	{'x':72, 'w':10, 'y':60, 'h':15},
+]
 
 # -----
 # Handlers
@@ -138,6 +150,7 @@ async def create_room(sid, message):
 	new_room = gen_four_chars()
 	random_seed = random.randint(0,3)
 	starter_coords = random_starters[random_seed]
+	gem_dino_random_list = random.sample(range(0, 9), 2)
 	rooms[new_room] = {
 		'room_id': new_room,
 		'players': [
@@ -153,7 +166,9 @@ async def create_room(sid, message):
 		'start_time': None,
 		'end_time': None,
 		'chat_history': [],
-		'random_seed': random_seed
+		'random_seed': random_seed,
+		'gem': gem_dino_room_layouts[gem_dino_random_list[0]],
+		'dino': gem_dino_room_layouts[gem_dino_random_list[1]]
 	}
 	sids[sid] = new_room
 	sio.enter_room(sid, new_room)
