@@ -400,23 +400,18 @@
             },
             {
                 "type": "audio",
-                "key": "dig-1",
-                "url": "assets/sounds/dig-1.mp3"
+                "key": "dig",
+                "url": "assets/sounds/dig.mp3"
             },
             {
                 "type": "audio",
-                "key": "dig-2",
-                "url": "assets/sounds/dig-2.mp3"
+                "key": "pickaxe-1",
+                "url": "assets/sounds/pickaxe-1.mp3"
             },
             {
                 "type": "audio",
-                "key": "dig-3",
-                "url": "assets/sounds/dig-3.mp3"
-            },
-            {
-                "type": "audio",
-                "key": "dig-4",
-                "url": "assets/sounds/dig-4.mp3"
+                "key": "pickaxe-2",
+                "url": "assets/sounds/pickaxe-2.mp3"
             },
             {
                 "type": "audio",
@@ -427,6 +422,11 @@
                 "type": "audio",
                 "key": "dinosaur",
                 "url": "assets/sounds/dinosaur.mp3"
+            },
+            {
+                "type": "audio",
+                "key": "treasure",
+                "url": "assets/sounds/treasure.mp3"
             }
         ]
     }
