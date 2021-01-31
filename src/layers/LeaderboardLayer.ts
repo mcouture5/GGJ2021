@@ -34,20 +34,20 @@ export class LeaderboardLayer extends Phaser.GameObjects.Container {
         };
 
         if (this.leaderboard) {
-            let leaderboardX = [300, 400, 500, 600];
+            let leaderboardX = [300, 375, 500, 700];
 
             this.scene.add.text(leaderboardX[0], 200, "Rank", fontStyle);
             this.scene.add.text(leaderboardX[1], 200, "Time", fontStyle);
-            this.scene.add.text(leaderboardX[2], 200, "Room Id", fontStyle);
-            this.scene.add.text(leaderboardX[3], 200, "Date", fontStyle);
+            this.scene.add.text(leaderboardX[2], 200, "Player 1", fontStyle);
+            this.scene.add.text(leaderboardX[3], 200, "Player 2", fontStyle);
 
             this.leaderboard.sort((a ,b) => a.time - b.time);
             let entryHeight = 230;
             for (let i = 0; i < 10; i++) {
                 this.scene.add.text(leaderboardX[0], entryHeight, (i + 1).toString(), fontStyle);
                 this.scene.add.text(leaderboardX[1], entryHeight, new String(this.leaderboard[i].time).slice(0,5), fontStyle);
-                this.scene.add.text(leaderboardX[2], entryHeight, this.leaderboard[i].room_id, fontStyle);
-                this.scene.add.text(leaderboardX[3], entryHeight, this.leaderboard[i].date, fontStyle);
+                this.scene.add.text(leaderboardX[2], entryHeight, this.leaderboard[i].player0name, fontStyle);
+                this.scene.add.text(leaderboardX[3], entryHeight, this.leaderboard[i].player1name, fontStyle);
                     entryHeight += 30;
             }
         } else {
