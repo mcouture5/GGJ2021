@@ -16,7 +16,6 @@ export class GameScene extends Phaser.Scene {
     // Tile layers
     private dirtLayer: DirtLayer;
     private dugLayer: DugLayer;
-    private treasureLayer: TreasureLayer;
     private pigLayer: PigLayer;
 
     private music: Phaser.Sound.BaseSound;
@@ -107,10 +106,6 @@ export class GameScene extends Phaser.Scene {
         this.dugLayer.create();
         GameManager.getInstance().setDugLayer(this.dugLayer);
         
-        this.treasureLayer = new TreasureLayer(this);
-        this.add.existing(this.treasureLayer);
-        GameManager.getInstance().setTreasureLayer(this.treasureLayer);
-
         this.dirtLayer = new DirtLayer(this);
         this.add.existing(this.dirtLayer);
         this.dirtLayer.create();
@@ -212,15 +207,6 @@ export class GameScene extends Phaser.Scene {
                 this.dugLayer.add(dug);
                 dugTiles.push(dug);
 
-                // Treasure
-                if (this.treasureLocation.x == j && this.treasureLocation.y == i) {
-                    let treasure = new Treasure(this, x, y, 'alfalfa');
-                    this.treasureLayer.add(treasure);
-                    treasureTiles.push(treasure);
-                } else {
-                    treasureTiles.push(null);
-                }
-
                 // Tiles that need to be deleted after drawing
                 if (dugTile.isCave) {
                     this.dirtLayer.addToDelete(dirt); 
@@ -230,7 +216,6 @@ export class GameScene extends Phaser.Scene {
             }
             this.dirtLayer.tiles.push(dirtTiles);
             this.dugLayer.tiles.push(dugTiles);
-            this.treasureLayer.tiles.push(treasureTiles);
             y+= GameManager.TILE_SIZE;
         }
     }

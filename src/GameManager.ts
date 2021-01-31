@@ -37,9 +37,6 @@ export class GameManager {
     public setDirtLayer(layer: DirtLayer) {
         this.layers['dirt'] = layer;
     }
-    public setTreasureLayer(layer: TreasureLayer) {
-        this.layers['treasure'] = layer;
-    }
     public setPigLayer(layer: PigLayer) {
         this.layers['pig'] = layer;
     }
@@ -49,9 +46,6 @@ export class GameManager {
     }
     public getDirtLayer(): DirtLayer {
         return this.layers['dirt'] as DirtLayer;
-    }
-    public getTreasureLayer(): TreasureLayer {
-        return this.layers['treasure'] as TreasureLayer;
     }
     public getPigLayer(): PigLayer {
         return this.layers['pig'] as PigLayer;
@@ -73,6 +67,5 @@ export class GameManager {
     
     public onMove(room) {
         this.getDirtLayer().onMove(room);
-        this.getTreasureLayer().onMove(room);
     }
 }

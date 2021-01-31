@@ -156,7 +156,6 @@ export class PigLayer extends Phaser.GameObjects.Container {
     private movePigs(room: Room) {
         this.movePending = false;
         let dirtLayer = GameManager.getInstance().getDirtLayer();
-        let treasureLayer = GameManager.getInstance().getTreasureLayer();
         room.players.forEach((player) => {
             // Ask the dirt layer what tile we will be moving into. Things will happen depending on the answer.
             if (dirtLayer.isTileClearedAt(player)) {
@@ -175,7 +174,6 @@ export class PigLayer extends Phaser.GameObjects.Container {
                         this.dinoCaveExplored = true;
                     }
                 }
-                treasureLayer.onMove(room);
             } else {
                 // Start the animation. When that is finished, the tile can be removed. Only animate if current players pig.
                 let playAnimation = player.sid === Socket.getId();
