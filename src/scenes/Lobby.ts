@@ -15,11 +15,13 @@ export class Lobby extends Phaser.Scene {
         });
     }
 
-    init(data: {room: string, mainMenuMusic: Phaser.Sound.BaseSound}) {
+    init(data: {room: string, mainMenuMusic: Phaser.Sound.BaseSound, playerName: string}) {
 
         this.data = data;
 
         this.fading = false;
+
+        console.log(this.data.playerName);
 
         // Reset the room if playing again.
         GameManager.getInstance().setRoom(null);
@@ -73,6 +75,12 @@ export class Lobby extends Phaser.Scene {
         let orangePig = this.add.sprite(724,  265, 'orange_idle', 2);
         orangePig.scaleX*=-1;
 
+        let fontStyle = {
+            fontFamily: 'InkFree',
+            fontSize: '22px',
+            color: '#f2dd6e'
+        };
+
         this.anims.create({
             key: 'orange-idle',
             frames: this.anims.generateFrameNumbers('orange_idle', { frames: [ 0, 1, 2 ]}),
@@ -94,14 +102,19 @@ export class Lobby extends Phaser.Scene {
         if (this.data.room) {
             this.joinRoom(this.data.room);
         } else {
-            let creating = this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/2 - 125, 'Creating a lobby...');
+            let creating = this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/2 - 125, 'Creating a lobby...', fontStyle);
             this.createRoom();
             while(!GameManager.getInstance().getRoom()) {
                 await new Promise(resolve => setTimeout(resolve, 2000));
             }
             creating.destroy();
-            this.add.text(GameManager.WINDOW_WIDTH/2 - 140, GameManager.WINDOW_HEIGHT/2 - 120, 'Waiting for another player...');
-            this.add.text(GameManager.WINDOW_WIDTH/2 - 90, GameManager.WINDOW_HEIGHT/2 - 95, 'Room Code: ' + GameManager.getInstance().getRoom().room_id);
+            this.add.text(GameManager.WINDOW_WIDTH/2 - 140, GameManager.WINDOW_HEIGHT/2 - 120, 'Waiting for another player...', fontStyle);
+            this.add.text(GameManager.WINDOW_WIDTH/2 - 80, GameManager.WINDOW_HEIGHT/2 - 75, 'Room Code:', fontStyle);
+
+            this.add.text(GameManager.WINDOW_WIDTH/2 - 105, GameManager.WINDOW_HEIGHT/2 - 10, GameManager.getInstance().getRoom().room_id.toUpperCase(), {
+                fontSize: '64px',
+                color: '#f2dd6e'
+            });
         }
 
         // after scene fade out, transition to GameScene
@@ -118,7 +131,9 @@ export class Lobby extends Phaser.Scene {
      * Sends a request to create a new room.
      */
     private createRoom() {
-        Socket.emit(Socket.CREATE_ROOM);
+        Socket.emit(Socket.CREATE_ROOM, {
+            name: this.data.playerName
+        });
     }
 
     /**
@@ -127,7 +142,8 @@ export class Lobby extends Phaser.Scene {
      */
     private joinRoom(roomId: string) {
         Socket.emit(Socket.JOIN_ROOM, {
-            room: roomId.toLowerCase()
+            room: roomId.toLowerCase(),
+            name: this.data.playerName
         });
     }
 
