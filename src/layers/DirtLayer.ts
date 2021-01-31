@@ -15,6 +15,13 @@ export class DirtLayer extends Phaser.GameObjects.Container {
         this.dirt = [];
     }
 
+    private gemBounds = {
+        x: Math.floor(Math.random() * 25) + 25,
+        w: Math.floor(Math.random() * 10) + 5,
+        y: Math.floor(Math.random() * 25) + 25,
+        h: Math.floor(Math.random() * 10) + 5
+    };
+
     create() {
         // Create the tilemap
         let x = 0, y = 0;
@@ -26,6 +33,9 @@ export class DirtLayer extends Phaser.GameObjects.Container {
         let brownDarkRows = 92;
         let darkRows = 8;
         let isTransition = false;
+
+        // Keep track of ones we will delete
+        let toDelete: DirtTile[] = [];
         for (let i = 0; i < GameManager.WORLD_SIZE; i++) {
             x = 0;
             let row = [];
@@ -48,10 +58,7 @@ export class DirtLayer extends Phaser.GameObjects.Container {
                 isTransition = true;
             }
             for (let j = 0; j < GameManager.WORLD_SIZE; j++) {
-                let dirt = new DirtTile({ scene: this.scene, x: x, y: y }, j, i);
-                this.add(dirt);
-                row.push(dirt);
-
+                let isCavernTile = false;
                 let randType = ['pebbles', 'roots', 'solid'][Math.floor(Math.random() * 3)];
                 let randNum = Math.ceil(Math.random() * 8);
 
@@ -59,17 +66,44 @@ export class DirtLayer extends Phaser.GameObjects.Container {
                     randType = 'transition';
                 }
 
+                // Check for gem cavern
+                if (i >= this.gemBounds.y && i <= this.gemBounds.y + this.gemBounds.h &&
+                    j >= this.gemBounds.x && j <= this.gemBounds.x + this.gemBounds.w) {
+                    // Randomly choose to be a gem. Otherwise it will be the standard.
+                    if (Math.random() >= 0.5) {
+                        randType = ['emeralds', 'rubies', 'sapphires'][Math.floor(Math.random() * 3)];
+                    }
+
+                    // Regardless, make sure the dug tile is shown
+                    isCavernTile = true;
+                }
+
                 let randTile = 'dug_' + color + '_' + randType;
                 if (randType == 'pebbles' || randType == 'roots') {
                     randTile += '_' + randNum;
                 }
+
+                // Create the dirt tile and assign its dug sprite
+                let dirt = new DirtTile({ scene: this.scene, x: x, y: y }, j, i);
+                this.add(dirt);
+                row.push(dirt);
                 dirt.dugTile = randTile;
+                if (isCavernTile) {
+                    toDelete.push(dirt);
+                    console.log(randTile);    
+                }
 
                 x+= GameManager.TILE_SIZE;
             }
             this.dirt.push(row);
             y+= GameManager.TILE_SIZE;
         }
+
+        // Now remove all that were mared for deletion
+        for (let tile of toDelete) {
+            this.removeTile(tile);
+        }
+        toDelete = null;
 
         // Set the bounds of the camera so it does not show the outside of the map
         this.scene.cameras.main.setBounds(-GameManager.TILE_SIZE / 2,
@@ -95,19 +129,7 @@ export class DirtLayer extends Phaser.GameObjects.Container {
         room.players.forEach((playerCoord) => {
             let tile = this.dirt[playerCoord.y][playerCoord.x];
             if (tile) {
-                // Grab the coords before killing it
-                let tileXCoord = tile.xCoord;
-                let tileYCoord = tile.yCoord;
-
-                // Modify the surrounding tiles before removing
-                tile.informSurroundingTiles(this.dirt);
-
-                // Draw the dug tile
-                tile.drawDugTile();
-
-                // Remove the tile and its reference in the matrix
-                this.dirt[tileYCoord][tileXCoord] = null;
-                this.remove(tile, true);
+                this.removeTile(tile);
 
                 // play dig sound if this is the local player's pig
                 if (playerCoord.sid === Socket.getId()) {
@@ -115,6 +137,22 @@ export class DirtLayer extends Phaser.GameObjects.Container {
                 }
             }
         });
+    }
+
+    private removeTile(tile: DirtTile) {
+        // Grab the coords before killing it
+        let tileXCoord = tile.xCoord;
+        let tileYCoord = tile.yCoord;
+
+        // Modify the surrounding tiles before removing
+        tile.informSurroundingTiles(this.dirt);
+
+        // Draw the dug tile
+        tile.drawDugTile();
+
+        // Remove the tile and its reference in the matrix
+        this.dirt[tileYCoord][tileXCoord] = null;
+        this.remove(tile, true);
     }
 
     /**

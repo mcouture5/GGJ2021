@@ -427,6 +427,111 @@
                 "type": "audio",
                 "key": "treasure",
                 "url": "assets/sounds/treasure.mp3"
+            },
+            {
+                "type": "image",
+                "key": "dug_brown_emeralds",
+                "url": "assets/images/tiles/dug_brown_emeralds.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_brown_rubies",
+                "url": "assets/images/tiles/dug_brown_rubies.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_brown_sapphires",
+                "url": "assets/images/tiles/dug_brown_sapphires.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_brown_dark_emeralds",
+                "url": "assets/images/tiles/dug_brown_dark_emeralds.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_brown_dark_rubies",
+                "url": "assets/images/tiles/dug_brown_dark_rubies.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_brown_dark_sapphires",
+                "url": "assets/images/tiles/dug_brown_dark_sapphires.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_dark_emeralds",
+                "url": "assets/images/tiles/dug_dark_emeralds.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_dark_rubies",
+                "url": "assets/images/tiles/dug_dark_rubies.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_dark_sapphires",
+                "url": "assets/images/tiles/dug_dark_sapphires.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_orange_emeralds",
+                "url": "assets/images/tiles/dug_orange_emeralds.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_orange_rubies",
+                "url": "assets/images/tiles/dug_orange_rubies.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_orange_sapphires",
+                "url": "assets/images/tiles/dug_orange_sapphires.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_orange_brown_emeralds",
+                "url": "assets/images/tiles/dug_orange_brown_emeralds.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_orange_brown_rubies",
+                "url": "assets/images/tiles/dug_orange_brown_rubies.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_orange_brown_sapphires",
+                "url": "assets/images/tiles/dug_orange_brown_sapphires.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_yellow_emeralds",
+                "url": "assets/images/tiles/dug_yellow_emeralds.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_yellow_rubies",
+                "url": "assets/images/tiles/dug_yellow_rubies.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_yellow_sapphires",
+                "url": "assets/images/tiles/dug_yellow_sapphires.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_yellow_orange_emeralds",
+                "url": "assets/images/tiles/dug_yellow_orange_emeralds.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_yellow_orange_rubies",
+                "url": "assets/images/tiles/dug_yellow_orange_rubies.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_yellow_orange_sapphires",
+                "url": "assets/images/tiles/dug_yellow_orange_sapphires.png"
             }
         ]
     }
