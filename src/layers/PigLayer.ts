@@ -80,12 +80,13 @@ export class PigLayer extends Phaser.GameObjects.Container {
             pig.sid = player.sid;
             this.add(pig);
             this.pigs[player.sid] = pig;
+            pig.moveTo(player.x, player.y, false);
             // Follow me
             if (player.sid == Socket.getId()) {
+                this.scene.cameras.main.pan(pig.x, pig.y, 0);
                 this.scene.cameras.main.startFollow(pig, true, 0.075, 0.075);
-                this.scene.cameras.main.zoomTo(PigLayer.MIN_ZOOM_LEVEL);
+                this.scene.cameras.main.zoomTo(PigLayer.MIN_ZOOM_LEVEL, 0);
             }
-            pig.moveTo(player.x, player.y, false);
         });
 
         // Tell the dirt layer the pigs have moved
