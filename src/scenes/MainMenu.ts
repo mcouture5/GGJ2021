@@ -106,6 +106,7 @@ export class MainMenu extends Phaser.Scene {
     }
 
     update() {
+        /*
         if (Phaser.Input.Keyboard.JustDown(this.n)) {
             this.hideNameInput();
             this.scene.start('Lobby', {mainMenuMusic: this.music, playerName: (document.getElementById('name-input') as any).value});
@@ -121,6 +122,7 @@ export class MainMenu extends Phaser.Scene {
             this.hideNameInput();
             this.scene.start('HelpPage');
         }
+        */
     }
 
     private showNameInput() {
