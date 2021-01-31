@@ -223,6 +223,17 @@ async def get_sids(sid):
 	logger.info(f"--ADMIN-- Sids list requested by {sid}")
 	await sio.emit('admin_sids_response', sids, room=sid)
 
+@sio.event
+async def clean_rooms(sid):
+	logger.info(f"--ADMIN-- Cleaning up rooms, requested by {sid}")
+	rooms_to_clean = []
+	for room in rooms:
+		if len(room['players']) == 0:
+			rooms_to_clean.append(room['room_id'])
+	for room in rooms_to_clean:
+		logger.info(f"--ADMIN-- deleting room {room} from rooms list")
+		del rooms[room]
+
 # -----
 # Connect and disconnect events
 @sio.event
