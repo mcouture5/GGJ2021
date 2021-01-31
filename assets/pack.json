@@ -42,6 +42,16 @@
                 "type": "image",
                 "key": "bg",
                 "url": "assets/images/blank_menu_artwork.png"
+            },    
+            {
+                "type": "image",
+                "key": "leaderboard",
+                "url": "assets/images/leaderboard_artwork.png"
+            },
+            {
+                "type": "image",
+                "key": "leaderboard_end_screen",
+                "url": "assets/images/you_won_leaderboard_artwork.png"
             },
             {
                 "type": "image",

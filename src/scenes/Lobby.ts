@@ -69,17 +69,39 @@ export class Lobby extends Phaser.Scene {
         bg.displayWidth = GameManager.WINDOW_WIDTH;
         bg.displayHeight = GameManager.WINDOW_HEIGHT;
 
+        let whitePig= this.add.sprite(300,  265, 'white_idle', 2);
+        let orangePig = this.add.sprite(724,  265, 'orange_idle', 2);
+        orangePig.scaleX*=-1;
+
+        this.anims.create({
+            key: 'orange-idle',
+            frames: this.anims.generateFrameNumbers('orange_idle', { frames: [ 0, 1, 2 ]}),
+            frameRate: 3,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'white-idle',
+            frames: this.anims.generateFrameNumbers('white_idle', { frames: [ 0, 1, 2 ]}),
+            frameRate: 3,
+            repeat: -1
+        });
+
+        whitePig.play('white-idle', true);
+        orangePig.play('orange-idle', true);
+
+
         if (this.data.room) {
             this.joinRoom(this.data.room);
         } else {
-            let creating = this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/2.25, 'Creating a lobby...');
+            let creating = this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/2 - 125, 'Creating a lobby...');
             this.createRoom();
             while(!GameManager.getInstance().getRoom()) {
                 await new Promise(resolve => setTimeout(resolve, 2000));
             }
             creating.destroy();
-            this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/2.25, 'Waiting for another player...');
-            this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/2, 'Room Code: ' + GameManager.getInstance().getRoom().room_id);
+            this.add.text(GameManager.WINDOW_WIDTH/2 - 140, GameManager.WINDOW_HEIGHT/2 - 120, 'Waiting for another player...');
+            this.add.text(GameManager.WINDOW_WIDTH/2 - 90, GameManager.WINDOW_HEIGHT/2 - 95, 'Room Code: ' + GameManager.getInstance().getRoom().room_id);
         }
 
         // after scene fade out, transition to GameScene

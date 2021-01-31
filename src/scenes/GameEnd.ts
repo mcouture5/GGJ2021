@@ -1,4 +1,5 @@
 import { GameManager } from "../GameManager";
+import { LeaderboardLayer } from "../layers/LeaderboardLayer";
 
 /**
  * Leaderboard/credits
@@ -15,6 +16,8 @@ export class GameEnd extends Phaser.Scene {
     private gameSceneMusic: Phaser.Sound.BaseSound;
     private endMusic: Phaser.Sound.BaseSound;
     private reunionSound: Phaser.Sound.BaseSound;
+
+    private leaderboardLayer: LeaderboardLayer;   
 
     constructor() {
         super({
@@ -33,17 +36,31 @@ export class GameEnd extends Phaser.Scene {
     }
 
     create() {
-        // Todo: change this artwork once the leaderboard is added
-        let bg = this.add.sprite(0, 0, 'bg').setOrigin(0, 0);
+
+        let fontStyle = {
+            fontFamily: 'InkFree',
+            fontSize: '22px',
+            color: '#f2dd6e'
+        };
+
+        let bg = this.add.sprite(0, 0, 'leaderboard_end_screen').setOrigin(0, 0);
         bg.displayWidth = GameManager.WINDOW_WIDTH;
         bg.displayHeight = GameManager.WINDOW_HEIGHT;
 
-        let time = new String(this.timeElapsed).slice(0,5);
-        this.add.text(GameManager.WINDOW_WIDTH/2 - 220, 200, 
-            `Congratulations! You finished in ${time} seconds.`);
 
-        this.add.text(GameManager.WINDOW_WIDTH/2 - 145, 500, 
-            'Press [ENTER] to play again.');
+        this.leaderboardLayer = new LeaderboardLayer(this);
+        this.add.existing(this.leaderboardLayer);
+        this.leaderboardLayer.create();
+
+        let time = new String(this.timeElapsed).slice(0,5);
+        this.add.text(GameManager.WINDOW_WIDTH/2 - 220, 570, 
+            `Congratulations! You finished in ${time} seconds.`, fontStyle);
+        
+        let mainMenuBtn = this.add.rectangle(109, 349, 207, 105, 0xffffff, 0);
+        mainMenuBtn.setInteractive({useHandCursor: true});
+        mainMenuBtn.on('pointerup', () => {
+           this.fadeOut();
+        });
 
         // play reunion sound if not already played. fade distracting background music while sound effect is playing.
         // after that, play the end song.
@@ -76,7 +93,12 @@ export class GameEnd extends Phaser.Scene {
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(this.enter)) {
-            // fade out scene and music, ultimately transitioning to MainMenu. see "camerafadeoutcomplete"
+            this.fadeOut();
+        }
+    }
+
+    private fadeOut() {
+        // fade out scene and music, ultimately transitioning to MainMenu. see "camerafadeoutcomplete"
             // listener in create().
             let fadeOutDuration = 1300;
             this.cameras.main.fadeOut(fadeOutDuration, 130, 130, 130);
@@ -100,6 +122,5 @@ export class GameEnd extends Phaser.Scene {
                     this.endMusic.stop();
                 }
             });
-        }
     }
 }

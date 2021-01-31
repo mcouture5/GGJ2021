@@ -81,7 +81,9 @@ export class MainMenu extends Phaser.Scene {
         joinGameBtn.setInteractive({useHandCursor: true});
         joinGameBtn.on('pointerup', () => {
             let roomId = prompt("Enter the room id of the game you want to join");
-            this.scene.start('Lobby', {room: roomId, mainMenuMusic: this.music});
+            if (roomId) {
+                this.scene.start('Lobby', {room: roomId, mainMenuMusic: this.music});
+            }
         });
 
         let howToPlayBtn = this.add.rectangle(509, 432, 490, 100, 0xffffff, 0);
@@ -93,7 +95,7 @@ export class MainMenu extends Phaser.Scene {
         let leaderboardBtn = this.add.rectangle(509, 549, 490, 87, 0xffffff, 0);
         leaderboardBtn.setInteractive({useHandCursor: true});
         leaderboardBtn.on('pointerup', () => {
-            // TODO
+            this.scene.start('Leaderboard');
         });
     }
 
@@ -103,7 +105,9 @@ export class MainMenu extends Phaser.Scene {
         }
         if (Phaser.Input.Keyboard.JustDown(this.j)) {
             let roomId = prompt("Enter the room id of the game you want to join");
-            this.scene.start('Lobby', {room: roomId, mainMenuMusic: this.music});
+            if (roomId) {
+                this.scene.start('Lobby', {room: roomId, mainMenuMusic: this.music});
+            }
         }
         if (Phaser.Input.Keyboard.JustDown(this.h)) {
             this.scene.start('HelpPage');
