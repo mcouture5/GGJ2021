@@ -21,8 +21,8 @@ export class GameScene extends Phaser.Scene {
 
     private music: Phaser.Sound.BaseSound;
 
-    private gem: Cave;
-    private dino: Cave;
+    public gem: Cave;
+    public dino: Cave;
 
     private treasureLocation = {
         x: 25,
