@@ -246,14 +246,14 @@ async def connect(sid, environ):
 	await sio.emit('connect_response', {'sid': sid}, room=sid)
 
 @sio.event
-def disconnect(sid):
+async def disconnect(sid):
 	current_room = sids[sid]
 	for player in rooms[current_room]['players']:
 		if player['sid'] == sid:
 			rooms[current_room]['players'].remove(player)
 	del sids[sid]
 	logger.info(f'Client {sid} disconnected and left room {current_room}')
-	sio.emit('player_left_room', room=current_room)
+	await sio.emit('player_left_room', room=current_room)
 
 
 # -----
