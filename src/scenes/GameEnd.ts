@@ -60,14 +60,6 @@ export class GameEnd extends Phaser.Scene {
                     this.reunionSound.on('complete', () => {
                         this.endMusic = this.sound.add('end-song', {loop: true, volume: 0.5});
                         this.endMusic.play()
-                        /*
-                        this.add.tween({
-                            targets: this.endMusic,
-                            volume: 0.5,
-                            ease: 'Linear',
-                            duration: 1300
-                        });
-                        */
                     });
                 }
             });
