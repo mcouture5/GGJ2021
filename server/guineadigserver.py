@@ -270,6 +270,7 @@ def main():
 			(r"/app", MainHandler),
 			(r"/socket.io/", SocketHandler),
 			(r"/leaderboard", LeaderboardHandler),
+			(r'/(leaderboard\.json)', tornado.web.StaticFileHandler, {'path': '/home/ec2-user/'}),
 		],
 		template_path=os.path.join(os.path.dirname(__file__), "templates"),
 		static_path=os.path.join(os.path.dirname(__file__), "static"),
