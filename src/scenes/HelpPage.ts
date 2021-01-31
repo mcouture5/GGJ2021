@@ -21,11 +21,11 @@ export class HelpPage extends Phaser.Scene {
     }
 
     create() {
-        let bg = this.add.sprite(0, 0, 'help_page').setOrigin(0, 0);
+        let bg = this.add.sprite(0, 0, 'how_to_play').setOrigin(0, 0);
         bg.displayWidth = GameManager.WINDOW_WIDTH;
         bg.displayHeight = GameManager.WINDOW_HEIGHT;
-        
-        this.add.text(GameManager.WINDOW_WIDTH/2 - 200, 500, 'Press [ENTER] to return to the main menu');
+
+        this.add.text(GameManager.WINDOW_WIDTH/2 - 200, 600, 'Press [ENTER] to return to the main menu');
     }
 
     update() {

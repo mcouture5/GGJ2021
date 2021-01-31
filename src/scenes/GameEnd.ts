@@ -41,7 +41,7 @@ export class GameEnd extends Phaser.Scene {
         this.add.text(GameManager.WINDOW_WIDTH/2 - 220, 200, 
             `Congratulations! You finished in ${time} seconds.`);
 
-        this.add.text(GameManager.WINDOW_WIDTH/2 - 145, 600, 
+        this.add.text(GameManager.WINDOW_WIDTH/2 - 145, 500, 
             'Press [ENTER] to play again.');
 
         // play reunion sound if not already played. fade distracting background music while sound effect is playing.
