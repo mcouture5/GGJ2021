@@ -4,12 +4,6 @@ import { GameManager } from "../GameManager";
  * Main menu.
  */
 export class MainMenu extends Phaser.Scene {
-
-    // Input keys
-    private n: Phaser.Input.Keyboard.Key;
-    private j: Phaser.Input.Keyboard.Key;
-    private h: Phaser.Input.Keyboard.Key;
-
     private music: Phaser.Sound.BaseSound;
 
     constructor() {
@@ -19,15 +13,6 @@ export class MainMenu extends Phaser.Scene {
     }
 
     init() {
-        this.j = this.input.keyboard.addKey(
-            Phaser.Input.Keyboard.KeyCodes.J
-        );
-        this.n = this.input.keyboard.addKey(
-            Phaser.Input.Keyboard.KeyCodes.N
-        );
-        this.h = this.input.keyboard.addKey(
-            Phaser.Input.Keyboard.KeyCodes.H
-        );
     }
 
     create() {
@@ -106,23 +91,6 @@ export class MainMenu extends Phaser.Scene {
     }
 
     update() {
-        /*
-        if (Phaser.Input.Keyboard.JustDown(this.n)) {
-            this.hideNameInput();
-            this.scene.start('Lobby', {mainMenuMusic: this.music, playerName: (document.getElementById('name-input') as any).value});
-        }
-        if (Phaser.Input.Keyboard.JustDown(this.j)) {
-            let roomId = prompt("Enter the room id of the game you want to join");
-            if (roomId) {
-                this.hideNameInput();
-                this.scene.start('Lobby', {room: roomId, mainMenuMusic: this.music, playerName: (document.getElementById('name-input') as any).value});
-            }
-        }
-        if (Phaser.Input.Keyboard.JustDown(this.h)) {
-            this.hideNameInput();
-            this.scene.start('HelpPage');
-        }
-        */
     }
 
     private showNameInput() {
