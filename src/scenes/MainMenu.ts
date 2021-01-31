@@ -71,18 +71,30 @@ export class MainMenu extends Phaser.Scene {
         whitePig.play('white-idle', true);
         orangePig.play('orange-idle', true);
 
-        /*
-        this.add.text(390, 100, 'Guinea Dig: Lost in Ground', {
-            fontFamily: 'InkFree',
-            fontSize: '22px',
-            color: '#f2dd6e'
+        let createGameBtn = this.add.rectangle(373, 317, 207, 105, 0xffffff, 0);
+        createGameBtn.setInteractive({useHandCursor: true});
+        createGameBtn.on('pointerup', () => {
+            this.scene.start('Lobby', {mainMenuMusic: this.music});
         });
-        this.add.text(410, 125, 'A tale of love lost and found', {fontSize: '12px'});
-        */
 
-        this.add.text(GameManager.WINDOW_WIDTH/2 - 120, 600, 'Select an option to begin:');
-        this.add.text(GameManager.WINDOW_WIDTH/2 - 140, 650, 'Create Game (n)    Join Game (j)');
-        this.add.text(GameManager.WINDOW_WIDTH/2 - 65, 675, 'How to Play (h)');
+        let joinGameBtn = this.add.rectangle(640, 317, 220, 105, 0xffffff, 0);
+        joinGameBtn.setInteractive({useHandCursor: true});
+        joinGameBtn.on('pointerup', () => {
+            let roomId = prompt("Enter the room id of the game you want to join");
+            this.scene.start('Lobby', {room: roomId, mainMenuMusic: this.music});
+        });
+
+        let howToPlayBtn = this.add.rectangle(509, 432, 490, 100, 0xffffff, 0);
+        howToPlayBtn.setInteractive({useHandCursor: true});
+        howToPlayBtn.on('pointerup', () => {
+            this.scene.start('HelpPage');
+        });
+
+        let leaderboardBtn = this.add.rectangle(509, 549, 490, 87, 0xffffff, 0);
+        leaderboardBtn.setInteractive({useHandCursor: true});
+        leaderboardBtn.on('pointerup', () => {
+            // TODO
+        });
     }
 
     update() {

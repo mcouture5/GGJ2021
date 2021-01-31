@@ -20,7 +20,7 @@ const config: GameConfig = {
   scene: [Boot, MainMenu, HelpPage, Lobby, GameScene, GameEnd, Leaderboard],
   input: {
     keyboard: true,
-    mouse: false,
+    mouse: true,
     touch: false,
     gamepad: false
   },
