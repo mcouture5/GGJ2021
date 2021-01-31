@@ -71,7 +71,7 @@ class MainHandler(tornado.web.RequestHandler):
 class LeaderboardHandler(tornado.web.RequestHandler):
 	def get(self):
 		#scores = {}
-		with open('filename', 'r') as f:
+		with open('/home/ec2-user/leaderboard.json', 'r') as f:
 			scores = [json.loads(line) for line in f]
 		sorted_scores = sorted(scores, key=lambda item: item['time'])
 		rank = 1
