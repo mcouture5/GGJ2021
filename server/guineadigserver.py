@@ -161,7 +161,7 @@ async def create_room(sid, message):
 	starter_coords = random_starters[random_seed]
 	gem_dino_random_list = random.sample(range(0, 9), 2)
 	player_name = "Player0"
-	if message.has_key('name'):
+	if message['name']:
 		player_name = message['name']
 	rooms[new_room] = {
 		'room_id': new_room,
