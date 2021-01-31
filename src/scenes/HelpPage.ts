@@ -25,7 +25,11 @@ export class HelpPage extends Phaser.Scene {
         bg.displayWidth = GameManager.WINDOW_WIDTH;
         bg.displayHeight = GameManager.WINDOW_HEIGHT;
 
-        this.add.text(GameManager.WINDOW_WIDTH/2 - 200, 600, 'Press [ENTER] to return to the main menu');
+        let mainMenuBtn = this.add.rectangle(109, 349, 207, 105, 0xffffff, 0);
+        mainMenuBtn.setInteractive({useHandCursor: true});
+        mainMenuBtn.on('pointerup', () => {
+            this.scene.start('MainMenu');
+        });
     }
 
     update() {
