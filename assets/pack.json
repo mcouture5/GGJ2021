@@ -42,7 +42,12 @@
                 "type": "image",
                 "key": "bg",
                 "url": "assets/images/blank_menu_artwork.png"
-            },    
+            },
+            {
+                "type": "image",
+                "key": "bg_button",
+                "url": "assets/images/blank_menu_with_button_artwork.png"
+            },        
             {
                 "type": "image",
                 "key": "leaderboard",

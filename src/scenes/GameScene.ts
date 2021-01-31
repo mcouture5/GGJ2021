@@ -47,6 +47,11 @@ export class GameScene extends Phaser.Scene {
             this.scene.start('GameEnd', {elapsed_time: r.elapsed_time, gameSceneMusic: this.music});
         });
 
+        Socket.listen(Socket.PLAYER_LEFT_ROOM, () => {
+            this.music.stop(); // make sure music doesn't bleed into the next scene
+            this.scene.start('Disconnect');
+        });
+
         document.getElementById('chat-send').addEventListener('click', () => {
             this.sendChat();
         });

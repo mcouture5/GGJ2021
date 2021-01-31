@@ -98,7 +98,6 @@ export class Lobby extends Phaser.Scene {
         whitePig.play('white-idle', true);
         orangePig.play('orange-idle', true);
 
-
         if (this.data.room) {
             this.joinRoom(this.data.room);
         } else {
