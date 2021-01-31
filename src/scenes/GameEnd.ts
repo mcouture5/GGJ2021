@@ -32,6 +32,11 @@ export class GameEnd extends Phaser.Scene {
     }
 
     create() {
+        // Todo: change this artwork once the leaderboard is added
+        let bg = this.add.sprite(0, 0, 'bg').setOrigin(0, 0);
+        bg.displayWidth = GameManager.WINDOW_WIDTH;
+        bg.displayHeight = GameManager.WINDOW_HEIGHT;
+
         let time = new String(this.timeElapsed).slice(0,5);
         this.add.text(GameManager.WINDOW_WIDTH/2 - 220, 200, 
             `Congratulations! You finished in ${time} seconds.`);

@@ -65,6 +65,10 @@ export class Lobby extends Phaser.Scene {
     }
 
     async create() {
+        let bg = this.add.sprite(0, 0, 'bg').setOrigin(0, 0);
+        bg.displayWidth = GameManager.WINDOW_WIDTH;
+        bg.displayHeight = GameManager.WINDOW_HEIGHT;
+
         if (this.data.room) {
             this.joinRoom(this.data.room);
         } else {
