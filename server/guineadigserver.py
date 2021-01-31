@@ -98,6 +98,7 @@ class LeaderboardJsonHandler(tornado.web.StaticFileHandler):
 		self.set_header("Access-Control-Allow-Origin", "*")
 		self.set_header("Access-Control-Allow-Headers", "content-type")
 		self.set_header('Access-Control-Allow-Methods', 'GET, OPTIONS')
+		self.set_header('Cache-Control', 'no-store, max-age=0')
 # -----
 # GuineaDig-specific events
 @sio.event
