@@ -1,11 +1,13 @@
 import { GameManager } from "../GameManager";
+import { LeaderboardLayer } from "../layers/LeaderboardLayer";
 
 
 export class Leaderboard extends Phaser.Scene {
 
-
     // Input keys
     private enter: Phaser.Input.Keyboard.Key;
+
+    private leaderboardLayer: LeaderboardLayer;
 
     constructor() {
         super({
@@ -24,7 +26,15 @@ export class Leaderboard extends Phaser.Scene {
         bg.displayWidth = GameManager.WINDOW_WIDTH;
         bg.displayHeight = GameManager.WINDOW_HEIGHT;
 
-        this.add.text(GameManager.WINDOW_WIDTH/2 - 200, 500, 'Press [ENTER] to return to the main menu');
+        this.leaderboardLayer = new LeaderboardLayer(this);
+        this.add.existing(this.leaderboardLayer);
+        this.leaderboardLayer.create();
+
+        let mainMenuBtn = this.add.rectangle(109, 349, 207, 105, 0xffffff, 0);
+        mainMenuBtn.setInteractive({useHandCursor: true});
+        mainMenuBtn.on('pointerup', () => {
+            this.scene.start('MainMenu');
+        });
     }
 
     update() {
