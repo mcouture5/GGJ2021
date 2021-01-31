@@ -27,11 +27,12 @@ export class BoundedLayer extends Phaser.GameObjects.Container {
         // Draw all tiles within a range from me
         for (let i = -25; i < 25; i++) {
             for (let j = -25; j < 25; j++) {
-                try {
+                let row = this.tiles[me.y + i];
+                if (row) {
                     let tile = this.tiles[me.y + i][me.x + j];
-                    tile.draw(this);
-                } catch (error) {
-                    continue;
+                    if (tile) {
+                        tile.draw(this);
+                    }
                 }
             }
         }
