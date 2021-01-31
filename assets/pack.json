@@ -417,6 +417,11 @@
                 "type": "audio",
                 "key": "reunion",
                 "url": "assets/sounds/reunion.mp3"
+            },
+            {
+                "type": "audio",
+                "key": "dinosaur",
+                "url": "assets/sounds/dinosaur.mp3"
             }
         ]
     }
