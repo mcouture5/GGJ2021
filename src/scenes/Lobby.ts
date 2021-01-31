@@ -99,14 +99,14 @@ export class Lobby extends Phaser.Scene {
         if (this.data.room) {
             this.joinRoom(this.data.room);
         } else {
-            let creating = this.add.text(GameManager.WINDOW_WIDTH/2.5, GameManager.WINDOW_HEIGHT/2 - 125, 'Creating a lobby...', fontStyle);
+            let creating = this.add.text(GameManager.WINDOW_WIDTH/2.5 + 10, GameManager.WINDOW_HEIGHT/2 - 125, 'Creating a lobby...', fontStyle);
             this.createRoom();
             while(!GameManager.getInstance().getRoom()) {
                 await new Promise(resolve => setTimeout(resolve, 2000));
             }
             creating.destroy();
-            this.add.text(GameManager.WINDOW_WIDTH/2 - 140, GameManager.WINDOW_HEIGHT/2 - 120, 'Waiting for another player...', fontStyle);
-            this.add.text(GameManager.WINDOW_WIDTH/2 - 90, GameManager.WINDOW_HEIGHT/2 - 95, 'Room Code: ' + GameManager.getInstance().getRoom().room_id, fontStyle);
+            this.add.text(GameManager.WINDOW_WIDTH/2 - 130, GameManager.WINDOW_HEIGHT/2 - 120, 'Waiting for another player...', fontStyle);
+            this.add.text(GameManager.WINDOW_WIDTH/2 - 80, GameManager.WINDOW_HEIGHT/2 - 95, 'Room Code: ' + GameManager.getInstance().getRoom().room_id, fontStyle);
         }
 
         // after scene fade out, transition to GameScene
