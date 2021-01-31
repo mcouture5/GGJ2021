@@ -35,6 +35,11 @@
             },
             {
                 "type": "image",
+                "key": "how_to_play",
+                "url": "assets/images/how_to_play_artwork.png"
+            },
+            {
+                "type": "image",
                 "key": "dug_brown_dark_transition",
                 "url": "assets/images/tiles/dug_brown_dark_transition.png"
             },

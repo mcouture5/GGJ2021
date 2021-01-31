@@ -50,8 +50,8 @@ export class MainMenu extends Phaser.Scene {
             });
         }
 
-        let whitePig= this.add.sprite(300,  100, 'white_idle', 2);
-        let orangePig = this.add.sprite(724,  100, 'orange_idle', 2);
+        let whitePig= this.add.sprite(300,  165, 'white_idle', 2);
+        let orangePig = this.add.sprite(724,  165, 'orange_idle', 2);
         orangePig.scaleX*=-1;
 
         this.anims.create({
@@ -71,12 +71,14 @@ export class MainMenu extends Phaser.Scene {
         whitePig.play('white-idle', true);
         orangePig.play('orange-idle', true);
 
+        /*
         this.add.text(390, 100, 'Guinea Dig: Lost in Ground', {
             fontFamily: 'InkFree',
             fontSize: '22px',
             color: '#f2dd6e'
         });
         this.add.text(410, 125, 'A tale of love lost and found', {fontSize: '12px'});
+        */
 
         this.add.text(GameManager.WINDOW_WIDTH/2 - 120, 600, 'Select an option to begin:');
         this.add.text(GameManager.WINDOW_WIDTH/2 - 140, 650, 'Create Game (n)    Join Game (j)');
