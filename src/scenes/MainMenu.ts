@@ -71,13 +71,25 @@ export class MainMenu extends Phaser.Scene {
         whitePig.play('white-idle', true);
         orangePig.play('orange-idle', true);
 
-        /*
-        this.add.text(390, 100, 'Guinea Dig: Lost in Ground', {
-            fontFamily: 'InkFree',
-            fontSize: '22px',
-            color: '#f2dd6e'
+        let createGameBtn = this.add.rectangle(373, 317, 207, 105, 0xffffff, 0);
+        createGameBtn.setInteractive({useHandCursor: true});
+        createGameBtn.on('pointerup', () => {
+            this.scene.start('Lobby', {mainMenuMusic: this.music});
         });
-        this.add.text(410, 125, 'A tale of love lost and found', {fontSize: '12px'});
+
+        /*
+        let joinGameBtn = this.add.rectangle(0, 200, 100, 100, 0xffffff, 1);
+        joinGameBtn.setInteractive();
+        joinGameBtn.on('pointerup', () => {
+            let roomId = prompt("Enter the room id of the game you want to join");
+            this.scene.start('Lobby', {room: roomId, mainMenuMusic: this.music});
+        });
+
+        let howToPlayBtn = this.add.rectangle(0, 400, 100, 100, 0xffffff, 1);
+        howToPlayBtn.setInteractive();
+        howToPlayBtn.on('pointerup', () => {
+            this.scene.start('HelpPage');
+        });
         */
 
         this.add.text(GameManager.WINDOW_WIDTH/2 - 120, 600, 'Select an option to begin:');
