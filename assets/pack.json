@@ -2,16 +2,6 @@
     "preload": {
         "files": [
             {
-                "type": "image",
-                "key": "pig_0",
-                "url": "assets/images/pigs/he-pig.png"
-            },
-            {
-                "type": "image",
-                "key": "pig_1",
-                "url": "assets/images/pigs/she-pig.png"
-            },
-            {
                 "type": "spritesheet",
                 "key": "orange_idle",
                 "url": "assets/images/pigs/sprites_idle_orange.png",
@@ -32,23 +22,12 @@
             {
                 "type": "spritesheet",
                 "key": "dirt",
-                "url": "assets/images/tiles/dirt_tile.png",
+                "url": "assets/images/tiles/dirt.png",
                 "frameConfig": {
                     "frameWidth": 64,
                     "frameHeight": 64
                 }
             },
-            {
-                "type": "image",
-                "key": "tile-32",
-                "url": "assets/images/tiles/32.png"
-            },
-            {
-                "type": "image",
-                "key": "tile-64",
-                "url": "assets/images/tiles/64.png"
-            },
-            
             {
                 "type": "image",
                 "key": "dug_brown_dark_transition",
