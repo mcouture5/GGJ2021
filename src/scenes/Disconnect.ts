@@ -37,8 +37,8 @@ export class Disconnect extends Phaser.Scene {
             color: '#f2dd6e'
         };
 
-        this.add.text(GameManager.WINDOW_WIDTH/2 - 200, 200, 
-            `The other player disconnected!`, fontStyle);
+        this.add.text(GameManager.WINDOW_WIDTH/2 - 135, 200, 
+            `The other player disconnected! :(`, fontStyle);
     }
 
     update() {
