@@ -30,6 +30,11 @@
             },
             {
                 "type": "image",
+                "key": "main_menu",
+                "url": "assets/images/main_menu_artwork.png"
+            },
+            {
+                "type": "image",
                 "key": "dug_brown_dark_transition",
                 "url": "assets/images/tiles/dug_brown_dark_transition.png"
             },

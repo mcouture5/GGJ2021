@@ -31,6 +31,10 @@ export class MainMenu extends Phaser.Scene {
     }
 
     create() {
+        let bg = this.add.sprite(0, 0, 'main_menu').setOrigin(0, 0);
+        bg.displayWidth = GameManager.WINDOW_WIDTH;
+        bg.displayHeight = GameManager.WINDOW_HEIGHT;
+
         // don't pause sound effects and music on blur.
         this.sound.pauseOnBlur = false;
 
