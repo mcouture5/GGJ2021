@@ -67,7 +67,11 @@ export class MainMenu extends Phaser.Scene {
         whitePig.play('white-idle', true);
         orangePig.play('orange-idle', true);
 
-        this.add.text(390, 100, 'Guinea Dig: Lost in Ground');
+        this.add.text(390, 100, 'Guinea Dig: Lost in Ground', {
+            fontFamily: 'InkFree',
+            fontSize: '22px',
+            color: '#f2dd6e'
+        });
         this.add.text(410, 125, 'A tale of love lost and found', {fontSize: '12px'});
 
         this.add.text(GameManager.WINDOW_WIDTH/2 - 120, 600, 'Select an option to begin:');

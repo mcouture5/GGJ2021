@@ -1,21 +1,7 @@
 @font-face {
-    font-family: 'Digital';
-    src: url('../../assets/fonts/DJB-Get-Digital.ttf') format('truetype');
-}
-
-@font-face {
-    font-family: 'Aviator';
-    src: url('../../assets/fonts/Aviator-SansVintage.ttf') format('truetype');
-}
-
-@font-face {
-    font-family: 'Cavalcade';
-    src: url('../../assets/fonts/Cavalcade-Inline.ttf') format('truetype');
-}
-
-@font-face {
-    font-family: 'OneNine';
-    src: url('../../assets/fonts/OneNineNineFour-Halftone.ttf') format('truetype');
+    font-family: 'InkFree';
+    src: url('../../assets/fonts/ink-free-normal.ttf') format('truetype');
+    color: #f2dd6e;
 }
 
 body {
@@ -28,20 +14,8 @@ body {
     font-size: 0;
 }
 
-.digital {
-    font-family: 'Digital';
-}
-
-.aviator {
-    font-family: 'Aviator';
-}
-
-.cavalcade {
-    font-family: 'Cavalcade';
-}
-
-.onenine {
-    font-family: 'OneNine';
+.ink-free {
+    font-family: 'InkFree';
 }
 
 body div.container {
@@ -49,7 +23,7 @@ body div.container {
 }
 
 body div.container h1 {
-    font-family: 'Bough';
+    font-family: 'InkFree';
     padding: 0;
     font-size: 50px;
 }

@@ -14,12 +14,11 @@ export interface IPig {
 
 export class Pig extends Phaser.GameObjects.Sprite  {
 
-    private readonly 
+    private xScale = 0.5;
+    private yScale = 0.5;
 
-    private size: number = GameManager.TILE_SIZE;
-
-    private tileX: number = 0;
-    private tileY: number = 0;
+    private tileX;
+    private tileY;
 
     /**
      * Player SID
@@ -46,8 +45,8 @@ export class Pig extends Phaser.GameObjects.Sprite  {
     constructor(params: IPig) {
         super(params.scene, params.x, params.y, Pig.PIG_CONTEXT[params.id].idle);
         this.pigId = params.id;
-        this.setOrigin(0, 0);
-        this.setScale(0.5, 0.5);
+        this.setOrigin(0.5, 0.5);
+        this.setScale(this.xScale, this.yScale);
         this.on(Phaser.Animations.Events.ANIMATION_COMPLETE, () => {
             // Because there may be more than one animation on the pig, and this event gets fired after any animation is
             // done playing, we need to determine the next action based on the current state of the pig.
@@ -77,6 +76,23 @@ export class Pig extends Phaser.GameObjects.Sprite  {
      */
     public moveTo(x: number, y: number, playAnimation: boolean, callback?: () => void) {
         this.waitingToMove = { x: x, y: y };
+
+        if (this.tileX < this.waitingToMove.x) {
+            this.setScale(this.xScale, this.yScale);
+        } else if (this.tileX > this.waitingToMove.x) {
+            this.setScale(this.xScale * -1, this.yScale);
+        }
+        
+        if (this.tileY > this.waitingToMove.y) {
+            this.setRotation(-270 * (Math.PI/180));
+            this.setScale(this.xScale * -1, this.yScale);
+        } else if (this.tileY < this.waitingToMove.y) {
+            this.setRotation(270 * (Math.PI/180));
+            this.setScale(this.xScale * -1, this.yScale);
+        } else {
+            this.setRotation(0);
+        }
+
         if (!playAnimation) {
             this.doMove();
             callback && callback();
@@ -87,8 +103,8 @@ export class Pig extends Phaser.GameObjects.Sprite  {
     }
 
     private doMove() {
-        this.setX(this.waitingToMove.x * GameManager.TILE_SIZE);
-        this.setY(this.waitingToMove.y * GameManager.TILE_SIZE);
+        this.setX(this.waitingToMove.x * GameManager.TILE_SIZE + (this.width / 4));
+        this.setY(this.waitingToMove.y * GameManager.TILE_SIZE + (this.height / 4));
         this.tileX = this.waitingToMove.x;
         this.tileY = this.waitingToMove.y;
 
@@ -98,4 +114,21 @@ export class Pig extends Phaser.GameObjects.Sprite  {
         // Start idling
         this.play(Pig.PIG_CONTEXT[this.pigId].idle);
     }
+
+    public faceLeft() {
+
+    }
+    
+    public faceRight() {
+        
+    }
+
+    public faceUp() {
+        
+    }
+
+    public faceDown() {
+        
+    }
+
 }
