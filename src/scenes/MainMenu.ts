@@ -77,24 +77,24 @@ export class MainMenu extends Phaser.Scene {
             this.scene.start('Lobby', {mainMenuMusic: this.music});
         });
 
-        /*
-        let joinGameBtn = this.add.rectangle(0, 200, 100, 100, 0xffffff, 1);
-        joinGameBtn.setInteractive();
+        let joinGameBtn = this.add.rectangle(640, 317, 220, 105, 0xffffff, 0);
+        joinGameBtn.setInteractive({useHandCursor: true});
         joinGameBtn.on('pointerup', () => {
             let roomId = prompt("Enter the room id of the game you want to join");
             this.scene.start('Lobby', {room: roomId, mainMenuMusic: this.music});
         });
 
-        let howToPlayBtn = this.add.rectangle(0, 400, 100, 100, 0xffffff, 1);
-        howToPlayBtn.setInteractive();
+        let howToPlayBtn = this.add.rectangle(509, 432, 490, 100, 0xffffff, 0);
+        howToPlayBtn.setInteractive({useHandCursor: true});
         howToPlayBtn.on('pointerup', () => {
             this.scene.start('HelpPage');
         });
-        */
 
-        this.add.text(GameManager.WINDOW_WIDTH/2 - 120, 600, 'Select an option to begin:');
-        this.add.text(GameManager.WINDOW_WIDTH/2 - 140, 650, 'Create Game (n)    Join Game (j)');
-        this.add.text(GameManager.WINDOW_WIDTH/2 - 65, 675, 'How to Play (h)');
+        let leaderboardBtn = this.add.rectangle(509, 549, 490, 87, 0xffffff, 0);
+        leaderboardBtn.setInteractive({useHandCursor: true});
+        leaderboardBtn.on('pointerup', () => {
+            // TODO
+        });
     }
 
     update() {
