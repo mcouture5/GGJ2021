@@ -258,7 +258,7 @@ def save_to_leaderboard_file(room_id):
 		'date': datetime.datetime.now().strftime("%Y-%m-%d")
 	}
 	with open('/home/ec2-user/leaderboard.json','a') as file:
-		file.write(json.dumps(new_entry))
+		file.write(json.dumps(new_entry) + '\n')
 		
 
 # -----
