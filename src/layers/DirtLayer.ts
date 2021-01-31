@@ -76,8 +76,8 @@ export class DirtLayer extends Phaser.GameObjects.Container {
 
         // create dig/pickaxe sounds
         this.digSound = this.scene.sound.add('dig', {volume: 1});
-        this.pickaxe1Sound = this.scene.sound.add('pickaxe-1', {volume: 1});
-        this.pickaxe2Sound = this.scene.sound.add('pickaxe-2', {volume: 0.5});
+        this.pickaxe1Sound = this.scene.sound.add('pickaxe-1', {volume: 0.75});
+        this.pickaxe2Sound = this.scene.sound.add('pickaxe-2', {volume: 0.25});
         this.lastDigSoundWasPickaxe = false;
     }
 
