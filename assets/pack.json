@@ -532,6 +532,11 @@
                 "type": "image",
                 "key": "dug_yellow_orange_sapphires",
                 "url": "assets/images/tiles/dug_yellow_orange_sapphires.png"
+            },
+            {
+                "type": "image",
+                "key": "alfalfa",
+                "url": "assets/images/tiles/alfalfa.png"
             }
         ]
     }

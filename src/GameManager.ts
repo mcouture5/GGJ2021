@@ -1,5 +1,7 @@
 import { DirtLayer } from './layers/DirtLayer';
+import { DugLayer } from './layers/DugLayer';
 import { PigLayer } from './layers/PigLayer';
+import { TreasureLayer } from './layers/TreasureLayer';
 import { Room } from './Socket';
 
 /**
@@ -29,15 +31,27 @@ export class GameManager {
         this.layers = {};
     }
 
+    public setDugLayer(layer: DugLayer) {
+        this.layers['dug'] = layer;
+    }
     public setDirtLayer(layer: DirtLayer) {
         this.layers['dirt'] = layer;
+    }
+    public setTreasureLayer(layer: TreasureLayer) {
+        this.layers['treasure'] = layer;
     }
     public setPigLayer(layer: PigLayer) {
         this.layers['pig'] = layer;
     }
 
+    public getDugLayer(): DugLayer {
+        return this.layers['dug'] as DugLayer;
+    }
     public getDirtLayer(): DirtLayer {
         return this.layers['dirt'] as DirtLayer;
+    }
+    public getTreasureLayer(): TreasureLayer {
+        return this.layers['treasure'] as TreasureLayer;
     }
     public getPigLayer(): PigLayer {
         return this.layers['pig'] as PigLayer;
@@ -50,4 +64,15 @@ export class GameManager {
     public getRoom() {
         return this.room;
     };
+
+    public renderBounds(room) {
+        this.getDirtLayer().renderBounds(room);
+        this.getDugLayer().renderBounds(room);
+    }
+
+    
+    public onMove(room) {
+        this.getDirtLayer().onMove(room);
+        this.getTreasureLayer().onMove(room);
+    }
 }

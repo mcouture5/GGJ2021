@@ -1,3 +1,5 @@
+import { Tile } from "./Tile";
+
 export interface IDirtTile {
     scene: Phaser.Scene;
     x: number, // woorld coordinates
@@ -6,18 +8,15 @@ export interface IDirtTile {
     frame?: number;
 }
 
-export class DirtTile extends Phaser.GameObjects.Sprite  {
-
-    // The key of the tile that will replace this tile
-    public dugTile: string;
-    private dugTileRendered: boolean = false;
-
+export class DirtTile extends Tile  {
     /// X and Y coordinates in matrix space
     public xCoord: number;
     public yCoord: number;
 
     // Keepo track of who moved out so I can adjust my tile accordingly
     private vacancies: string[];
+
+    private removed: boolean;
 
     // x and y are in matrix space
     constructor(params: IDirtTile, x: number, y: number) {
@@ -30,7 +29,12 @@ export class DirtTile extends Phaser.GameObjects.Sprite  {
         this.vacancies = [];
     }
 
-    public informSurroundingTiles(tiles: Array<DirtTile[]>) {
+    public removeTile(tiles: Array<Tile[]>) {
+        this.removed = true;
+        this.informSurroundingTiles(tiles);
+    }
+
+    public informSurroundingTiles(tiles: Array<Tile[]>) {
         // Get all 8 of my surrounding tiles. The keys are where I am relative to them... Confusing as hell I know.
         let neighbors = {
             s: this.getNeighbor(tiles, this.xCoord, this.yCoord - 1),
@@ -69,21 +73,9 @@ export class DirtTile extends Phaser.GameObjects.Sprite  {
         } else if (this.vacancies.indexOf('s') !== -1 && this.vacancies.indexOf('e') !== -1) {
             this.setFrame(4);
         }
-
-        // Go ahead and draw the dug background for this tile
-        this.drawDugTile();
     }
 
-    public drawDugTile() {
-        if (!this.dugTileRendered) {
-            let dug = new Phaser.GameObjects.Image(this.scene, this.x, this.y, this.dugTile).setOrigin(0.5,0.5);
-            this.parentContainer.add(dug);
-            this.parentContainer.bringToTop(this);
-            this.dugTileRendered = true;
-        }
-    }
-
-    private getNeighbor(tiles: Array<DirtTile[]>, column: number, row: number): DirtTile {
+    private getNeighbor(tiles: Array<Tile[]>, column: number, row: number): Tile {
         try {
             return tiles[row][column];
         } catch (error) {

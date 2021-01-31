@@ -4,16 +4,34 @@ import { Socket, Response, Room } from '../Socket';
 // Layers
 import { PigLayer } from '../layers/PigLayer';
 import { DirtLayer } from '../layers/DirtLayer';
+import { DugLayer } from '../layers/DugLayer';
 import { GameManager } from '../GameManager';
+import { DirtTile } from '../objects/DirtTile';
+import { DugTile } from '../objects/DugTile';
+import { Treasure } from '../objects/Treasure';
+import { TreasureLayer } from '../layers/TreasureLayer';
 
 export class GameScene extends Phaser.Scene {
 
     // Tile layers
     private dirtLayer: DirtLayer;
-    private treasurelayer: Phaser.GameObjects.Container;
+    private dugLayer: DugLayer;
+    private treasureLayer: TreasureLayer;
     private pigLayer: PigLayer;
 
     private music: Phaser.Sound.BaseSound;
+
+    private gemBounds = {
+        x: 20, // Math.floor(Math.random() * 25) + 25,
+        w: 10, // Math.floor(Math.random() * 10) + 5,
+        y: 20, // Math.floor(Math.random() * 25) + 25,
+        h: 10, // Math.floor(Math.random() * 10) + 5
+    };
+
+    private treasureLocation = {
+        x: 25,
+        y: 30
+    };
 
     constructor() {
         super({
@@ -86,21 +104,33 @@ export class GameScene extends Phaser.Scene {
         }
         
         // Create and add the layers
+        this.dugLayer = new DugLayer(this);
+        this.add.existing(this.dugLayer);
+        this.dugLayer.create();
+        GameManager.getInstance().setDugLayer(this.dugLayer);
+        
+        this.treasureLayer = new TreasureLayer(this);
+        this.add.existing(this.treasureLayer);
+        GameManager.getInstance().setTreasureLayer(this.treasureLayer);
+
         this.dirtLayer = new DirtLayer(this);
         this.add.existing(this.dirtLayer);
         this.dirtLayer.create();
         GameManager.getInstance().setDirtLayer(this.dirtLayer);
+        this.createLayers();
+        this.cleanupLayers();
 
         this.pigLayer = new PigLayer(this);
         this.add.existing(this.pigLayer);
         this.pigLayer.create();
-        GameManager.getInstance().setPigLayer(this.pigLayer); 
+        GameManager.getInstance().setPigLayer(this.pigLayer);
 
         let chatElement = document.getElementById('chat');
         //chatElement.style.display = "block";
     }
 
     update() {
+        this.dugLayer.update();
         this.dirtLayer.update();
         this.pigLayer.update();
     }
@@ -137,5 +167,97 @@ export class GameScene extends Phaser.Scene {
         }
         
         history.appendChild(messageEl);
+    }
+
+    private createLayers() {
+        // Create the tilemap
+        let x = 0, y = 0;
+        let yellowRows = 18;
+        let yellowOrangeRows = 22;
+        let orangeRows = 58;
+        let orangeBrownRows = 62;
+        let brownsRows = 88;
+        let brownDarkRows = 92;
+        let darkRows = 8;
+        let isTransition = false;
+
+        for (let i = 0; i < GameManager.WORLD_SIZE; i++) {
+            x = 0;
+            let dirtTiles = [], dugTiles = [], treasureTiles = [];
+            let color = 'dark';
+            isTransition = false;
+            if (i < yellowRows) {
+                color = 'yellow';
+            } else if (i < yellowOrangeRows) {
+                color = 'yellow_orange';
+                isTransition = true;
+            } else if (i < orangeRows) {
+                color = 'orange';
+            } else if (i < orangeBrownRows) {
+                color = 'orange_brown';
+                isTransition = true;
+            } else if (i < brownsRows) {
+                color = 'brown';
+            } else if (i < brownDarkRows) {
+                color = 'brown_dark';
+                isTransition = true;
+            }
+            for (let j = 0; j < GameManager.WORLD_SIZE; j++) {
+                // Dirt tile
+                let dirt = new DirtTile({ scene: this, x: x, y: y }, j, i);
+                this.dirtLayer.addTile(dirt);
+                dirtTiles.push(dirt);
+
+                let isCavernTile = false;
+                let randType = ['pebbles', 'roots', 'solid'][Math.floor(Math.random() * 3)];
+                let randNum = Math.ceil(Math.random() * 8);
+                if (isTransition) {
+                    randType = 'transition';
+                }
+                // Check for gem cavern
+                if (i >= this.gemBounds.y && i <= this.gemBounds.y + this.gemBounds.h &&
+                    j >= this.gemBounds.x && j <= this.gemBounds.x + this.gemBounds.w) {
+                    // Randomly choose to be a gem. Otherwise it will be the standard.
+                    if (Math.random() >= 0.5) {
+                        randType = ['emeralds', 'rubies', 'sapphires'][Math.floor(Math.random() * 3)];
+                    }
+
+                    // Regardless, make sure the dug tile is shown
+                    isCavernTile = true;
+                }
+                let randTile = 'dug_' + color + '_' + randType;
+                if (randType == 'pebbles' || randType == 'roots') {
+                    randTile += '_' + randNum;
+                }
+                // Create and add the dug layer sprite
+                let dug = new DugTile(this, x, y, randTile).setOrigin(0.5,0.5);
+                this.dugLayer.add(dug);
+                dugTiles.push(dug);
+
+                // Treasure
+                if (this.treasureLocation.x == j && this.treasureLocation.y == i) {
+                    let treasure = new Treasure(this, x, y, 'alfalfa');
+                    this.treasureLayer.add(treasure);
+                    treasureTiles.push(treasure);
+                } else {
+                    treasureTiles.push(null);
+                }
+
+                // Tiles that need to be deleted after drawing
+                if (isCavernTile) {
+                    this.dirtLayer.addToDelete(dirt); 
+                }
+
+                x+= GameManager.TILE_SIZE;
+            }
+            this.dirtLayer.tiles.push(dirtTiles);
+            this.dugLayer.tiles.push(dugTiles);
+            this.treasureLayer.tiles.push(treasureTiles);
+            y+= GameManager.TILE_SIZE;
+        }
+    }
+
+    private cleanupLayers() {
+        this.dirtLayer.removeMarked();
     }
 }

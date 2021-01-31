@@ -90,7 +90,8 @@ export class PigLayer extends Phaser.GameObjects.Container {
         });
 
         // Tell the dirt layer the pigs have moved
-        GameManager.getInstance().getDirtLayer().onMove(room);
+        GameManager.getInstance().onMove(room);
+        GameManager.getInstance().renderBounds(room);
 
         // Set up movement after we know we have a pig to move
         this.left = this.scene.input.keyboard.addKey(
@@ -142,16 +143,26 @@ export class PigLayer extends Phaser.GameObjects.Container {
     private movePigs(room: Room) {
         this.movePending = false;
         let dirtLayer = GameManager.getInstance().getDirtLayer();
+        let treasureLayer = GameManager.getInstance().getTreasureLayer();
         room.players.forEach((player) => {
             // Ask the dirt layer what tile we will be moving into. Things will happen depending on the answer.
             if (dirtLayer.isTileClearedAt(player)) {
                 // If no tile, go forth with the move as scheduled
                 this.pigs[player.sid].moveTo(player.x, player.y, false);
+                // If this is my player, render the world around me
+                if (player.sid === Socket.getId()) {
+                    GameManager.getInstance().renderBounds(room);
+                }
+                treasureLayer.onMove(room);
             } else {
                 // Start the animation. When that is finished, the tile can be removed. Only animate if current players pig.
                 let playAnimation = player.sid === Socket.getId();
                 this.pigs[player.sid].moveTo(player.x, player.y, playAnimation, () => {
-                    dirtLayer.onMove(room);
+                    GameManager.getInstance().onMove(room);
+                    // If this is my player, render the world around me
+                    if (player.sid === Socket.getId()) {
+                        GameManager.getInstance().renderBounds(room);
+                    }
                 });
             }
         });
@@ -166,6 +177,6 @@ export class PigLayer extends Phaser.GameObjects.Container {
         let c = Math.sqrt( a*a + b*b );
 
         let zoomVal = Math.min(1.5, Math.max(PigLayer.MIN_ZOOM_LEVEL, (100 / c) / 10));
-        this.scene.cameras.main.zoomTo(zoomVal, 700, 'Linear', true);
+        // this.scene.cameras.main.zoomTo(zoomVal, 700, 'Linear', true);
     }
 }
