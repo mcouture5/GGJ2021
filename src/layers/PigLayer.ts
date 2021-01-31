@@ -177,6 +177,6 @@ export class PigLayer extends Phaser.GameObjects.Container {
         let c = Math.sqrt( a*a + b*b );
 
         let zoomVal = Math.min(1.5, Math.max(PigLayer.MIN_ZOOM_LEVEL, (100 / c) / 10));
-        // this.scene.cameras.main.zoomTo(zoomVal, 700, 'Linear', true);
+        this.scene.cameras.main.zoomTo(zoomVal, 700, 'Linear', true);
     }
 }
