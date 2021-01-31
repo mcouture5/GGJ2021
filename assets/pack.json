@@ -405,6 +405,11 @@
             },
             {
                 "type": "audio",
+                "key": "end-song",
+                "url": "assets/sounds/end-song.mp3"
+            },
+            {
+                "type": "audio",
                 "key": "shanty-instrumental",
                 "url": "assets/sounds/guineadig-instrumental.mp3"
             },
