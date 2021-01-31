@@ -92,6 +92,12 @@ class LeaderboardHandler(tornado.web.RequestHandler):
 			rank += 1
 		self.render("leaderboard.html", scores=sorted_scores)
 
+class LeaderboardJsonHandler(tornado.web.StaticFileHandler):
+	def set_default_headers(self):
+		self.set_header("Content-Type", "application/json")
+		self.set_header("Access-Control-Allow-Origin", "*")
+		self.set_header("Access-Control-Allow-Headers", "content-type")
+		self.set_header('Access-Control-Allow-Methods', 'GET, OPTIONS')
 # -----
 # GuineaDig-specific events
 @sio.event
@@ -285,7 +291,7 @@ def main():
 			(r"/app", MainHandler),
 			(r"/socket.io/", SocketHandler),
 			(r"/leaderboard", LeaderboardHandler),
-			(r'/(leaderboard\.json)', tornado.web.StaticFileHandler, {'path': '/home/ec2-user/'}),
+			(r'/(leaderboard\.json)', LeaderboardJsonHandler, {'path': '/home/ec2-user/'}),
 		],
 		template_path=os.path.join(os.path.dirname(__file__), "templates"),
 		static_path=os.path.join(os.path.dirname(__file__), "static"),
