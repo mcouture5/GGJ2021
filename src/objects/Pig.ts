@@ -103,8 +103,8 @@ export class Pig extends Phaser.GameObjects.Sprite  {
     }
 
     private doMove() {
-        this.setX(this.waitingToMove.x * GameManager.TILE_SIZE + (this.width / 4));
-        this.setY(this.waitingToMove.y * GameManager.TILE_SIZE + (this.height / 4));
+        this.setX(this.waitingToMove.x * GameManager.TILE_SIZE);
+        this.setY(this.waitingToMove.y * GameManager.TILE_SIZE);
         this.tileX = this.waitingToMove.x;
         this.tileY = this.waitingToMove.y;
 

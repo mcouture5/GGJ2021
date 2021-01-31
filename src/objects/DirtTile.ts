@@ -23,7 +23,7 @@ export class DirtTile extends Phaser.GameObjects.Sprite  {
     constructor(params: IDirtTile, x: number, y: number) {
         super(params.scene, params.x, params.y, "dirt");
         // image
-        this.setOrigin(0, 0);
+        this.setOrigin(0.5, 0.5);
         this.xCoord = x;
         this.yCoord = y;
         this.setFrame(0);
@@ -76,7 +76,7 @@ export class DirtTile extends Phaser.GameObjects.Sprite  {
 
     public drawDugTile() {
         if (!this.dugTileRendered) {
-            let dug = new Phaser.GameObjects.Image(this.scene, this.x, this.y, this.dugTile).setOrigin(0,0);
+            let dug = new Phaser.GameObjects.Image(this.scene, this.x, this.y, this.dugTile).setOrigin(0.5,0.5);
             this.parentContainer.add(dug);
             this.parentContainer.bringToTop(this);
             this.dugTileRendered = true;

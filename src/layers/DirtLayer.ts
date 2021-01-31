@@ -69,7 +69,10 @@ export class DirtLayer extends Phaser.GameObjects.Container {
         }
 
         // Set the bounds of the camera so it does not show the outside of the map
-        this.scene.cameras.main.setBounds(0, 0, GameManager.WORLD_SIZE * GameManager.TILE_SIZE, GameManager.WORLD_SIZE * GameManager.TILE_SIZE);
+        this.scene.cameras.main.setBounds(-GameManager.TILE_SIZE / 2,
+            -GameManager.TILE_SIZE / 2,
+            GameManager.WORLD_SIZE * GameManager.TILE_SIZE,
+            GameManager.WORLD_SIZE * GameManager.TILE_SIZE);
 
         // create dig sounds
         this.digSounds = [];
