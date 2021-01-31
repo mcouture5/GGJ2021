@@ -267,9 +267,9 @@ def main():
 	parse_command_line()
 	app = tornado.web.Application(
 		[
-			(r"/", MainHandler),
+			(r"/app", MainHandler),
 			(r"/socket.io/", SocketHandler),
-			(r"/leaderboard/", LeaderboardHandler),
+			(r"/leaderboard", LeaderboardHandler),
 		],
 		template_path=os.path.join(os.path.dirname(__file__), "templates"),
 		static_path=os.path.join(os.path.dirname(__file__), "static"),
