@@ -44,7 +44,7 @@ export class LeaderboardLayer extends Phaser.GameObjects.Container {
             this.leaderboard.sort((a ,b) => a.time - b.time);
             let entryHeight = 230;
             for (let i = 0; i < 10; i++) {
-                this.scene.add.text(leaderboardX[0], entryHeight, i.toString(), fontStyle);
+                this.scene.add.text(leaderboardX[0], entryHeight, (i + 1).toString(), fontStyle);
                 this.scene.add.text(leaderboardX[1], entryHeight, new String(this.leaderboard[i].time).slice(0,5), fontStyle);
                 this.scene.add.text(leaderboardX[2], entryHeight, this.leaderboard[i].room_id, fontStyle);
                 this.scene.add.text(leaderboardX[3], entryHeight, this.leaderboard[i].date, fontStyle);

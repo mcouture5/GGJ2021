@@ -54,13 +54,13 @@ random_starters = {
 gem_dino_room_layouts = [
 	{'x':15, 'w':10, 'y':20, 'h':10},
 	{'x':10, 'w':12, 'y':60, 'h':10},
-	{'x':30, 'w':5, 'y':10, 'h':13},
-	{'x':50, 'w':7, 'y':90, 'h':15},
-	{'x':60, 'w':11, 'y':5, 'h':5},
-	{'x':90, 'w':4, 'y':20, 'h':8},
-	{'x':70, 'w':14, 'y':30, 'h':9},
-	{'x':60, 'w':10, 'y':12, 'h':10},
-	{'x':10, 'w':8, 'y':80, 'h':11},
+	{'x':30, 'w':15, 'y':10, 'h':13},
+	{'x':50, 'w':17, 'y':90, 'h':15},
+	{'x':60, 'w':11, 'y':5, 'h':13},
+	{'x':90, 'w':10, 'y':20, 'h':15},
+	{'x':70, 'w':14, 'y':40, 'h':13},
+	{'x':50, 'w':10, 'y':55, 'h':10},
+	{'x':10, 'w':18, 'y':80, 'h':11},
 	{'x':72, 'w':10, 'y':60, 'h':15},
 ]
 
@@ -92,6 +92,12 @@ class LeaderboardHandler(tornado.web.RequestHandler):
 			rank += 1
 		self.render("leaderboard.html", scores=sorted_scores)
 
+class LeaderboardJsonHandler(tornado.web.StaticFileHandler):
+	def set_default_headers(self):
+		self.set_header("Content-Type", "application/json")
+		self.set_header("Access-Control-Allow-Origin", "*")
+		self.set_header("Access-Control-Allow-Headers", "content-type")
+		self.set_header('Access-Control-Allow-Methods', 'GET, OPTIONS')
 # -----
 # GuineaDig-specific events
 @sio.event
@@ -285,7 +291,7 @@ def main():
 			(r"/app", MainHandler),
 			(r"/socket.io/", SocketHandler),
 			(r"/leaderboard", LeaderboardHandler),
-			(r'/(leaderboard\.json)', tornado.web.StaticFileHandler, {'path': '/home/ec2-user/'}),
+			(r'/(leaderboard\.json)', LeaderboardJsonHandler, {'path': '/home/ec2-user/'}),
 		],
 		template_path=os.path.join(os.path.dirname(__file__), "templates"),
 		static_path=os.path.join(os.path.dirname(__file__), "static"),

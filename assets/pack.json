@@ -415,6 +415,11 @@
             },
             {
                 "type": "audio",
+                "key": "end-song",
+                "url": "assets/sounds/end-song.mp3"
+            },
+            {
+                "type": "audio",
                 "key": "shanty-instrumental",
                 "url": "assets/sounds/guineadig-instrumental.mp3"
             },
@@ -557,6 +562,41 @@
                 "type": "image",
                 "key": "alfalfa",
                 "url": "assets/images/tiles/alfalfa.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_brown_dinosaur",
+                "url": "assets/images/tiles/dug_brown_dinosaur.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_brown_dark_dinosaur",
+                "url": "assets/images/tiles/dug_brown_dinosaur.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_dark_dinosaur",
+                "url": "assets/images/tiles/dug_dark_dinosaur.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_orange_dinosaur",
+                "url": "assets/images/tiles/dug_orange_dinosaur.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_orange_brown_dinosaur",
+                "url": "assets/images/tiles/dug_orange_dinosaur.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_yellow_dinosaur",
+                "url": "assets/images/tiles/dug_yellow_dinosaur.png"
+            },
+            {
+                "type": "image",
+                "key": "dug_yellow_orange_dinosaur",
+                "url": "assets/images/tiles/dug_yellow_dinosaur.png"
             }
         ]
     }

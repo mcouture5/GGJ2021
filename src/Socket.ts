@@ -7,11 +7,20 @@ export interface PigContext {
     position: { x: number, y: number };
 }
 
+export interface Cave {
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+}
+
 export interface Response extends Room {}
 
 export interface Room {
     room_id: string;
     players: Player[];
+    gem: Cave,
+    dino: Cave
 }
 
 export interface Player {

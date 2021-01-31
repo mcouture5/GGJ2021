@@ -1,6 +1,7 @@
 import { GameManager } from '../GameManager';
 import { Pig } from '../objects/Pig';
-import { Socket, Room } from '../Socket';
+import {Socket, Room, Player, Cave} from '../Socket';
+import { GameScene } from "../scenes/GameScene";
 
 export class PigLayer extends Phaser.GameObjects.Container {
 
@@ -17,6 +18,12 @@ export class PigLayer extends Phaser.GameObjects.Container {
     // whether a "move" socket event is currently pending, prevents duplicate events from being issued
     private movePending: boolean;
 
+    // sound effects
+    private gemCaveSound: Phaser.Sound.BaseSound;
+    private dinoCaveSound: Phaser.Sound.BaseSound;
+    private gemCaveExplored: boolean;
+    private dinoCaveExplored: boolean;
+
     constructor(scene: Phaser.Scene) {
         super(scene, 0, 0);
         this.pigs = {};
@@ -25,6 +32,12 @@ export class PigLayer extends Phaser.GameObjects.Container {
 
     create() {
         this.createPigs(GameManager.getInstance().getRoom());
+
+        // create sound effects
+        this.gemCaveSound = this.scene.sound.add('treasure', {volume: 0.75});
+        this.dinoCaveSound = this.scene.sound.add('dinosaur', {volume: 0.75});
+        this.gemCaveExplored = false;
+        this.dinoCaveExplored = false;
     }
 
     update() {
@@ -149,9 +162,18 @@ export class PigLayer extends Phaser.GameObjects.Container {
             if (dirtLayer.isTileClearedAt(player)) {
                 // If no tile, go forth with the move as scheduled
                 this.pigs[player.sid].moveTo(player.x, player.y, false);
-                // If this is my player, render the world around me
+                // If this is my player...
                 if (player.sid === Socket.getId()) {
+                    // render the world around me
                     GameManager.getInstance().renderBounds(room);
+                    // play appropriate cave sound effects if needed
+                    if (this.playerIsInsideCave(player, (this.scene as GameScene).gem) && !this.gemCaveExplored) {
+                        this.gemCaveSound.play()
+                        this.gemCaveExplored = true;
+                    } else if (this.playerIsInsideCave(player, (this.scene as GameScene).dino) && !this.dinoCaveExplored) {
+                        this.dinoCaveSound.play();
+                        this.dinoCaveExplored = true;
+                    }
                 }
                 treasureLayer.onMove(room);
             } else {
@@ -178,5 +200,25 @@ export class PigLayer extends Phaser.GameObjects.Container {
 
         let zoomVal = Math.min(1.5, Math.max(PigLayer.MIN_ZOOM_LEVEL, (100 / c) / 10));
         this.scene.cameras.main.zoomTo(zoomVal, 700, 'Linear', true);
+    }
+
+    /**
+     * Is the provided player position inside the provided cave?
+     */
+    private playerIsInsideCave(player: Player, cave: Cave): boolean {
+        let caveRight = cave.x + cave.w;
+        let caveBottom = cave.y + cave.h;
+
+        if (player.x < cave.x) {
+            return false;
+        } else if (player.x > caveRight) {
+            return false;
+        } else if (player.y < cave.y) {
+            return false;
+        } else if (player.y > caveBottom) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

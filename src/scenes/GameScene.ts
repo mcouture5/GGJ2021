@@ -1,5 +1,5 @@
 // Socket
-import { Socket, Response, Room } from '../Socket';
+import { Socket, Response, Room, Cave } from '../Socket';
 
 // Layers
 import { PigLayer } from '../layers/PigLayer';
@@ -21,12 +21,8 @@ export class GameScene extends Phaser.Scene {
 
     private music: Phaser.Sound.BaseSound;
 
-    private gemBounds = {
-        x: 20, // Math.floor(Math.random() * 25) + 25,
-        w: 10, // Math.floor(Math.random() * 10) + 5,
-        y: 20, // Math.floor(Math.random() * 25) + 25,
-        h: 10, // Math.floor(Math.random() * 10) + 5
-    };
+    public gem: Cave;
+    public dino: Cave;
 
     private treasureLocation = {
         x: 25,
@@ -88,6 +84,8 @@ export class GameScene extends Phaser.Scene {
             repeat: 1
         });
 
+        this.gem = GameManager.getInstance().getRoom().gem;
+        this.dino = GameManager.getInstance().getRoom().dino;
     }
 
     create() {
@@ -208,29 +206,9 @@ export class GameScene extends Phaser.Scene {
                 this.dirtLayer.addTile(dirt);
                 dirtTiles.push(dirt);
 
-                let isCavernTile = false;
-                let randType = ['pebbles', 'roots', 'solid'][Math.floor(Math.random() * 3)];
-                let randNum = Math.ceil(Math.random() * 8);
-                if (isTransition) {
-                    randType = 'transition';
-                }
-                // Check for gem cavern
-                if (i >= this.gemBounds.y && i <= this.gemBounds.y + this.gemBounds.h &&
-                    j >= this.gemBounds.x && j <= this.gemBounds.x + this.gemBounds.w) {
-                    // Randomly choose to be a gem. Otherwise it will be the standard.
-                    if (Math.random() >= 0.5) {
-                        randType = ['emeralds', 'rubies', 'sapphires'][Math.floor(Math.random() * 3)];
-                    }
-
-                    // Regardless, make sure the dug tile is shown
-                    isCavernTile = true;
-                }
-                let randTile = 'dug_' + color + '_' + randType;
-                if (randType == 'pebbles' || randType == 'roots') {
-                    randTile += '_' + randNum;
-                }
                 // Create and add the dug layer sprite
-                let dug = new DugTile(this, x, y, randTile).setOrigin(0.5,0.5);
+                let dugTile = this.getRandomDugTile(isTransition, color, j, i);
+                let dug = new DugTile(this, x, y, dugTile.tile).setOrigin(0.5,0.5);
                 this.dugLayer.add(dug);
                 dugTiles.push(dug);
 
@@ -244,7 +222,7 @@ export class GameScene extends Phaser.Scene {
                 }
 
                 // Tiles that need to be deleted after drawing
-                if (isCavernTile) {
+                if (dugTile.isCave) {
                     this.dirtLayer.addToDelete(dirt); 
                 }
 
@@ -259,5 +237,45 @@ export class GameScene extends Phaser.Scene {
 
     private cleanupLayers() {
         this.dirtLayer.removeMarked();
+    }
+
+    private getRandomDugTile(isTransition: boolean, color: string, x: number, y: number): {
+        isCave: boolean;
+        tile: string;
+    } {
+        let isCavernTile = false;
+        let randType = ['pebbles', 'roots', 'solid'][Math.floor(Math.random() * 3)];
+        let randNum = Math.ceil(Math.random() * 8);
+        if (isTransition) {
+            randType = 'transition';
+        }
+        // Check for caves
+        if (y >= this.gem.y && y <= this.gem.y + this.gem.h &&
+            x >= this.gem.x && x <= this.gem.x + this.gem.w) {
+            // Randomly choose to be a gem. Otherwise it will be the standard.
+            if (Math.random() >= 0.5) {
+                randType = ['emeralds', 'rubies', 'sapphires'][Math.floor(Math.random() * 3)];
+            }
+
+            // Regardless, make sure the dug tile is shown
+            isCavernTile = true;
+        }
+        else if (y >= this.dino.y && y <= this.dino.y + this.dino.h &&
+            x >= this.dino.x && x <= this.dino.x + this.dino.w) {
+            if (Math.random() >= 0.5) {
+                randType = 'dinosaur';
+            }
+
+            // Regardless, make sure the dug tile is shown
+            isCavernTile = true;
+        }
+        let randTile = 'dug_' + color + '_' + randType;
+        if (randType == 'pebbles' || randType == 'roots') {
+            randTile += '_' + randNum;
+        }
+        return {
+            isCave: isCavernTile,
+            tile: randTile
+        }
     }
 }
