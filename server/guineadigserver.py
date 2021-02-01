@@ -254,7 +254,7 @@ async def connect(sid, environ):
 
 @sio.event
 async def disconnect(sid):
-	if sids.has_key(sid):
+	if sid in sids:
 		current_room = sids[sid]
 		for player in rooms[current_room]['players']:
 			if player['sid'] == sid:
