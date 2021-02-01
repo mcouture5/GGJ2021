@@ -235,8 +235,8 @@ async def clean_rooms(sid):
 	logger.info(f"--ADMIN-- Cleaning up rooms, requested by {sid}")
 	rooms_to_clean = []
 	for room in rooms:
-		if len(room['players']) == 0:
-			rooms_to_clean.append(room['room_id'])
+		if len(rooms[room]['players']) == 0:
+			rooms_to_clean.append(rooms[room]['room_id'])
 	for room in rooms_to_clean:
 		logger.info(f"--ADMIN-- deleting room {room} from rooms list")
 		del rooms[room]
