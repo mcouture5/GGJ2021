@@ -107,7 +107,7 @@ async def move(sid, message):
 	current_player = 0
 	if rooms[current_room]['players'][1]['sid'] == sid:
 		current_player = 1
-	logger.info(f"Received move signal from {rooms[room_id]['players'][current_player]['name']} / {sid} to move {message['direction']} from a starting point of ({rooms[current_room]['players'][current_player]['x']}, {rooms[current_room]['players'][current_player]['y']})")
+	logger.info(f"Received move signal from {rooms[current_room]['players'][current_player]['name']} / {sid} to move {message['direction']} from a starting point of ({rooms[current_room]['players'][current_player]['x']}, {rooms[current_room]['players'][current_player]['y']})")
 	# If the start_time on the room hasn't been set, do it now
 	if rooms[current_room]['start_time'] == None:
 		rooms[current_room]['start_time'] = time.time()
